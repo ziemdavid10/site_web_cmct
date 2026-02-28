@@ -1,0 +1,53 @@
+@import "../../App.scss";
+
+.navinfos{
+    height: 60px;
+    background-color: #324986;
+
+    .wrapper{
+        max-width: 1366px;
+        margin: auto;
+        padding: 20px 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+
+        @include mobile{
+                justify-content: flex-end;
+                padding: 20px;
+            }
+        
+        .infos{
+            display: flex;
+            gap: 5px;
+            img{
+                    width: 26px;
+                    height: 26px;
+                    transition: all 0.3s ease;
+                    color: white;
+                }
+        }
+
+        .social{
+            display: flex;
+            gap: 20px;
+            a{
+                font-weight: 500;
+                color: black;
+                transition: all 0.3s ease;
+
+                img{
+                    width: 26px;
+                    height: 26px;
+                    filter: invert(80%) sepia(20%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(85%);
+                    transition: all 0.3s ease;
+                }
+
+                &:hover{
+                    color: yellow;
+                }
+            }
+        }
+    } 
+}  

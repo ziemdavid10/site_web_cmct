@@ -95,7 +95,7 @@ const Projects = () => {
 
   return <div className="projects" ref={ref}>
   <div className="progress">
-      <h2>Featured Works</h2>
+      <h2>L'ensemble de nos réalisations</h2>
       <motion.div style={{ scaleX }} className="progress-bar"></motion.div>
   </div>
     {items.map((item) => (

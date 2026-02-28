@@ -5,19 +5,20 @@
     overflow: hidden;
     background: linear-gradient(180deg, #0c0c1d, #111132);
     position: relative;
-
+    // background-image: "../../../public/industrial-designers-working-3d-model.jpg";
     .wrapper {
         height: 100%;
         margin:auto;
         max-width: 1366px;
         padding: 20px 50px;
         .hero-content {
-            width: 50%;
+            width: 70%;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             gap: 40px;
+            
 
             @include mobile{
                 height: 50%;
@@ -28,23 +29,24 @@
             }
 
             h2 {
-                font-size: 30px;
-                color: rebeccapurple;
-                letter-spacing: 10px;
+                font-size: 55px;
+                color: white;
+                letter-spacing: 5px;
+                // max-width: 1500px;
             }
 
-            h1 {
-                font-size: 88px;
+            // h1 {
+            //     font-size: 88px;
 
-                @include mobile{
-                    font-size: 36px;
-                }
-            }
+            //     @include mobile{
+            //         font-size: 36px;
+            //     }
+            // }
 
             p {
-                font-size: 18px;
-                margin-bottom: 30px;
-                max-width: 600px;
+                font-size: 15px;
+                margin-bottom: 20px;
+                max-width: 1500px;
             }
 
             .hero-buttons {
@@ -53,9 +55,9 @@
 
                 button {
                     padding: 20px;
-                    border: 1px solid white;
+                    border: 1px solid red;
                     border-radius: 10px;
-                    background-color: transparent;
+                    background-color: red;
                     color: white;
                     cursor: pointer;
                     font-weight: 300;
@@ -67,25 +69,26 @@
         }
     }
 
-    .hero-image {
-        height: 100%;
-        position:absolute;
-        top:0;
-        right:0;
-        margin-right: 150px;
-        margin-top: 50px;
+    /* The `.hero-image` block in the SCSS code is styling a specific element within the `.hero` container. Here's what each part of the block is doing: */
+    // .hero-image {
+    //     height: 100%;
+    //     position:absolute;
+    //     top:0;
+    //     right:0;
+    //     margin-right: 150px;
+    //     margin-top: 50px;
 
-        @include mobile{
-                height: 50%;
-                width: 100%;
-                top:unset;
-                bottom: 0;
-            }
+    //     @include mobile{
+    //             height: 50%;
+    //             width: 100%;
+    //             top:unset;
+    //             bottom: 0;
+    //         }
         
-        img{
-            object-fit: cover;
-        }
-    }
+    //     img{
+    //         object-fit: cover;
+    //     }
+    // }
 
     .hero-slidingText {
         position: absolute;

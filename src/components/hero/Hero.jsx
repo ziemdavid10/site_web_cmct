@@ -1,6 +1,6 @@
 import React from 'react';
 import './Hero.scss';
-import { stagger } from 'framer-motion';
+import { color, stagger } from 'framer-motion';
 import { motion } from 'framer-motion';
 
 const textVariants = {
@@ -45,7 +45,7 @@ const sliderVariants = {
 
 const Hero = () => {
   return (
-    <div className="hero">
+    <div className="hero" style={{ backgroundImage: `url(${'../../../public/industrial-designers-working-3d-model.jpg'})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="wrapper">
             <motion.div 
                 className="hero-content" 
@@ -53,12 +53,12 @@ const Hero = () => {
                 initial="initial"
                 animate="animate"
                 >
-                <motion.h2 variants={textVariants}>ZIEM NGAM DAVID LOÏC</motion.h2>
-                <motion.h1 variants={textVariants}>AI, Data & Cloud Engineer</motion.h1>
-                <p>Your journey to excellence starts here.</p>
+                <motion.h2 variants={textVariants}>L'expertise <span style={{ color:"red" }}>média</span>, 
+                                                  <br></br>la <span style={{ color:"gold" }}>puissance</span> de la Tech, l'impact de <span style={{ color:"#324986" }}>communication</span></motion.h2>
+                <p>Un écosystème unique pour informer, former et transformer votre présence digitale à travers nos 3 pôles d'excellence</p>
                 <motion.div variants={textVariants} className="hero-buttons">
-                    <motion.button variants={textVariants}>See the latest Works</motion.button>
-                    <motion.button variants={textVariants}>Contact Me</motion.button>
+                    <motion.button variants={textVariants}>commencer</motion.button>
+                    {/* <motion.button variants={textVariants}>Contact Me</motion.button> */}
                 </motion.div>
                 <motion.img variants={textVariants} animate="scrollButton"  src="/public/scroll.png" alt="" />
             </motion.div>
@@ -69,11 +69,11 @@ const Hero = () => {
             initial="initial" 
             animate="animate"
             >
-            Jésus Rédempteur
+            Central Media Communication Technologies
         </motion.div>
-        <div className="hero-image">
+        {/* <div className="hero-image">
             <img src="/public/mypic.jpg" alt="" />
-        </div>
+        </div> */}
     </div>
   );
 };

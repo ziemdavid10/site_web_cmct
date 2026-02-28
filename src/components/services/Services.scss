@@ -1,109 +1,60 @@
 @import "../../App.scss";
 
 .services {
-    background: linear-gradient(180deg, #0c0c1d, #111132);
+    // background: linear-gradient(180deg, #0c0c1d, #111132);
+    background-color: white;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     .textContainer{
+        margin-top: 70px;
+        // margin-bottom: px;
         flex: 1;
-        align-self: flex-end;
+        align-self:center;
         display: flex;
         align-items: center;
         gap:20px;
 
-        @include mobile{
-            align-self: center;
+        h1{
             text-align: center;
-            flex-direction: column;
-         }
-
-        p{
-            color: gray;
-            font-size: 20px;
-            font-weight: 200;
-            text-align: right;
         }
 
-        hr{
-            width: 500px;
-            border: none;
-            border-top: 0.5px solid gray;
+        // @include mobile{
+        //     align-self: center;
+        //     text-align: center;
+        //     flex-direction: column;
+        //  }
+
+        // p{
+        //     color: gray;
+        //     font-size: 20px;
+        //     font-weight: 200;
+        //     text-align: right;
+        // }
+    }
+
+    hr{
+            width: 230px;
+            height: 5px;
+            margin-bottom: 10px;
+            background-color: orange;
+            align-self: center;
+            // border-top: 0.5px solid gray;
+            border-radius: 5px;
 
             @include mobile{
                 width: 300px;
             }
         }
-    }
-
-    .titleContainer{
-        float: 2;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-
-        @include mobile{
-            width: 100%;
-        }
-
-
-        .title{
-            display: flex;
-            gap: 50px;
-            align-items: center;
-
-            @include mobile{
-                flex-direction: column;
-                text-align: center;
-                gap: 20px;
-            }
-
-            h1{
-                font-size: 96px;
-                font-weight: 100;
-
-                @include mobile{
-                    font-size: 36px;
-                }
-            }
-
-            img{
-                width:300px;
-                height: 100px;
-                border-radius: 50px;
-                object-fit: cover;
-
-                @include mobile{
-                    width: 200px;
-                    height: 50px;
-                }
-            }
-
-            button{
-                width: 300px;
-                height: 100px;
-                border-radius: 50px;
-                background-color: orange;
-                border: none;
-                font-size: 24px;
-                cursor: pointer;
-
-                @include mobile{
-                    font-size: 16px;
-                    width: 150px;
-                    height: 50px;
-                }
-            }
-        }
-    }
 
     .services-list{
         flex: 2;
         display: flex;
         max-width: 1366px;
         margin: auto ;
+        gap: 30px;
 
         @include mobile{
                     flex-direction: column;
@@ -116,6 +67,25 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            background-color: #F5F5F5;
+            width: 400px;
+            height: 250px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+            &:hover {
+                transform: translateY(-5px); // Soulève légèrement la carte
+                box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.15); // L'ombre s'agrandit
+            }
+
+            img{
+                width: 50px;
+                height: 50px;
+            }
+            h3, p{
+                color: black;
+                text-align: justify;
+            }
 
             @include mobile{
                 border: none;
@@ -135,6 +105,72 @@
                 background-color: orange;
                 border: none;
                 cursor: pointer;
+
+                @include mobile{
+                    background-color: transparent;
+                    border: 1px solid orange;
+                    border-radius: 5px;
+                    color: orange;
+                    width: 50px;
+                    padding: 5px;
+                }
+            }
+        }
+    }
+
+
+
+    .sub-services-list{
+        flex: 2;
+        display: flex;
+        max-width: 1366px;
+        margin: auto ;
+        gap: 30px;
+
+        @include mobile{
+                    flex-direction: column;
+                    width: 100px;
+                }
+
+        .service-item{
+            padding: 50px;
+            border: 0.5px solid gray ;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 400px;
+            height: 250px;
+
+            @include mobile{
+                border: none;
+                align-items: center;
+                gap: 20px;
+                padding: 10px;
+            }
+
+            img{
+                width: 112px;
+                height: 39px;
+            }
+
+            p{
+                text-align: justify;
+                @include mobile{
+                    display: none;
+                }
+            }
+
+            button {
+                padding: 10px;
+                background-color: #324986;
+                border-radius: 100px;
+                border: none;
+                cursor: pointer;
+
+                p{
+                    color: white;
+                    text-align: center;
+                }
 
                 @include mobile{
                     background-color: transparent;
