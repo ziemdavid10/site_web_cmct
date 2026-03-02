@@ -1,4 +1,4 @@
-@import "../../App.scss"; // Variables globales (orange, fonts)
+@import "../../App.scss";
 
 .portfolio-scope {
   position: relative;
@@ -21,12 +21,30 @@
     z-index: 5;
     backdrop-filter: blur(10px);
     margin-top: 120px;
+
+    @include mobile{
+      height: 80px;
+      margin-top: 80px;
+    }
+
+    @include tablet{
+      margin-top: 100px;
+    }
     
     h1 { 
-        font-size: 2.5rem; 
-        color: orange; 
-        margin: 0; 
+      font-size: 2.5rem; 
+      color: orange; 
+      margin: 0;
+
+      @include mobile{
+        font-size: 1.5rem;
+      }
+
+      @include tablet{
+        font-size: 2rem;
+      }
     }
+
     .scroll-progress {
       width: 100%;
       height: 4px;
@@ -39,6 +57,10 @@
   .projects-list {
     position: relative;
     margin-top: -50px;
+
+    @include mobile{
+      margin-top: 0;
+    }
   }
 
   .project-item-section {
@@ -48,6 +70,11 @@
     justify-content: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
+    @include mobile{
+      min-height: auto;
+      padding: 40px 0;
+    }
+
     .wrapper {
       max-width: 1200px;
       width: 100%;
@@ -56,16 +83,21 @@
       align-items: center;
       padding: 0 40px;
 
-      @media (max-width: 768px) {
+      @include mobile {
         flex-direction: column;
         text-align: center;
-        gap: 40px;
+        gap: 30px;
+        padding: 0 20px;
+      }
+
+      @include tablet{
+        gap: 50px;
+        padding: 0 30px;
       }
     }
   }
 }
 
-// --- APPAREILS ---
 .device-preview {
   flex: 1;
   display: flex;
@@ -78,6 +110,11 @@
     border: 8px solid #333;
     box-shadow: 0 50px 100px rgba(0,0,0,0.5);
     position: relative;
+
+    @include mobile{
+      border: 4px solid #333;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
     
     .screen-content {
       width: 100%;
@@ -98,9 +135,24 @@
       width: 250px;
       height: 500px;
       border-radius: 40px;
+
+      @include mobile{
+        width: 180px;
+        height: 360px;
+        border-radius: 30px;
+      }
+
+      @include tablet{
+        width: 220px;
+        height: 440px;
+      }
       
       .screen-content {
         border-radius: 30px;
+
+        @include mobile{
+          border-radius: 25px;
+        }
       }
     }
   }
@@ -110,6 +162,16 @@
       width: 400px;
       height: 225px;
       border-radius: 10px;
+
+      @include mobile{
+        width: 280px;
+        height: 158px;
+      }
+
+      @include tablet{
+        width: 350px;
+        height: 197px;
+      }
       
       &::after {
         content: '';
@@ -120,6 +182,12 @@
         width: 120px;
         height: 10px;
         background: #333;
+
+        @include mobile{
+          bottom: -20px;
+          width: 80px;
+          height: 6px;
+        }
       }
     }
   }
@@ -129,9 +197,24 @@
       width: 380px;
       height: 270px;
       border-radius: 20px;
+
+      @include mobile{
+        width: 260px;
+        height: 185px;
+        border-radius: 15px;
+      }
+
+      @include tablet{
+        width: 330px;
+        height: 235px;
+      }
       
       .screen-content {
         border-radius: 12px;
+
+        @include mobile{
+          border-radius: 10px;
+        }
       }
     }
   }
@@ -144,13 +227,53 @@
   justify-content: center;
   gap: 20px;
   align-self: center;
-  // la taille doit être la même que celle de son contenu
   width: fit-content;
   height: fit-content;
 
-  .cat-tag { color: orange; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
-  h2 { font-size: 3.5rem; line-height: 1; margin: 0; }
-  p { font-size: 1.1rem; color: #aaa; line-height: 1.6; }
+  @include mobile{
+    gap: 15px;
+    width: 100%;
+  }
+
+  .cat-tag { 
+    color: orange; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    letter-spacing: 2px;
+
+    @include mobile{
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+  }
+
+  h2 { 
+    font-size: 3.5rem; 
+    line-height: 1; 
+    margin: 0;
+
+    @include mobile{
+      font-size: 1.8rem;
+    }
+
+    @include tablet{
+      font-size: 2.5rem;
+    }
+  }
+
+  p { 
+    font-size: 1.1rem; 
+    color: #aaa; 
+    line-height: 1.6;
+
+    @include mobile{
+      font-size: 0.9rem;
+    }
+
+    @include tablet{
+      font-size: 1rem;
+    }
+  }
   
   button {
     width: fit-content;
@@ -161,19 +284,31 @@
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
+
+    @include mobile{
+      padding: 12px 25px;
+      font-size: 0.9rem;
+      align-self: center;
+    }
   }
 }
 
-// --- LIGHTBOX CSS ---
 .lightbox-overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  top: 0; 
+  left: 0;
+  width: 100vw; 
+  height: 100vh;
   background: rgba(0, 0, 0, 0.95);
-  z-index: 9999; // Au-dessus de tout le site
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+
+  @include mobile{
+    padding: 10px;
+  }
 
   .lightbox-content {
     width: 90%;
@@ -183,24 +318,71 @@
     position: relative;
     overflow: hidden;
 
+    @include mobile{
+      width: 95%;
+      border-radius: 15px;
+    }
+
     .close-btn {
       position: absolute;
-      top: 20px; right: 20px;
+      top: 20px; 
+      right: 20px;
       font-size: 2rem;
-      background: none; border: none; color: #fff; cursor: pointer;
+      background: none; 
+      border: none; 
+      color: #fff; 
+      cursor: pointer;
       z-index: 10;
+
+      @include mobile{
+        top: 10px;
+        right: 10px;
+        font-size: 1.5rem;
+      }
     }
 
     .media-container {
       width: 100%;
       background: #000;
-      video, img { width: 100%; max-height: 70vh; object-fit: contain; }
+
+      video, img { 
+        width: 100%; 
+        max-height: 70vh; 
+        object-fit: contain;
+
+        @include mobile{
+          max-height: 50vh;
+        }
+      }
     }
 
     .info {
       padding: 40px;
-      h2 { color: orange; margin-bottom: 10px; }
-      p { color: #ccc; }
+
+      @include mobile{
+        padding: 20px;
+      }
+
+      @include tablet{
+        padding: 30px;
+      }
+
+      h2 { 
+        color: orange; 
+        margin-bottom: 10px;
+
+        @include mobile{
+          font-size: 1.3rem;
+        }
+      }
+
+      p { 
+        color: #ccc;
+
+        @include mobile{
+          font-size: 0.9rem;
+        }
+      }
     }
   }
 }

@@ -40,30 +40,58 @@
         height: 100%;
 
         @include mobile{
-                justify-content: flex-end;
-                padding: 20px;
-            }
+            padding: 15px 20px;
+        }
 
-
+        @include tablet{
+            padding: 20px 30px;
+        }
 
         span{
             font-weight: bold;
             img{
                 width: 104px;
                 height: 104px;
+
+                @include mobile{
+                    width: 60px;
+                    height: 60px;
+                }
+
+                @include tablet{
+                    width: 80px;
+                    height: 80px;
+                }
             }
-            // @include mobile{
-            //     display: none;
-            // }
         }
 
         .menu{
             display: flex;
             gap: 20px;
+
+            @include mobile{
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            @include tablet{
+                gap: 15px;
+            }
+
             a{
                 font-weight: 500;
                 color: black;
                 transition: all 0.3s ease;
+                font-size: 16px;
+
+                @include mobile{
+                    font-size: 12px;
+                }
+
+                @include tablet{
+                    font-size: 14px;
+                }
 
                 img{
                     width: 16px;
@@ -71,6 +99,11 @@
                     filter: invert(80%) sepia(20%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(85%);
                     transition: all 0.3s ease;
                     color: black;
+
+                    @include mobile{
+                        width: 12px;
+                        height: 12px;
+                    }
                 }
 
                 &:hover{

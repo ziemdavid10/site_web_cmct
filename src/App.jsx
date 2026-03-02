@@ -9,6 +9,7 @@ import Contact from "./components/contact/Contact.jsx";
 import Cursor from "./components/cursor/Cursor.jsx";
 import Navinfos from "./components/navinfos/Navinfos.jsx";
 import Navlogo from "./components/navlogo/Navlogo.jsx";
+import Footer from "./components/footer/Footer.jsx";
 
 const App = () => {
   return <div>
@@ -41,15 +42,8 @@ const App = () => {
     <section id="Contact">
       <Contact />
     </section>
-  
 
-    {/* <section id="Actualité">
-      <Parallax type="about" />
-    </section>
-    <section>
-      <About />
-    </section> */}
-
+    <Footer />
   </div>;
 };
 

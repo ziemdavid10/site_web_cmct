@@ -4,7 +4,9 @@
     height: 60px;
     background-color: white;
 
-    
+    @include mobile{
+        height: 50px;
+    }
 
     .wrapper{
         max-width: 1366px;
@@ -16,19 +18,33 @@
         height: 100%;
 
         @include mobile{
-                justify-content: flex-end;
-                padding: 20px;
-            }
+            padding: 10px 20px;
+        }
+
+        @include tablet{
+            padding: 15px 30px;
+        }
         
         .infos{
             display: flex;
             gap: 5px;
+
             img{
-                    width: 115px;
-                    height: 39px;
-                    transition: all 0.3s ease;
-                    color: white;
+                width: 115px;
+                height: 39px;
+                transition: all 0.3s ease;
+                color: white;
+
+                @include mobile{
+                    width: 80px;
+                    height: 27px;
                 }
+
+                @include tablet{
+                    width: 100px;
+                    height: 34px;
+                }
+            }
         }
     } 
 }  
