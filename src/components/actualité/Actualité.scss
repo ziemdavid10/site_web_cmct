@@ -1,0 +1,207 @@
+@import "../../App.scss";
+
+.actualites {
+  padding: 80px 20px;
+  background-color: #fff;
+
+  .container {
+    max-width: 1366px;
+    margin: 0 auto;
+
+    .newsHeader {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    .subtitle {
+      color: #e63946;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .mainTitle {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #1a1a1a;
+
+      span { color: #333; }
+    }
+
+    .yellowDivider {
+      width: 150px;
+      height: 12px;
+      background-color: #ffbe0b;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
+  }
+
+    .filterBar {
+    background: #f0f0f0;
+    border-radius: 100px;
+    padding: 10px 40px;
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    margin: 0 auto 60px;
+    margin-bottom: 15px;
+
+    .filterWrapper {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+
+      .filterItem {
+        position: relative;
+        cursor: pointer;
+        padding: 10px 20px;
+        
+        img {
+          height: 35px;
+          object-fit: contain;
+          filter: grayscale(100%);
+          transition: 0.3s;
+        }
+
+        &.active img, &:hover img {
+          filter: grayscale(0%);
+        }
+
+        .activeOutline {
+          position: absolute;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.05);
+          border-radius: 15px;
+          z-index: -1;
+        }
+      }
+    }
+  }
+
+  .scrollContainer {
+    overflow-x: auto;
+    padding-bottom: 20px;
+    cursor: grab;
+    &::-webkit-scrollbar { display: none; } // Cache la scrollbar pour le style slider
+    margin-bottom: -25px;
+    width: 1366px;
+
+    .articlesGrid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 30px;
+    // min-width: max-content; // Permet au grid de s'étendre horizontalement
+    // la grid doit avoir la même largeur que le container pour que le scroll fonctionne correctement
+    width: 1366px;
+
+    .articleCard {
+      background: white;
+      border-radius: 0; // Design plat selon l'image
+      overflow: hidden;
+      width: 350px; // Largeur fixe pour le slider
+      flex-shrink: 0;
+      
+      .imageContainer {
+        position: relative;
+        height: 240px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .sourceTag {
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          background: rgba(255, 255, 255, 0.9);
+          padding: 5px 12px;
+          font-weight: bold;
+          font-size: 0.8rem;
+        }
+      }
+
+      .articleContent {
+        padding: 20px 0;
+        text-align: center;
+
+        .category {
+          font-weight: bold;
+          font-size: 0.9rem;
+          letter-spacing: 1px;
+        }
+
+        h3 {
+          font-size: 1.1rem;
+          margin: 10px 0;
+          font-weight: bold;
+          line-height: 1.4;
+          color: #222;
+        }
+
+        .dateInfo {
+          color: #888;
+          font-size: 0.9rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+        }
+      }
+    }    
+  }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+
+    .btnMore {
+      padding: 15px 40px;
+      background-color: #3a506b;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(58, 80, 107, 0.2);
+    }
+  }
+
+  .infinite-loader {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #ffbe0b;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  @keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+}
+
+  }
+
+// Adaptabilité Mobile
+@media (max-width: 768px) {
+  .actualites {
+    .newsHeader .mainTitle { font-size: 1.5rem; }
+    .filterBar {
+        padding: 10px;
+        .filterWrapper { gap: 10px; }
+    }
+  }
+}

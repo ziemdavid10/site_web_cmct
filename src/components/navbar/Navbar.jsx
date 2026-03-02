@@ -17,13 +17,20 @@ const textVariants = {
 };
 
 const Navbar = () => {
-  const items = ["Homepage", "Services", "Projects", "About", "Actualité", "Contact"];
+  const items = ["Homepage", "Services", "Projects", "About", "Actualités", "Contact"];
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isInProjects, setIsInProjects] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50); // Ajustez la valeur selon vos besoins
+      setIsScrolled(window.scrollY > 50);
+      
+      const projectsSection = document.getElementById('Projects');
+      if (projectsSection) {
+        const rect = projectsSection.getBoundingClientRect();
+        setIsInProjects(rect.top <= 100 && rect.bottom > 100);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -31,7 +38,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <motion.div className="navbar"
+    <motion.div className={`navbar ${isInProjects ? 'projects-navbar' : ''}`}
     style={{ position: "fixed", top: 100, left: 0, right: 0 }} // Setup CSS
     initial={{ y: 20 }} // Position initiale sur la Homepage
     animate={{ y: isScrolled ? -100 : 20 }} // Passe de y à y + 20 au scroll

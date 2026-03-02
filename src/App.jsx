@@ -2,6 +2,7 @@ import "./App.scss";
 import Navbar from "./components/navbar/Navbar.jsx";
 import Hero from "./components/Hero/Hero.jsx";
 import Services from "./components/services/Services.jsx";
+import Actualites from "./components/actualité/Actualité.jsx";
 import Projects from "./components/projects/Projects.jsx";
 import About from "./components/about/About.jsx";
 import Contact from "./components/contact/Contact.jsx";
@@ -25,25 +26,22 @@ const App = () => {
       <Services />
     </section>
 
-    {/* <section id="Projects">
+    <section id="Projects">
       <Projects />
-    </section> */}
+    </section>
 
     <section id="About">
       <About />
+    </section>
+
+    <section id="Actualités">
+      <Actualites />
     </section>
 
     <section id="Contact">
       <Contact />
     </section>
   
-
-    {/* <section id="A propos">
-      <Parallax type="about" />
-    </section>
-    <section>
-      <About />
-    </section> */}
 
     {/* <section id="Actualité">
       <Parallax type="about" />
@@ -52,12 +50,6 @@ const App = () => {
       <About />
     </section> */}
 
-    {/* <section id="Contact">
-      <Parallax type="contact" />
-    </section>
-    <section>
-      <Contact />
-    </section> */}
   </div>;
 };
 

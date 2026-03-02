@@ -4,9 +4,31 @@
     height: 100px;
     background-color: white;
     position:fixed;
-    // top: auto;
-    z-index: 999; // ramener vers l'avant
+    z-index: 999;
     width: 100%;
+    
+    &.projects-navbar {
+        background-color: rgba(11, 11, 26, 0.95);
+        backdrop-filter: blur(10px);
+        
+        .wrapper {
+            .menu a {
+                color: white;
+                
+                &:hover {
+                    color: orange;
+                }
+                
+                img {
+                    filter: invert(100%);
+                }
+            }
+            
+            span img {
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
 
     .wrapper{
         max-width: 1366px;
