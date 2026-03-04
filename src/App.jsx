@@ -1,26 +1,24 @@
 import "./App.scss";
-import Navbar from "./components/navbar/Navbar.jsx";
+import Navbar from "./components/Navbar/Navbar.jsx";
 import Hero from "./components/Hero/Hero.jsx";
-import Services from "./components/services/Services.jsx";
-import Actualites from "./components/actualité/Actualité.jsx";
-import Projects from "./components/projects/Projects.jsx";
-import About from "./components/about/About.jsx";
-import Contact from "./components/contact/Contact.jsx";
-import Cursor from "./components/cursor/Cursor.jsx";
-import Navinfos from "./components/navinfos/Navinfos.jsx";
-import Navlogo from "./components/navlogo/Navlogo.jsx";
-import Footer from "./components/footer/Footer.jsx";
+import Services from "./components/Services/Services.jsx";
+import Actualites from "./components/Actualité/Actualité.jsx";
+import Projects from "./components/Projects/Projects.jsx";
+import About from "./components/About/About.jsx";
+import Contact from "./components/Contact/Contact.jsx";
+import Cursor from "./components/Cursor/Cursor.jsx";
+import Navinfos from "./components/Navinfos/Navinfos.jsx";
+import Navlogo from "./components/Navlogo/Navlogo.jsx";
+import Footer from "./components/Footer/Footer.jsx";
 
 const App = () => {
   return <div>
     <Cursor />
     <section id="Homepage">
-      {/* <Sidebar /> */}
       <Navlogo />
       <Navinfos />
       <Navbar />
       <Hero />
-      {/* <Sidebar /> */}
     </section>
 
     <section id="Services">
