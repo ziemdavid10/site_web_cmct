@@ -157,7 +157,7 @@ const About = () => {
             viewport={{ once: true }}
           >
             <div className="image-container">
-              <img src="/mypic.jpg" alt="Directeur CMCT" />
+              <img src="" alt="Directeur CMCT" />
               <div className="accent-circle"></div>
             </div>
             
