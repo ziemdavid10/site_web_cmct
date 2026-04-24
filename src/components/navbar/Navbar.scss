@@ -1,130 +1,239 @@
+// @import "../../App.scss";
+
+// .navbar{
+//     height: 100px;
+//     background-color: white;
+//     position:fixed;
+//     z-index: 999;
+//     width: 100%;
+    
+//     &.projects-navbar {
+//         background-color: rgba(11, 11, 26, 0.95);
+//         backdrop-filter: blur(10px);
+        
+//         .wrapper {
+//             .menu a {
+//                 color: white;
+                
+//                 &:hover {
+//                     color: orange;
+//                 }
+                
+//                 img {
+//                     filter: invert(100%);
+//                 }
+//             }
+            
+//             span img {
+//                 filter: brightness(0) invert(1);
+//             }
+//         }
+//     }
+
+//     .wrapper{
+//         max-width: 1366px;
+//         margin: auto;
+//         padding: 20px 50px;
+//         display: flex;
+//         justify-content: space-between;
+//         align-items: center;
+//         height: 100%;
+
+//         @include mobile{
+//             padding: 15px 20px;
+//         }
+
+//         @include tablet{
+//             padding: 20px 30px;
+//         }
+
+//         span{
+//             font-weight: bold;
+//             img{
+//                 width: 104px;
+//                 height: 104px;
+
+//                 @include mobile{
+//                     width: 60px;
+//                     height: 60px;
+//                 }
+
+//                 @include tablet{
+//                     width: 80px;
+//                     height: 80px;
+//                 }
+//             }
+//         }
+
+//         .menu{
+//             display: flex;
+//             gap: 20px;
+
+//             @include mobile{
+//                 gap: 10px;
+//                 flex-wrap: wrap;
+//                 justify-content: flex-end;
+//             }
+
+//             @include tablet{
+//                 gap: 15px;
+//             }
+
+//             a{
+//                 font-weight: 500;
+//                 color: black;
+//                 transition: all 0.3s ease;
+//                 font-size: 16px;
+
+//                 @include mobile{
+//                     font-size: 12px;
+//                 }
+
+//                 @include tablet{
+//                     font-size: 14px;
+//                 }
+
+//                 img{
+//                     width: 16px;
+//                     height: 16px;
+//                     filter: invert(80%) sepia(20%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(85%);
+//                     transition: all 0.3s ease;
+//                     color: black;
+
+//                     @include mobile{
+//                         width: 12px;
+//                         height: 12px;
+//                     }
+//                 }
+
+//                 &:hover{
+//                     color: yellow;
+//                 }
+//             }
+
+//             // a{
+//             //     margin-left: 20px;
+
+//             //     img{
+//             //         width: 24px;
+//             //         height: 24px;
+//             //         filter: invert(80%) sepia(20%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(85%);
+//             //         transition: all 0.3s ease;
+
+//             //         &:hover{
+//             //             filter: invert(60%) sepia(40%) saturate(800%) hue-rotate(150deg) brightness(110%) contrast(120%);
+//             //         }
+//             //     }
+//             // }
+//         }
+//     }
+// }
+
 @import "../../App.scss";
 
-.navbar{
-    height: 100px;
-    background-color: white;
-    position:fixed;
-    z-index: 999;
-    width: 100%;
-    
-    &.projects-navbar {
-        background-color: rgba(11, 11, 26, 0.95);
-        backdrop-filter: blur(10px);
+.navbar {
+  width: 100%;
+  position: relative;
+  top: unset;
+  left: unset;
+  z-index: 999;
+  background-color: white;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+
+  &.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  &.projects-navbar {
+    background-color: #0b0b1a !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    .wrapper {
+      .menu .menu-item {
+        color: white;
+        &:hover { color: #ffa500; }
+        .icon-dropdown { filter: invert(1); }
+      }
+      .logo-container img { filter: brightness(0) invert(1);}
+    }
+  }
+
+  .wrapper {
+    max-width: 1366px;
+    margin: 0 auto;
+    padding: 0 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px; // Hauteur fixe plus petite pour la fluidité
+    transition: height 0.3s ease;
+
+    @include tablet { height: 70px; padding: 0 30px; }
+    @include mobile { 
+      height: 60px; 
+      padding: 0 20px;
+    }
+
+    .logo-container {
+      img {
+        height: 65px;
+        width: auto;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+
+        @include tablet { height: 50px; }
+        @include mobile { height: 40px; }
+      }
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+
+      @include tablet { gap: 15px; }
+      
+      @include mobile { 
+        // Solution experte pour mobile sans menu burger : scroll horizontal discret
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: white;
+        padding: 10px 20px;
+        overflow-x: auto;
+        gap: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        border-top: 1px solid #f0f0f0;
         
-        .wrapper {
-            .menu a {
-                color: white;
-                
-                &:hover {
-                    color: orange;
-                }
-                
-                img {
-                    filter: invert(100%);
-                }
-            }
-            
-            span img {
-                filter: brightness(0) invert(1);
-            }
-        }
-    }
+        // On cache la scrollbar pour le look pro
+        &::-webkit-scrollbar { display: none; }
+        scrollbar-width: none;
+      }
 
-    .wrapper{
-        max-width: 1366px;
-        margin: auto;
-        padding: 20px 50px;
+      .menu-item {
+        text-decoration: none;
+        color: #333;
+        font-weight: 600;
+        font-size: 15px;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        height: 100%;
+        gap: 6px;
+        white-space: nowrap;
+        transition: color 0.3s ease;
 
-        @include mobile{
-            padding: 15px 20px;
+        &:hover { color: #324986; }
+
+        .icon-dropdown {
+          width: 10px;
+          height: auto;
+          opacity: 0.6;
         }
 
-        @include tablet{
-            padding: 20px 30px;
-        }
-
-        span{
-            font-weight: bold;
-            img{
-                width: 104px;
-                height: 104px;
-
-                @include mobile{
-                    width: 60px;
-                    height: 60px;
-                }
-
-                @include tablet{
-                    width: 80px;
-                    height: 80px;
-                }
-            }
-        }
-
-        .menu{
-            display: flex;
-            gap: 20px;
-
-            @include mobile{
-                gap: 10px;
-                flex-wrap: wrap;
-                justify-content: flex-end;
-            }
-
-            @include tablet{
-                gap: 15px;
-            }
-
-            a{
-                font-weight: 500;
-                color: black;
-                transition: all 0.3s ease;
-                font-size: 16px;
-
-                @include mobile{
-                    font-size: 12px;
-                }
-
-                @include tablet{
-                    font-size: 14px;
-                }
-
-                img{
-                    width: 16px;
-                    height: 16px;
-                    filter: invert(80%) sepia(20%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(85%);
-                    transition: all 0.3s ease;
-                    color: black;
-
-                    @include mobile{
-                        width: 12px;
-                        height: 12px;
-                    }
-                }
-
-                &:hover{
-                    color: yellow;
-                }
-            }
-
-            // a{
-            //     margin-left: 20px;
-
-            //     img{
-            //         width: 24px;
-            //         height: 24px;
-            //         filter: invert(80%) sepia(20%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(85%);
-            //         transition: all 0.3s ease;
-
-            //         &:hover{
-            //             filter: invert(60%) sepia(40%) saturate(800%) hue-rotate(150deg) brightness(110%) contrast(120%);
-            //         }
-            //     }
-            // }
-        }
+        @include mobile { font-size: 13px; }
+      }
     }
+  }
 }

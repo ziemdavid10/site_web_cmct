@@ -1,228 +1,425 @@
+// @import "../../App.scss";
+
+// .about {
+//   padding: 80px 0;
+//   background-color: #fff;
+//   overflow: hidden;
+
+//   @include mobile{
+//     padding: 60px 0;
+//   }
+
+//   .container {
+//     max-width: 1200px;
+//     margin: 0 auto;
+//     padding: 0 20px;
+
+//     @include mobile{
+//       padding: 0 15px;
+//     }
+
+//     .header {
+//       text-align: center;
+//       margin-bottom: 60px;
+//       margin-top: 40px;
+
+//       @include mobile{
+//         margin-bottom: 40px;
+//         margin-top: 20px;
+//       }
+
+//       h2 {
+//         color: #e63946;
+//         font-size: 2.5rem;
+//         font-weight: bold;
+//         margin-bottom: 10px;
+
+//         @include mobile{
+//           font-size: 1.8rem;
+//         }
+
+//         @include tablet{
+//           font-size: 2.2rem;
+//         }
+//       }
+
+//       .underline {
+//         height: 12px;
+//         background-color: #ffbe0b;
+//         margin: 0 auto;
+//         border-radius: 10px;
+
+//         @include mobile{
+//           height: 8px;
+//         }
+//       }
+//     }
+
+//     .content {
+//       display: flex;
+//       align-items: center;
+//       gap: 50px;
+
+//       @include mobile {
+//         flex-direction: column;
+//         gap: 30px;
+//       }
+
+//       @include tablet{
+//         gap: 40px;
+//       }
+
+//       .imageWrapper {
+//         flex: 1;
+//         position: relative;
+//         display: flex;
+//         justify-content: center;
+
+//         .circle {
+//           width: 450px;
+//           height: 450px;
+//           border-radius: 50%;
+//           overflow: hidden;
+//           border: 10px solid #f8f9fa;
+//           box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+
+//           @include mobile {
+//             width: 280px;
+//             height: 280px;
+//             border: 6px solid #f8f9fa;
+//           }
+
+//           @include tablet{
+//             width: 350px;
+//             height: 350px;
+//           }
+
+//           img {
+//             width: 100%;
+//             height: 100%;
+//             object-fit: cover;
+//           }
+//         }
+
+//         .directorBadge {
+//           position: absolute;
+//           top: 40px;
+//           right: -20px;
+//           background-color: #e63946;
+//           color: white;
+//           padding: 25px 40px;
+//           border-radius: 100px;
+//           text-align: center;
+//           box-shadow: 0 10px 25px rgba(230, 57, 70, 0.3);
+
+//           @include mobile {
+//             top: 20px;
+//             right: 10px;
+//             padding: 15px 20px;
+//           }
+
+//           @include tablet{
+//             padding: 20px 30px;
+//           }
+
+//           h4 {
+//             font-size: 1.2rem;
+//             margin: 0;
+//             font-weight: bold;
+
+//             @include mobile{
+//               font-size: 0.9rem;
+//             }
+
+//             @include tablet{
+//               font-size: 1rem;
+//             }
+//           }
+
+//           p {
+//             font-style: italic;
+//             margin: 0;
+//             font-size: 0.9rem;
+//             opacity: 0.9;
+
+//             @include mobile{
+//               font-size: 0.75rem;
+//             }
+//           }
+//         }
+//       }
+
+//       .textWrapper {
+//         flex: 1.2;
+//         color: #333;
+
+//         h3 {
+//           font-size: 1.4rem;
+//           margin-bottom: 15px;
+//           font-weight: 800;
+
+//           @include mobile{
+//             font-size: 1.1rem;
+//             text-align: center;
+//           }
+
+//           @include tablet{
+//             font-size: 1.3rem;
+//           }
+//         }
+
+//         .intro {
+//           font-size: 1.1rem;
+//           line-height: 1.6;
+//           margin-bottom: 25px;
+
+//           @include mobile{
+//             font-size: 0.95rem;
+//             text-align: justify;
+//           }
+
+//           @include tablet{
+//             font-size: 1rem;
+//           }
+//         }
+
+//         ul {
+//           list-style: none;
+//           padding: 0;
+
+//           li {
+//             margin-bottom: 20px;
+//             line-height: 1.5;
+//             font-size: 1rem;
+
+//             @include mobile{
+//               font-size: 0.9rem;
+//               margin-bottom: 15px;
+//             }
+
+//             strong {
+//               display: block;
+//               font-weight: bold;
+//               margin-bottom: 3px;
+//             }
+//           }
+//         }
+
+//         .highlight {
+//           margin-top: 30px;
+//           padding-top: 20px;
+//           border-top: 1px solid #eee;
+//           font-size: 1.1rem;
+
+//           @include mobile{
+//             font-size: 0.95rem;
+//             margin-top: 20px;
+//             text-align: center;
+//           }
+
+//           span {
+//             color: #e63946;
+//             font-weight: bold;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
 @import "../../App.scss";
 
-.about {
-  padding: 80px 0;
-  background-color: #fff;
+// Variables locales pour la cohérence
+$primary-red: #e63946;
+$accent-yellow: #ffbe0b;
+$text-dark: #1a1a1a;
+$text-light: #666;
+$bg-white: #ffffff;
+
+.about-section {
+  padding: 120px 0;
+  background: $bg-white;
+  position: relative;
   overflow: hidden;
 
-  @include mobile{
-    padding: 60px 0;
-  }
+  @include tablet { padding: 80px 0; }
+  @include mobile { padding: 60px 0; }
 
   .container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 40px;
+    @include mobile { padding: 0 20px; }
+  }
 
-    @include mobile{
-      padding: 0 15px;
-    }
+  .about-header {
+    margin-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 
-    .header {
+    @include mobile { 
+      align-items: center; 
+      margin-bottom: 50px; 
       text-align: center;
-      margin-bottom: 60px;
-      margin-top: 40px;
-
-      @include mobile{
-        margin-bottom: 40px;
-        margin-top: 20px;
-      }
-
-      h2 {
-        color: #e63946;
-        font-size: 2.5rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-
-        @include mobile{
-          font-size: 1.8rem;
-        }
-
-        @include tablet{
-          font-size: 2.2rem;
-        }
-      }
-
-      .underline {
-        height: 12px;
-        background-color: #ffbe0b;
-        margin: 0 auto;
-        border-radius: 10px;
-
-        @include mobile{
-          height: 8px;
-        }
-      }
     }
 
-    .content {
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: $text-dark;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      margin-bottom: 15px;
+    }
+
+    .decorative-bar {
+      height: 6px;
+      background: $accent-yellow;
+      border-radius: 3px;
+    }
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+
+    @include tablet { gap: 40px; }
+    @include mobile { 
+      grid-template-columns: 1fr; 
+      gap: 60px;
+    }
+  }
+}
+
+.visual-block {
+  position: relative;
+  
+  .image-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1;
+    z-index: 2;
+
+    @include mobile { margin: 0 auto; max-width: 320px; }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; // Forme organique pro
+      box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+      border: 15px solid #fff;
+    }
+
+    .accent-circle {
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      width: 100px;
+      height: 100px;
+      background: rgba($accent-yellow, 0.2);
+      border-radius: 50%;
+      z-index: -1;
+    }
+  }
+
+  .floating-badge {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    background: $primary-red;
+    color: #fff;
+    padding: 25px 35px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba($primary-red, 0.3);
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
+
+    @include mobile { 
+        bottom: -10px;
+        right: 50%;
+        transform: translateX(50%);
+        padding: 15px 25px;
+        width: max-content;
+    }
+
+    .name { font-weight: 800; font-size: 1.1rem; }
+    .role { font-size: 0.85rem; opacity: 0.9; margin-top: 4px; font-style: italic; }
+  }
+}
+
+.text-block {
+  h3 {
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    line-height: 1.2;
+    margin-bottom: 25px;
+    color: $text-dark;
+    
+    span { color: $primary-red; }
+
+    @include mobile { text-align: center; }
+  }
+
+  .description {
+    font-size: 1.1rem;
+    color: $text-light;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    @include mobile { text-align: center; }
+  }
+
+  .poles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .pole-item {
       display: flex;
-      align-items: center;
-      gap: 50px;
-
-      @include mobile {
-        flex-direction: column;
-        gap: 30px;
+      gap: 20px;
+      
+      .icon-indicator {
+        flex-shrink: 0;
+        width: 4px;
+        height: auto;
+        min-height: 40px;
+        background: $accent-yellow;
+        border-radius: 2px;
       }
 
-      @include tablet{
-        gap: 40px;
+      strong {
+        display: block;
+        font-size: 1rem;
+        text-transform: uppercase;
+        color: $text-dark;
+        margin-bottom: 5px;
       }
 
-      .imageWrapper {
-        flex: 1;
-        position: relative;
-        display: flex;
-        justify-content: center;
-
-        .circle {
-          width: 450px;
-          height: 450px;
-          border-radius: 50%;
-          overflow: hidden;
-          border: 10px solid #f8f9fa;
-          box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-
-          @include mobile {
-            width: 280px;
-            height: 280px;
-            border: 6px solid #f8f9fa;
-          }
-
-          @include tablet{
-            width: 350px;
-            height: 350px;
-          }
-
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
-
-        .directorBadge {
-          position: absolute;
-          top: 40px;
-          right: -20px;
-          background-color: #e63946;
-          color: white;
-          padding: 25px 40px;
-          border-radius: 100px;
-          text-align: center;
-          box-shadow: 0 10px 25px rgba(230, 57, 70, 0.3);
-
-          @include mobile {
-            top: 20px;
-            right: 10px;
-            padding: 15px 20px;
-          }
-
-          @include tablet{
-            padding: 20px 30px;
-          }
-
-          h4 {
-            font-size: 1.2rem;
-            margin: 0;
-            font-weight: bold;
-
-            @include mobile{
-              font-size: 0.9rem;
-            }
-
-            @include tablet{
-              font-size: 1rem;
-            }
-          }
-
-          p {
-            font-style: italic;
-            margin: 0;
-            font-size: 0.9rem;
-            opacity: 0.9;
-
-            @include mobile{
-              font-size: 0.75rem;
-            }
-          }
-        }
+      p {
+        font-size: 0.95rem;
+        color: $text-light;
+        line-height: 1.5;
       }
+    }
+  }
 
-      .textWrapper {
-        flex: 1.2;
-        color: #333;
+  .about-footer {
+    margin-top: 50px;
+    padding: 25px;
+    background: #f8f9fa;
+    border-left: 5px solid $primary-red;
+    border-radius: 0 10px 10px 0;
 
-        h3 {
-          font-size: 1.4rem;
-          margin-bottom: 15px;
-          font-weight: 800;
-
-          @include mobile{
-            font-size: 1.1rem;
-            text-align: center;
-          }
-
-          @include tablet{
-            font-size: 1.3rem;
-          }
-        }
-
-        .intro {
-          font-size: 1.1rem;
-          line-height: 1.6;
-          margin-bottom: 25px;
-
-          @include mobile{
-            font-size: 0.95rem;
-            text-align: justify;
-          }
-
-          @include tablet{
-            font-size: 1rem;
-          }
-        }
-
-        ul {
-          list-style: none;
-          padding: 0;
-
-          li {
-            margin-bottom: 20px;
-            line-height: 1.5;
-            font-size: 1rem;
-
-            @include mobile{
-              font-size: 0.9rem;
-              margin-bottom: 15px;
-            }
-
-            strong {
-              display: block;
-              font-weight: bold;
-              margin-bottom: 3px;
-            }
-          }
-        }
-
-        .highlight {
-          margin-top: 30px;
-          padding-top: 20px;
-          border-top: 1px solid #eee;
-          font-size: 1.1rem;
-
-          @include mobile{
-            font-size: 0.95rem;
-            margin-top: 20px;
-            text-align: center;
-          }
-
-          span {
-            color: #e63946;
-            font-weight: bold;
-          }
-        }
-      }
+    p {
+      font-size: 1rem;
+      color: $text-dark;
+      margin: 0;
+      
+      strong { color: $primary-red; }
     }
   }
 }

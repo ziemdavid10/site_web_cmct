@@ -1,14 +1,49 @@
 @import "../../App.scss";
 
-.cursor {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 1px solid white;
-    position: fixed;
-    z-index: 999;
+// On cache le curseur par défaut sur le body pour un effet total immersion
+// (À ajouter dans votre fichier global App.scss ou index.scss)
+// body { cursor: none; a, button { cursor: none; } }
 
-    @include mobile{
-        display: none;
-    }
+.cursor-outline {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid white;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none; // Crucial : permet de cliquer "à travers" le curseur
+  z-index: 9999;
+  mix-blend-mode: difference; // S'inverse selon la couleur du fond (Magique !)
+  transition: width 0.3s, height 0.3s, background-color 0.3s;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.cursor-dot {
+  width: 4px;
+  height: 4px;
+  background-color: white;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10000;
+  mix-blend-mode: difference;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+// Optionnel : Interaction avec les liens
+// Ajoutez une classe .active au curseur via JS quand vous survolez un <a>
+.cursor-outline.active {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: transparent;
 }

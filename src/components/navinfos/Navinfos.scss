@@ -1,94 +1,202 @@
+// @import "../../App.scss";
+
+// .navinfos{
+//     height: 60px;
+//     background-color: #324986;
+
+//     @include mobile{
+//         height: 50px;
+//     }
+
+//     .wrapper{
+//         max-width: 1366px;
+//         margin: auto;
+//         padding: 20px 50px;
+//         display: flex;
+//         justify-content: space-between;
+//         align-items: center;
+//         height: 100%;
+
+//         @include mobile{
+//             padding: 10px 20px;
+//         }
+
+//         @include tablet{
+//             padding: 15px 30px;
+//         }
+        
+//         .infos{
+//             display: flex;
+//             gap: 5px;
+
+//             @include mobile{
+//                 gap: 3px;
+//             }
+
+//             img{
+//                 width: 26px;
+//                 height: 26px;
+//                 transition: all 0.3s ease;
+//                 color: white;
+
+//                 @include mobile{
+//                     width: 20px;
+//                     height: 20px;
+//                 }
+
+//                 @include tablet{
+//                     width: 24px;
+//                     height: 24px;
+//                 }
+//             }
+//         }
+
+//         .social{
+//             display: flex;
+//             gap: 20px;
+
+//             @include mobile{
+//                 gap: 12px;
+//             }
+
+//             @include tablet{
+//                 gap: 15px;
+//             }
+
+//             a{
+//                 font-weight: 500;
+//                 color: black;
+//                 transition: all 0.3s ease;
+
+//                 img{
+//                     width: 26px;
+//                     height: 26px;
+//                     filter: invert(80%) sepia(20%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(85%);
+//                     transition: all 0.3s ease;
+
+//                     @include mobile{
+//                         width: 20px;
+//                         height: 20px;
+//                     }
+
+//                     @include tablet{
+//                         width: 24px;
+//                         height: 24px;
+//                     }
+//                 }
+
+//                 &:hover{
+//                     color: yellow;
+//                 }
+//             }
+//         }
+//     } 
+// }  
+
 @import "../../App.scss";
 
-.navinfos{
-    height: 60px;
-    background-color: #324986;
+.navinfos {
+  width: 100%;
+  height: 45px; // Hauteur réduite pour un look "Top Bar" plus pro
+  background-color: #324986;
+  color: white;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
 
-    @include mobile{
-        height: 50px;
+  @include mobile {
+    height: auto;
+    padding: 8px 0;
+  }
+
+  .wrapper {
+    max-width: 1366px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include tablet { padding: 0 30px; }
+    @include mobile { 
+      padding: 0 15px;
+      flex-direction: column; // Empilement sur mobile
+      gap: 8px;
     }
 
-    .wrapper{
-        max-width: 1366px;
-        margin: auto;
-        padding: 20px 50px;
+    .contact-group {
+      display: flex;
+      gap: 40px;
+
+      @include tablet { gap: 20px; }
+      @include mobile { 
+        width: 100%;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+    }
+
+    .infos {
+      a {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        height: 100%;
+        gap: 8px;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        transition: color 0.3s ease;
 
-        @include mobile{
-            padding: 10px 20px;
+        &:hover {
+          color: #ffcc00; // Un jaune doré élégant pour le rappel de marque
         }
 
-        @include tablet{
-            padding: 15px 30px;
-        }
-        
-        .infos{
-            display: flex;
-            gap: 5px;
-
-            @include mobile{
-                gap: 3px;
-            }
-
-            img{
-                width: 26px;
-                height: 26px;
-                transition: all 0.3s ease;
-                color: white;
-
-                @include mobile{
-                    width: 20px;
-                    height: 20px;
-                }
-
-                @include tablet{
-                    width: 24px;
-                    height: 24px;
-                }
-            }
+        img {
+          width: 18px;
+          height: 18px;
+          filter: brightness(0) invert(1); // Force les icônes en blanc
         }
 
-        .social{
-            display: flex;
-            gap: 20px;
-
-            @include mobile{
-                gap: 12px;
-            }
-
-            @include tablet{
-                gap: 15px;
-            }
-
-            a{
-                font-weight: 500;
-                color: black;
-                transition: all 0.3s ease;
-
-                img{
-                    width: 26px;
-                    height: 26px;
-                    filter: invert(80%) sepia(20%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(85%);
-                    transition: all 0.3s ease;
-
-                    @include mobile{
-                        width: 20px;
-                        height: 20px;
-                    }
-
-                    @include tablet{
-                        width: 24px;
-                        height: 24px;
-                    }
-                }
-
-                &:hover{
-                    color: yellow;
-                }
-            }
+        .phone-text {
+          @include mobile {
+            font-size: 11px;
+          }
         }
-    } 
-}  
+      }
+    }
+
+    .social {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+
+      @include mobile {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 5px;
+        width: 100%;
+        justify-content: center;
+      }
+
+      a {
+        display: flex;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+        }
+
+        img {
+          width: 20px;
+          height: 20px;
+          // filter: brightness(0) invert(1);
+          opacity: 0.8;
+          transition: opacity 0.3s ease;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}

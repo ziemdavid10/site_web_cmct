@@ -1,135 +1,276 @@
+// @import "../../App.scss";
+
+// .hero {
+//     height: calc(100vh - 100px);
+//     overflow: hidden;
+//     background: linear-gradient(180deg, #0c0c1d, #111132);
+//     position: relative;
+
+//     @include mobile{
+//         height: auto;
+//         min-height: 100vh;
+//     }
+
+//     .wrapper {
+//         height: 100%;
+//         margin:auto;
+//         max-width: 1366px;
+//         padding: 20px 50px;
+
+//         @include mobile{
+//             padding: 40px 20px;
+//         }
+
+//         @include tablet{
+//             padding: 40px 30px;
+//         }
+
+//         .hero-content {
+//             width: 70%;
+//             height: 100%;
+//             display: flex;
+//             flex-direction: column;
+//             justify-content: center;
+//             gap: 40px;
+
+//             @include mobile{
+//                 width: 100%;
+//                 gap: 20px;
+//                 align-items: center;
+//                 text-align: center;
+//                 padding: 20px 0;
+//             }
+
+//             @include tablet{
+//                 width: 90%;
+//                 gap: 30px;
+//             }
+
+//             h2 {
+//                 font-size: 55px;
+//                 color: white;
+//                 letter-spacing: 5px;
+
+//                 @include mobile{
+//                     font-size: 28px;
+//                     letter-spacing: 2px;
+//                 }
+
+//                 @include tablet{
+//                     font-size: 40px;
+//                     letter-spacing: 3px;
+//                 }
+//             }
+
+//             p {
+//                 font-size: 15px;
+//                 margin-bottom: 20px;
+//                 max-width: 1500px;
+
+//                 @include mobile{
+//                     font-size: 14px;
+//                     margin-bottom: 10px;
+//                 }
+//             }
+
+//             .hero-buttons {
+//                 display: flex;
+//                 gap: 20px;
+
+//                 @include mobile{
+//                     flex-direction: column;
+//                     width: 100%;
+//                     gap: 15px;
+//                 }
+
+//                 @include tablet{
+//                     gap: 15px;
+//                 }
+
+//                 button {
+//                     padding: 20px;
+//                     border: 1px solid red;
+//                     border-radius: 10px;
+//                     background-color: red;
+//                     color: white;
+//                     cursor: pointer;
+//                     font-weight: 300;
+
+//                     @include mobile{
+//                         padding: 15px;
+//                         font-size: 14px;
+//                     }
+//                 }
+//             }
+
+//             img {
+//                 width: 50px;
+
+//                 @include mobile{
+//                     width: 35px;
+//                 }
+//             }
+//         }
+//     }
+
+//     .hero-slidingText {
+//         position: absolute;
+//         font-size: 50vh;
+//         bottom: -120px;
+//         font-weight: bold;
+//         width: 100%;
+//         white-space: nowrap;
+//         color: #ffffff09;
+
+//         @include mobile{
+//             font-size: 20vh;
+//             bottom: -50px;
+//         }
+
+//         @include tablet{
+//             font-size: 35vh;
+//             bottom: -80px;
+//         }
+//     }
+// }
+
 @import "../../App.scss";
 
 .hero {
-    height: calc(100vh - 100px);
-    overflow: hidden;
-    background: linear-gradient(180deg, #0c0c1d, #111132);
-    position: relative;
+  height: calc(100vh - 45px); // S'adapte à la Navinfos + Navbar
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
 
-    @include mobile{
-        height: auto;
-        min-height: 100vh;
+  @include mobile {
+    height: 100vh;
+  }
+
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+
+    .overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(12, 12, 29, 0.9) 30%, rgba(12, 12, 29, 0.4) 100%);
+      z-index: 1;
     }
 
-    .wrapper {
-        height: 100%;
-        margin:auto;
-        max-width: 1366px;
-        padding: 20px 50px;
-
-        @include mobile{
-            padding: 40px 20px;
-        }
-
-        @include tablet{
-            padding: 40px 30px;
-        }
-
-        .hero-content {
-            width: 70%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 40px;
-
-            @include mobile{
-                width: 100%;
-                gap: 20px;
-                align-items: center;
-                text-align: center;
-                padding: 20px 0;
-            }
-
-            @include tablet{
-                width: 90%;
-                gap: 30px;
-            }
-
-            h2 {
-                font-size: 55px;
-                color: white;
-                letter-spacing: 5px;
-
-                @include mobile{
-                    font-size: 28px;
-                    letter-spacing: 2px;
-                }
-
-                @include tablet{
-                    font-size: 40px;
-                    letter-spacing: 3px;
-                }
-            }
-
-            p {
-                font-size: 15px;
-                margin-bottom: 20px;
-                max-width: 1500px;
-
-                @include mobile{
-                    font-size: 14px;
-                    margin-bottom: 10px;
-                }
-            }
-
-            .hero-buttons {
-                display: flex;
-                gap: 20px;
-
-                @include mobile{
-                    flex-direction: column;
-                    width: 100%;
-                    gap: 15px;
-                }
-
-                @include tablet{
-                    gap: 15px;
-                }
-
-                button {
-                    padding: 20px;
-                    border: 1px solid red;
-                    border-radius: 10px;
-                    background-color: red;
-                    color: white;
-                    cursor: pointer;
-                    font-weight: 300;
-
-                    @include mobile{
-                        padding: 15px;
-                        font-size: 14px;
-                    }
-                }
-            }
-
-            img {
-                width: 50px;
-
-                @include mobile{
-                    width: 35px;
-                }
-            }
-        }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
+  }
 
-    .hero-slidingText {
-        position: absolute;
-        font-size: 50vh;
-        bottom: -120px;
-        font-weight: bold;
-        width: 100%;
-        white-space: nowrap;
-        color: #ffffff09;
+  .wrapper {
+    max-width: 1366px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 50px;
+    z-index: 2;
 
-        @include mobile{
-            font-size: 20vh;
-            bottom: -50px;
+    @include tablet { padding: 0 30px; }
+    @include mobile { padding: 0 20px; }
+
+    .hero-content {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      gap: 35px;
+
+      @include tablet { width: 80%; }
+      @include mobile { 
+        width: 100%; 
+        align-items: center; 
+        text-align: center;
+        gap: 25px;
+      }
+
+      h1 {
+        font-size: clamp(32px, 5vw, 64px); // Taille fluide intelligente
+        color: white;
+        line-height: 1.1;
+        font-weight: 800;
+
+        .text-media { color: #ff3b3b; }
+        .text-power { color: #ffcc00; }
+        .text-comm { color: #4a90e2; }
+      }
+
+      p {
+        font-size: clamp(16px, 1.5vw, 18px);
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.6;
+        max-width: 600px;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 20px;
+
+        @include mobile {
+          flex-direction: column;
+          width: 100%;
+          max-width: 300px;
         }
 
-        @include tablet{
-            font-size: 35vh;
-            bottom: -80px;
+        button {
+          padding: 18px 35px;
+          border-radius: 50px; // Look plus moderne "pill"
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &.btn-primary {
+            background-color: #ff3b3b;
+            border: 2px solid #ff3b3b;
+            color: white;
+            &:hover { background-color: transparent; }
+          }
+
+          &.btn-secondary {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            &:hover { background-color: white; color: #0c0c1d; }
+          }
         }
+      }
+
+      .scroll-indicator {
+        margin-top: 20px;
+        img {
+          width: 30px;
+          filter: brightness(0) invert(1);
+        }
+      }
     }
+  }
+
+  .hero-slidingText {
+    position: absolute;
+    font-size: 25vh; // Réduit pour éviter de manger tout l'écran
+    bottom: 5vh;
+    font-weight: 900;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.03);
+    pointer-events: none;
+    z-index: 1;
+
+    @include mobile {
+      font-size: 15vh;
+      bottom: 2vh;
+    }
+  }
 }

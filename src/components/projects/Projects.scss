@@ -1,66 +1,434 @@
+// @import "../../App.scss";
+
+// .portfolio-scope {
+//   position: relative;
+//   background-color: #0b0b1a;
+//   color: #fff;
+//   height: 100vh;
+//   overflow-y: auto;
+//   overflow-x: hidden;
+//   padding-top: 0;
+
+//   .sticky-header {
+//     position: sticky;
+//     top: 0;
+//     height: 100px;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: center;
+//     background: rgba(11, 11, 26, 0.95);
+//     z-index: 5;
+//     backdrop-filter: blur(10px);
+//     margin-top: 120px;
+
+//     @include mobile{
+//       height: 80px;
+//       margin-top: 80px;
+//     }
+
+//     @include tablet{
+//       margin-top: 100px;
+//     }
+    
+//     h1 { 
+//       font-size: 2.5rem; 
+//       color: orange; 
+//       margin: 0;
+
+//       @include mobile{
+//         font-size: 1.5rem;
+//       }
+
+//       @include tablet{
+//         font-size: 2rem;
+//       }
+//     }
+
+//     .scroll-progress {
+//       width: 100%;
+//       height: 4px;
+//       background: orange;
+//       transform-origin: 0%;
+//       margin-top: 10px;
+//     }
+//   }
+
+//   .projects-list {
+//     position: relative;
+//     margin-top: -50px;
+
+//     @include mobile{
+//       margin-top: 0;
+//     }
+//   }
+
+//   .project-item-section {
+//     min-height: 100vh;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+//     @include mobile{
+//       min-height: auto;
+//       padding: 40px 0;
+//     }
+
+//     .wrapper {
+//       max-width: 1200px;
+//       width: 100%;
+//       display: flex;
+//       gap: 100px;
+//       align-items: center;
+//       padding: 0 40px;
+
+//       @include mobile {
+//         flex-direction: column;
+//         text-align: center;
+//         gap: 30px;
+//         padding: 0 20px;
+//       }
+
+//       @include tablet{
+//         gap: 50px;
+//         padding: 0 30px;
+//       }
+//     }
+//   }
+// }
+
+// .device-preview {
+//   flex: 1;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   align-self: center;
+  
+//   .hardware-frame {
+//     background: #111;
+//     border: 8px solid #333;
+//     box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+//     position: relative;
+
+//     @include mobile{
+//       border: 4px solid #333;
+//       box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+//     }
+    
+//     .screen-content {
+//       width: 100%;
+//       height: 100%;
+//       overflow: hidden;
+//       background: #000;
+      
+//       img, video {
+//         width: 100%;
+//         height: 100%;
+//         object-fit: cover;
+//       }
+//     }
+//   }
+
+//   &.iphone {
+//     .hardware-frame {
+//       width: 250px;
+//       height: 500px;
+//       border-radius: 40px;
+
+//       @include mobile{
+//         width: 180px;
+//         height: 360px;
+//         border-radius: 30px;
+//       }
+
+//       @include tablet{
+//         width: 220px;
+//         height: 440px;
+//       }
+      
+//       .screen-content {
+//         border-radius: 30px;
+
+//         @include mobile{
+//           border-radius: 25px;
+//         }
+//       }
+//     }
+//   }
+
+//   &.tv {
+//     .hardware-frame {
+//       width: 400px;
+//       height: 225px;
+//       border-radius: 10px;
+
+//       @include mobile{
+//         width: 280px;
+//         height: 158px;
+//       }
+
+//       @include tablet{
+//         width: 350px;
+//         height: 197px;
+//       }
+      
+//       &::after {
+//         content: '';
+//         position: absolute;
+//         bottom: -30px;
+//         left: 50%;
+//         transform: translateX(-50%);
+//         width: 120px;
+//         height: 10px;
+//         background: #333;
+
+//         @include mobile{
+//           bottom: -20px;
+//           width: 80px;
+//           height: 6px;
+//         }
+//       }
+//     }
+//   }
+  
+//   &.tablet {
+//     .hardware-frame {
+//       width: 380px;
+//       height: 270px;
+//       border-radius: 20px;
+
+//       @include mobile{
+//         width: 260px;
+//         height: 185px;
+//         border-radius: 15px;
+//       }
+
+//       @include tablet{
+//         width: 330px;
+//         height: 235px;
+//       }
+      
+//       .screen-content {
+//         border-radius: 12px;
+
+//         @include mobile{
+//           border-radius: 10px;
+//         }
+//       }
+//     }
+//   }
+// }
+
+// .text-zone {
+//   flex: 1;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   gap: 20px;
+//   align-self: center;
+//   width: fit-content;
+//   height: fit-content;
+
+//   @include mobile{
+//     gap: 15px;
+//     width: 100%;
+//   }
+
+//   .cat-tag { 
+//     color: orange; 
+//     font-weight: bold; 
+//     text-transform: uppercase; 
+//     letter-spacing: 2px;
+
+//     @include mobile{
+//       font-size: 0.8rem;
+//       letter-spacing: 1px;
+//     }
+//   }
+
+//   h2 { 
+//     font-size: 3.5rem; 
+//     line-height: 1; 
+//     margin: 0;
+
+//     @include mobile{
+//       font-size: 1.8rem;
+//     }
+
+//     @include tablet{
+//       font-size: 2.5rem;
+//     }
+//   }
+
+//   p { 
+//     font-size: 1.1rem; 
+//     color: #aaa; 
+//     line-height: 1.6;
+
+//     @include mobile{
+//       font-size: 0.9rem;
+//     }
+
+//     @include tablet{
+//       font-size: 1rem;
+//     }
+//   }
+  
+//   button {
+//     width: fit-content;
+//     padding: 15px 30px;
+//     background: transparent;
+//     border: 2px solid orange;
+//     color: orange;
+//     font-weight: bold;
+//     cursor: pointer;
+//     transition: 0.3s;
+
+//     @include mobile{
+//       padding: 12px 25px;
+//       font-size: 0.9rem;
+//       align-self: center;
+//     }
+//   }
+// }
+
+// .lightbox-overlay {
+//   position: fixed;
+//   top: 0; 
+//   left: 0;
+//   width: 100vw; 
+//   height: 100vh;
+//   background: rgba(0, 0, 0, 0.95);
+//   z-index: 9999;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   padding: 20px;
+
+//   @include mobile{
+//     padding: 10px;
+//   }
+
+//   .lightbox-content {
+//     width: 90%;
+//     max-width: 1000px;
+//     background: #111;
+//     border-radius: 20px;
+//     position: relative;
+//     overflow: hidden;
+
+//     @include mobile{
+//       width: 95%;
+//       border-radius: 15px;
+//     }
+
+//     .close-btn {
+//       position: absolute;
+//       top: 20px; 
+//       right: 20px;
+//       font-size: 2rem;
+//       background: none; 
+//       border: none; 
+//       color: #fff; 
+//       cursor: pointer;
+//       z-index: 10;
+
+//       @include mobile{
+//         top: 10px;
+//         right: 10px;
+//         font-size: 1.5rem;
+//       }
+//     }
+
+//     .media-container {
+//       width: 100%;
+//       background: #000;
+
+//       video, img { 
+//         width: 100%; 
+//         max-height: 70vh; 
+//         object-fit: contain;
+
+//         @include mobile{
+//           max-height: 50vh;
+//         }
+//       }
+//     }
+
+//     .info {
+//       padding: 40px;
+
+//       @include mobile{
+//         padding: 20px;
+//       }
+
+//       @include tablet{
+//         padding: 30px;
+//       }
+
+//       h2 { 
+//         color: orange; 
+//         margin-bottom: 10px;
+
+//         @include mobile{
+//           font-size: 1.3rem;
+//         }
+//       }
+
+//       p { 
+//         color: #ccc;
+
+//         @include mobile{
+//           font-size: 0.9rem;
+//         }
+//       }
+//     }
+//   }
+// }
+
 @import "../../App.scss";
 
 .portfolio-scope {
-  position: relative;
   background-color: #0b0b1a;
   color: #fff;
-  height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-top: 0;
+  position: relative;
 
   .sticky-header {
     position: sticky;
     top: 0;
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(11, 11, 26, 0.95);
-    z-index: 5;
-    backdrop-filter: blur(10px);
-    margin-top: 120px;
+    z-index: 50;
+    background: rgba(11, 11, 26, 0.8);
+    backdrop-filter: blur(20px);
+    padding: 40px 0 20px;
 
-    @include mobile{
-      height: 80px;
-      margin-top: 80px;
-    }
+    @include mobile { padding: 20px 0 10px; }
 
-    @include tablet{
-      margin-top: 100px;
-    }
-    
-    h1 { 
-      font-size: 2.5rem; 
-      color: orange; 
-      margin: 0;
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 0 20px;
 
-      @include mobile{
-        font-size: 1.5rem;
+      h1 {
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        color: #ffa500;
+        font-weight: 800;
+        margin-bottom: 15px;
       }
 
-      @include tablet{
-        font-size: 2rem;
+      .scroll-progress {
+        height: 4px;
+        background: #ffa500;
+        border-radius: 2px;
+        transform-origin: 0%;
       }
-    }
-
-    .scroll-progress {
-      width: 100%;
-      height: 4px;
-      background: orange;
-      transform-origin: 0%;
-      margin-top: 10px;
     }
   }
 
   .projects-list {
-    position: relative;
-    margin-top: -50px;
-
-    @include mobile{
-      margin-top: 0;
-    }
+    display: flex;
+    flex-direction: column;
   }
 
   .project-item-section {
@@ -68,31 +436,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    padding: 100px 0;
 
-    @include mobile{
+    @include mobile {
       min-height: auto;
-      padding: 40px 0;
+      padding: 60px 20px;
     }
 
     .wrapper {
       max-width: 1200px;
       width: 100%;
       display: flex;
-      gap: 100px;
+      gap: 80px;
       align-items: center;
-      padding: 0 40px;
+      justify-content: center;
 
+      @include tablet { gap: 40px; padding: 0 40px; }
       @include mobile {
-        flex-direction: column;
+        flex-direction: column !important; // Force stack
         text-align: center;
-        gap: 30px;
-        padding: 0 20px;
+        gap: 40px;
       }
-
-      @include tablet{
-        gap: 50px;
-        padding: 0 30px;
+      
+      // Aligne une fois sur deux l'image à droite pour le rythme visuel
+      &:nth-child(even) {
+        flex-direction: row-reverse;
       }
     }
   }
@@ -100,28 +469,23 @@
 
 .device-preview {
   flex: 1;
+  perspective: 1000px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  align-self: center;
-  
+
   .hardware-frame {
-    background: #111;
-    border: 8px solid #333;
-    box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+    background: #1a1a1a;
+    border: 12px solid #2a2a2a;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    overflow: hidden;
     position: relative;
 
-    @include mobile{
-      border: 4px solid #333;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    }
-    
+    @include mobile { border-width: 6px; }
+
     .screen-content {
       width: 100%;
       height: 100%;
-      overflow: hidden;
       background: #000;
-      
       img, video {
         width: 100%;
         height: 100%;
@@ -132,90 +496,44 @@
 
   &.iphone {
     .hardware-frame {
-      width: 250px;
-      height: 500px;
-      border-radius: 40px;
-
-      @include mobile{
-        width: 180px;
-        height: 360px;
-        border-radius: 30px;
-      }
-
-      @include tablet{
-        width: 220px;
-        height: 440px;
-      }
+      width: 260px;
+      height: 540px;
+      border-radius: 45px;
+      @include tablet { width: 220px; height: 460px; }
+      @include mobile { width: 180px; height: 380px; border-radius: 30px; }
       
-      .screen-content {
-        border-radius: 30px;
-
-        @include mobile{
-          border-radius: 25px;
-        }
+      &::before { // Encoche (Notch)
+        content: '';
+        position: absolute;
+        top: 0; left: 50%;
+        transform: translateX(-50%);
+        width: 120px; height: 25px;
+        background: #2a2a2a;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        z-index: 2;
+        @include mobile { width: 80px; height: 18px; }
       }
     }
   }
 
   &.tv {
     .hardware-frame {
-      width: 400px;
-      height: 225px;
+      width: 500px;
+      aspect-ratio: 16 / 9;
       border-radius: 10px;
-
-      @include mobile{
-        width: 280px;
-        height: 158px;
-      }
-
-      @include tablet{
-        width: 350px;
-        height: 197px;
-      }
-      
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -30px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 120px;
-        height: 10px;
-        background: #333;
-
-        @include mobile{
-          bottom: -20px;
-          width: 80px;
-          height: 6px;
-        }
-      }
+      @include tablet { width: 400px; }
+      @include mobile { width: 100%; max-width: 320px; }
     }
   }
-  
+
   &.tablet {
     .hardware-frame {
-      width: 380px;
-      height: 270px;
-      border-radius: 20px;
-
-      @include mobile{
-        width: 260px;
-        height: 185px;
-        border-radius: 15px;
-      }
-
-      @include tablet{
-        width: 330px;
-        height: 235px;
-      }
-      
-      .screen-content {
-        border-radius: 12px;
-
-        @include mobile{
-          border-radius: 10px;
-        }
-      }
+      width: 450px;
+      aspect-ratio: 4 / 3;
+      border-radius: 25px;
+      @include tablet { width: 350px; }
+      @include mobile { width: 100%; max-width: 300px; }
     }
   }
 }
@@ -224,165 +542,91 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 20px;
-  align-self: center;
-  width: fit-content;
-  height: fit-content;
+  gap: 25px;
 
-  @include mobile{
-    gap: 15px;
-    width: 100%;
+  @include mobile { align-items: center; }
+
+  .cat-tag {
+    color: #ffa500;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
   }
 
-  .cat-tag { 
-    color: orange; 
-    font-weight: bold; 
-    text-transform: uppercase; 
-    letter-spacing: 2px;
-
-    @include mobile{
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-    }
+  h2 {
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
+    line-height: 1.1;
+    font-weight: 800;
   }
 
-  h2 { 
-    font-size: 3.5rem; 
-    line-height: 1; 
-    margin: 0;
-
-    @include mobile{
-      font-size: 1.8rem;
-    }
-
-    @include tablet{
-      font-size: 2.5rem;
-    }
+  p {
+    font-size: 18px;
+    color: #aaa;
+    line-height: 1.7;
+    max-width: 500px;
   }
 
-  p { 
-    font-size: 1.1rem; 
-    color: #aaa; 
-    line-height: 1.6;
-
-    @include mobile{
-      font-size: 0.9rem;
-    }
-
-    @include tablet{
-      font-size: 1rem;
-    }
-  }
-  
   button {
-    width: fit-content;
-    padding: 15px 30px;
-    background: transparent;
-    border: 2px solid orange;
-    color: orange;
-    font-weight: bold;
+    background: #ffa500;
+    color: #0b0b1a;
+    border: none;
+    padding: 16px 35px;
+    font-weight: 700;
+    border-radius: 50px;
     cursor: pointer;
+    width: fit-content;
     transition: 0.3s;
-
-    @include mobile{
-      padding: 12px 25px;
-      font-size: 0.9rem;
-      align-self: center;
-    }
+    &:hover { background: #fff; transform: translateY(-3px); }
   }
 }
 
 .lightbox-overlay {
   position: fixed;
-  top: 0; 
-  left: 0;
-  width: 100vw; 
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.95);
-  z-index: 9999;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
 
-  @include mobile{
-    padding: 10px;
-  }
-
   .lightbox-content {
-    width: 90%;
-    max-width: 1000px;
     background: #111;
-    border-radius: 20px;
-    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    border-radius: 24px;
     overflow: hidden;
-
-    @include mobile{
-      width: 95%;
-      border-radius: 15px;
-    }
+    position: relative;
 
     .close-btn {
       position: absolute;
-      top: 20px; 
-      right: 20px;
-      font-size: 2rem;
-      background: none; 
-      border: none; 
-      color: #fff; 
-      cursor: pointer;
+      top: 20px; right: 20px;
+      background: rgba(255,255,255,0.1);
+      border: none; color: #fff;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      font-size: 24px; cursor: pointer;
       z-index: 10;
-
-      @include mobile{
-        top: 10px;
-        right: 10px;
-        font-size: 1.5rem;
-      }
+      &:hover { background: #ffa500; }
     }
 
     .media-container {
       width: 100%;
+      aspect-ratio: 16 / 9;
       background: #000;
-
-      video, img { 
-        width: 100%; 
-        max-height: 70vh; 
-        object-fit: contain;
-
-        @include mobile{
-          max-height: 50vh;
-        }
-      }
+      @include mobile { aspect-ratio: 4 / 3; }
+      
+      video, img { width: 100%; height: 100%; object-fit: contain; }
     }
 
     .info {
       padding: 40px;
-
-      @include mobile{
-        padding: 20px;
-      }
-
-      @include tablet{
-        padding: 30px;
-      }
-
-      h2 { 
-        color: orange; 
-        margin-bottom: 10px;
-
-        @include mobile{
-          font-size: 1.3rem;
-        }
-      }
-
-      p { 
-        color: #ccc;
-
-        @include mobile{
-          font-size: 0.9rem;
-        }
-      }
+      @include mobile { padding: 25px; }
+      
+      span { color: #ffa500; font-weight: 600; font-size: 12px; text-transform: uppercase; }
+      h2 { font-size: 28px; margin: 10px 0; }
+      p { color: #888; line-height: 1.6; }
     }
   }
 }

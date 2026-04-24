@@ -14,10 +14,14 @@ import Footer from "./components/footer/Footer.jsx";
 const App = () => {
   return <div>
     <Cursor />
-    <section id="Homepage">
+
+    <div className="sticky-header">
       <Navlogo />
       <Navinfos />
       <Navbar />
+    </div>
+
+    <section id="Homepage">
       <Hero />
     </section>
 
@@ -41,7 +45,9 @@ const App = () => {
       <Contact />
     </section>
 
-    <Footer />
+    <section id="Footer">
+      <Footer />
+    </section>
   </div>;
 };
 
