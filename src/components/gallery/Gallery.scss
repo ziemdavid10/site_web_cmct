@@ -24,6 +24,15 @@
         .g-pill { position: absolute; inset: -1.5px; border-radius: inherit; background: var(--ink); }
     }
 
+    .g-more {
+        margin-top: clamp(24px, 4vw, 40px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+    }
+    .g-count { font-size: 0.88rem; color: var(--muted); }
+
     // ── Mosaïque : les photos verticales occupent deux rangées ──
     .g-grid {
         display: grid;

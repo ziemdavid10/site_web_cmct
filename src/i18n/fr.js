@@ -39,6 +39,8 @@ const fr = {
 
   // ───────── Couverture ─────────
   hero: {
+    slidesLabel: "Photos d'arrière-plan",
+    slideGoTo: (n) => `Afficher la photo ${n}`,
     eyebrow: "Central Media Communication & Technologies",
     domains: ["Médias", "Communication", "Production audiovisuelle", "Formation", "Technologies"],
     slogans: [
@@ -367,17 +369,20 @@ const fr = {
     more: "L'ancienne plaquette institutionnelle présente également un ensemble de collaborations et de références dans les secteurs public, académique, associatif et privé. Les références détaillées et autorisées peuvent être communiquées selon la nature de la consultation.",
     sectors: ["Public", "Académique", "Associatif", "Privé"],
     cta: "Demander nos références",
+    partnersTitle: "Partenaires et institutions",
+    partnersIntro: "Organisations internationales, institutions académiques et acteurs économiques avec lesquels l'écosystème CMCT a collaboré ou qu'il a accompagnés.",
   },
 
   // ───────── Réalisations (démonstration) ─────────
   projects: {
     title: "Nos réalisations",
-    caseStudy: "Voir l'étude de cas",
+    caseStudy: "Voir la réalisation",
     audioSoon: "Extrait audio bientôt disponible.",
     items: [
-      { category: "Vidéo", title: "Campagne vidéo événementielle", description: "Production vidéo 4K captivante pour le festival international des arts numériques." },
-      { category: "Digital", title: "Application mobile interactive", description: "Expérience utilisateur immersive redéfinissant la consommation de l'information mobile." },
-      { category: "Audio", title: "Podcast narratif : Nouvelle Ère", description: "Série audio immersive explorant les mutations sociétales du 21e siècle." },
+      { category: "Reportage & production", title: "Couverture de visites de projets", description: "Captation photo et vidéo de visites de terrain aux côtés de partenaires internationaux (Union européenne, HCR), au plus près des communautés.", alt: "Visite de terrain réunissant l'Union européenne, le HCR et les populations locales." },
+      { category: "Presse", title: "Journal L'Étudiant", description: "Conception éditoriale et publication d'un journal bilingue consacré à l'éducation et à la jeunesse, en édition quotidienne et en numéros spéciaux.", alt: "Une de l'édition spéciale n° 151 du journal L'Étudiant." },
+      { category: "Formation", title: "Formation e-entrepreneuses", description: "Session de formation au e-commerce et aux outils numériques pour des femmes entrepreneures, dans le cadre du programme PRICNAC avec l'AUF.", alt: "Participantes de la formation e-entrepreneuses posant avec leurs produits." },
+      { category: "Prises de vue aériennes", title: "Images par drone", description: "Tournage aérien pour valoriser des territoires, des sites et des projets, avec des équipes formées au pilotage.", alt: "Deux membres de l'équipe CMCT pilotant un drone au pied des montagnes." },
     ],
   },
 
@@ -388,7 +393,7 @@ const fr = {
     title: "Nos équipes en images",
     intro: "Rédactions, tournages, missions de terrain : un aperçu du travail quotidien de l'écosystème CMCT.",
     filterLabel: "Filtrer les photos",
-    categories: { all: "Tout", media: "Médias & presse", production: "Production audiovisuelle", field: "Terrain" },
+    categories: { all: "Tout", media: "Médias & presse", production: "Production audiovisuelle", field: "Terrain", institution: "Institution & partenariats" },
     open: (title) => `Agrandir la photo : ${title}`,
     close: "Fermer",
     prev: "Photo précédente",
@@ -402,7 +407,26 @@ const fr = {
       "tournage-camera": { title: "Prise de vue", caption: "Captation vidéo lors d'un reportage." },
       "camigra-terrain": { title: "CaMiGra en reportage", caption: "Reportage audio et vidéo sur le terrain avec un partenaire humanitaire." },
       "prise-de-parole": { title: "Face à la presse", caption: "Interview accordée aux médias lors d'un événement professionnel." },
+      "etudiant-151": { title: "L'Étudiant n° 151", caption: "Édition spéciale du lundi 9 décembre 2024 du journal L'Étudiant." },
+      "etudiant-389": { title: "L'Étudiant n° 389", caption: "La une du quotidien L'Étudiant du lundi 30 mars 2026." },
+      "photographe": { title: "Regard de photographe", caption: "Prise de vue photo lors d'un reportage." },
+      "drone-pilote": { title: "Pilotage de drone", caption: "Prise de vue aérienne par un membre de l'équipe CMCT." },
+      "drone-equipe": { title: "Préparation d'un vol", caption: "Réglage du drone et cadrage depuis la radiocommande." },
+      "drone-paysage": { title: "Images aériennes", caption: "Tournage aérien au pied des montagnes." },
+      "camigra-ue-terrain": { title: "Visite de projet", caption: "L'équipe CaMiGra sur le terrain aux côtés de partenaires de l'Union européenne." },
+      "visite-ue-hcr": { title: "Rencontre avec les communautés", caption: "Visite de terrain réunissant l'Union européenne, le HCR et les populations locales." },
+      "echange-communaute": { title: "À l'écoute des bénéficiaires", caption: "Échange entre partenaires de projet et membres d'une communauté." },
+      "enfants-eau": { title: "Scène de vie", caption: "Corvée d'eau dans une localité visitée pendant un reportage." },
+      "siege-cmct": { title: "Notre siège à Yaoundé", caption: "Immeuble Dangote, rue Felicia, Cami-Toyota, Coron – Yaoundé." },
+      "formation-e-entrepreneuses": { title: "Formation e-entrepreneuses", caption: "Session de formation au e-commerce pour des femmes entrepreneures, dans le cadre du PRICNAC avec l'AUF." },
+      "pricnac-rencontre": { title: "Rencontre PRICNAC", caption: "Rassemblement des partenaires du programme PRICNAC : Union européenne, OEACP, AUF, CAMES, OBREAL, REIFAC." },
+      "delegation-partenaires": { title: "Délégation de partenaires", caption: "Rencontre avec des partenaires internationaux." },
+      "visite-entrepot": { title: "Visite d'entreprise", caption: "Visite d'une plateforme logistique lors d'une mission économique." },
+      "mission-cece": { title: "Mission Cameroun-Éthiopie", caption: "Délégation de la Chambre économique Cameroun-Éthiopie (CECE)." },
     },
+    loadMore: "Voir plus de photos",
+    showing: (shown, total) => `${shown} photos affichées sur ${total}`,
+    covers: "Nos unes",
     fieldTitle: "Sur le terrain",
     fieldText: "Nos équipes se déplacent au plus près des communautés pour documenter les projets de nos partenaires.",
     seeAll: "Voir la galerie",
@@ -439,6 +463,9 @@ const fr = {
 
   // ───────── Actualités ─────────
   news: {
+    issuesTitle: "Nos dernières unes",
+    issueNumber: (n) => `n° ${n}`,
+    issueOpen: (name, n) => `Ouvrir la une de ${name} n° ${n}`,
     kicker: "Actualités de nos médias",
     title: "L'actualité de nos rédactions",
     all: "Tous les médias",

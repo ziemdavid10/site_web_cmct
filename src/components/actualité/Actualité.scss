@@ -1,6 +1,69 @@
 @use "../../mixins" as *;
 
 .news {
+    // ── Dernières unes ──
+    .issues { margin-bottom: clamp(48px, 7vw, 80px); }
+    .issues-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: clamp(1.15rem, 2vw, 1.4rem);
+        margin-bottom: 24px;
+        svg { color: var(--brand-orange-ink); }
+    }
+    .issues-list {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: clamp(16px, 3vw, 40px);
+        @media (max-width: 768px) {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 8px 4px 16px;
+            margin-inline: -4px;
+            > li { flex: 0 0 min(68%, 260px); scroll-snap-align: start; }
+        }
+    }
+    .issue {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        cursor: zoom-in;
+    }
+    .issue-cover {
+        position: relative;
+        display: block;
+        aspect-ratio: 3 / 4;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 24px 50px -24px rgba(11, 20, 48, 0.45);
+        img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+        .issue-zoom {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--brand-orange);
+            color: var(--ink);
+            opacity: 0;
+            transform: scale(0.6);
+            transition: opacity 0.3s, transform 0.35s;
+            svg { width: 18px; height: 18px; }
+        }
+    }
+    .issue:hover .issue-zoom, .issue:focus-visible .issue-zoom { opacity: 1; transform: none; }
+    .issue-meta {
+        display: flex;
+        flex-direction: column;
+        strong { font-family: var(--font-display); color: var(--ink); font-size: 0.98rem; }
+        time { font-size: 0.85rem; color: var(--muted); }
+    }
+
     .filter-nav {
         display: flex;
         flex-wrap: wrap;

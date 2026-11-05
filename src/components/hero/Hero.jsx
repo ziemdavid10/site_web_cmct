@@ -1,10 +1,22 @@
 import "./Hero.scss";
-import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { LuNewspaper, LuMegaphone, LuClapperboard, LuGraduationCap, LuCpu, LuArrowUpRight, LuMapPin, LuChevronDown } from "react-icons/lu";
 import { useI18n } from "../../i18n/context.js";
 import { Magnetic } from "../ui/ui.jsx";
 import { EASE } from "../ui/motion.js";
+import { PHOTOS } from "../../data/site.js";
+
+// Diaporama de fond : l'image d'origine puis des photos de terrain (fondu + zoom lent)
+const SLIDES = [
+  { id: "hero", src: "/hero-bg.webp", mobile: "/hero-bg-mobile.webp" },
+  ...[PHOTOS.dronePaysage, PHOTOS.interview, PHOTOS.visiteUe, PHOTOS.pricnac].map((p) => ({
+    id: p.id,
+    src: p.src,
+    mobile: p.thumb,
+  })),
+];
+const SLIDE_MS = 6500;
 
 const DOMAIN_ICONS = [LuNewspaper, LuMegaphone, LuClapperboard, LuGraduationCap, LuCpu];
 
@@ -13,6 +25,22 @@ const Hero = () => {
   const h = t.hero;
   const reduce = useReducedMotion();
   const ref = useRef(null);
+
+  const [slide, setSlide] = useState(0);
+  const [paused, setPaused] = useState(false);
+  useEffect(() => {
+    if (reduce || paused) return;
+    const id = setTimeout(() => setSlide((s) => (s + 1) % SLIDES.length), SLIDE_MS);
+    return () => clearTimeout(id);
+  }, [slide, reduce, paused]);
+  // Pause quand l'onglet est masqué
+  useEffect(() => {
+    const onVis = () => setPaused(document.hidden);
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
+  const current = SLIDES[slide];
+  const caption = t.gallery.items[current.id];
 
   // Parallaxe au défilement
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -36,11 +64,26 @@ const Hero = () => {
   return (
     <div className="hero" ref={ref} onPointerMove={onPointerMove}>
       <motion.div className="hero-background" aria-hidden="true" style={{ y: bgY, scale: bgScale }}>
-        <picture>
-          <source media="(max-width: 768px)" srcSet="/hero-bg-mobile.webp" type="image/webp" />
-          <source srcSet="/hero-bg.webp" type="image/webp" />
-          <img src="/hero-bg.webp" alt="" decoding="async" />
-        </picture>
+        <AnimatePresence initial={false}>
+          <motion.picture
+            key={current.id}
+            className="hero-slide"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.4, ease: "easeInOut" }}
+          >
+            <source media="(max-width: 768px)" srcSet={current.mobile} type="image/webp" />
+            <motion.img
+              src={current.src}
+              alt=""
+              decoding="async"
+              initial={{ scale: 1 }}
+              animate={{ scale: reduce ? 1 : 1.08 }}
+              transition={{ duration: SLIDE_MS / 1000 + 1.5, ease: "linear" }}
+            />
+          </motion.picture>
+        </AnimatePresence>
       </motion.div>
       <div className="hero-overlay" aria-hidden="true" />
       <motion.div className="glow glow-a" style={{ x: glowX, y: glowY }} aria-hidden="true" />
@@ -175,6 +218,45 @@ const Hero = () => {
         >
           <LuMapPin aria-hidden="true" /> {h.location}
         </motion.span>
+
+        <div className="hero-slides-ui">
+          <AnimatePresence mode="wait">
+            {caption && (
+              <motion.span
+                key={current.id}
+                className="slide-caption"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.4 }}
+              >
+                {caption.title}
+              </motion.span>
+            )}
+          </AnimatePresence>
+          <div className="slide-dots" role="group" aria-label={h.slidesLabel}>
+            {SLIDES.map((sl, i) => (
+              <button
+                key={sl.id}
+                type="button"
+                className={i === slide ? "active" : ""}
+                aria-label={h.slideGoTo(i + 1)}
+                aria-current={i === slide ? "true" : undefined}
+                onClick={() => setSlide(i)}
+              >
+                {i === slide && !reduce && !paused && (
+                  <motion.span
+                    key={`p-${slide}`}
+                    className="dot-progress"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: SLIDE_MS / 1000, ease: "linear" }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
         <motion.a
           href="#About"
           className="scroll-indicator"

@@ -4,10 +4,38 @@ import { LuGlobe, LuLandmark, LuFlag, LuHeartHandshake, LuSchool, LuFilm, LuArro
 import { useI18n } from "../../i18n/context.js";
 import { SectionHeading } from "../ui/ui.jsx";
 import { fadeUp, stagger, inView, EASE } from "../ui/motion.js";
-import { PHOTOS } from "../../data/site.js";
+import { PHOTOS, PARTNERS } from "../../data/site.js";
 import "./References.scss";
 
 const ICONS = [LuGlobe, LuLandmark, LuFlag, LuHeartHandshake, LuSchool, LuFilm];
+// Logo officiel affiché sur la carte quand on le possède (même ordre que t.references.items)
+const CARD_LOGOS = { 1: "/partners/ue.webp", 3: "/partners/acf.webp", 4: "/partners/auf.webp" };
+
+// Mur de logos des partenaires : apparition en cascade, couleur au survol
+const PartnerWall = ({ r }) => (
+  <div className="partners">
+    <motion.div className="partners-head" variants={stagger(0.1)} {...inView(0.4)}>
+      <motion.h3 variants={fadeUp}>{r.partnersTitle}</motion.h3>
+      <motion.p variants={fadeUp}>{r.partnersIntro}</motion.p>
+    </motion.div>
+    <motion.ul className="partner-grid" variants={stagger(0.05)} {...inView(0.15)}>
+      {PARTNERS.map((p) => (
+        <motion.li
+          key={p.id}
+          className={`partner partner-${p.id}`}
+          variants={{
+            hidden: { opacity: 0, y: 24, scale: 0.9 },
+            show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: EASE } },
+          }}
+          whileHover={{ y: -6 }}
+          title={p.name}
+        >
+          <img src={p.logo} alt={p.name} loading="lazy" />
+        </motion.li>
+      ))}
+    </motion.ul>
+  </div>
+);
 
 // Carte qui s'incline en 3D selon la position de la souris
 const TiltCard = ({ children, className }) => {
@@ -97,13 +125,19 @@ const References = () => {
           const Icon = ICONS[i];
           return (
             <TiltCard key={it.short} className={`ref-card ref-${i}`}>
-              <Icon className="ref-icon" aria-hidden="true" />
+              {CARD_LOGOS[i] ? (
+                <span className="ref-logo"><img src={CARD_LOGOS[i]} alt="" loading="lazy" /></span>
+              ) : (
+                <Icon className="ref-icon" aria-hidden="true" />
+              )}
               <strong className="ref-short">{it.short}</strong>
               <span className="ref-name">{it.name}</span>
             </TiltCard>
           );
         })}
       </motion.ul>
+
+      <PartnerWall r={r} />
 
       <FieldBand g={t.gallery} />
 

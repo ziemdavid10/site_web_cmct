@@ -13,11 +13,50 @@ import "./Services.scss";
 const TAB_ICONS = { media: LuNewspaper, comm: LuClapperboard, tech: LuCpu, training: LuGraduationCap };
 const CARD_ICONS = [LuFileVideo, LuCamera, LuMegaphone];
 const FORMAT_ICONS = [LuMonitor, LuWifi, LuShuffle];
-// Photo d'illustration de chaque direction (aucune pour le moment pour la tech)
-const PANEL_PHOTOS = { media: PHOTOS.une, comm: PHOTOS.interview, training: PHOTOS.tournage };
+// Visuels de chaque direction : plusieurs unes = éventail de journaux, sinon une photo
+const PANEL_PHOTOS = {
+  media: [PHOTOS.une, PHOTOS.etudiant151, PHOTOS.etudiant389],
+  comm: [PHOTOS.interview],
+  tech: [PHOTOS.dronePilote],
+  training: [PHOTOS.formation],
+};
+
+// Éventail de unes qui s'ouvre au survol
+const Covers = ({ photos, items, label }) => (
+  <motion.figure
+    className="panel-covers"
+    initial="rest"
+    animate="rest"
+    whileHover="open"
+    whileFocus="open"
+    tabIndex={0}
+    aria-label={label}
+  >
+    {photos.map((p, i) => {
+      const offset = i - (photos.length - 1) / 2;
+      return (
+        <motion.img
+          key={p.id}
+          src={p.thumb}
+          alt={items[p.id].caption}
+          width={p.w}
+          height={p.h}
+          loading="lazy"
+          style={{ zIndex: photos.length - Math.abs(offset) * 2 + (offset === 0 ? 1 : 0) }}
+          initial={{ opacity: 0, y: 60, rotate: 0 }}
+          variants={{
+            rest: { opacity: 1, y: 0, x: `${offset * 38}%`, rotate: offset * 7, transition: { duration: 0.8, delay: 0.2 + i * 0.1, ease: EASE } },
+            open: { opacity: 1, y: -6, x: `${offset * 62}%`, rotate: offset * 11, transition: { type: "spring", stiffness: 220, damping: 20 } },
+          }}
+        />
+      );
+    })}
+    <figcaption>{label}</figcaption>
+  </motion.figure>
+);
 
 // Contenu détaillé d'une direction
-const Panel = ({ d, ctaLabel, sep, photo, photoText }) => (
+const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
   <motion.div
     className="panel-inner"
     variants={stagger(0.08)}
@@ -25,30 +64,31 @@ const Panel = ({ d, ctaLabel, sep, photo, photoText }) => (
     animate="show"
     exit={{ opacity: 0, y: -20, transition: { duration: 0.25 } }}
   >
-    <motion.div className={`panel-head ${photo ? "has-photo" : ""}`} variants={fadeUp}>
+    <motion.div className={`panel-head ${photos ? "has-photo" : ""}`} variants={fadeUp}>
       <span className="panel-num" aria-hidden="true">{d.number}</span>
       <div>
         <h3>{d.title}</h3>
         <p className="panel-lead">{d.lead}</p>
       </div>
-      {photo && (
+      {photos && photos.length > 1 && <Covers photos={photos} items={items} label={coversLabel} />}
+      {photos && photos.length === 1 && (
         <motion.figure
-          className={`panel-photo photo-${photo.id}`}
-          initial={{ opacity: 0, clipPath: "inset(0 0 100% 0 round 20px)" }}
-          animate={{ opacity: 1, clipPath: "inset(0 0 0% 0 round 20px)" }}
+          className={`panel-photo photo-${photos[0].id}`}
+          initial={{ opacity: 0, clipPath: "inset(0% 0% 100% 0% round 20px)" }}
+          animate={{ opacity: 1, clipPath: "inset(0% 0% 0% 0% round 20px)" }}
           transition={{ duration: 0.9, delay: 0.15, ease: EASE }}
         >
           <motion.img
-            src={photo.thumb}
-            alt={photoText.caption}
-            width={photo.w}
-            height={photo.h}
+            src={photos[0].thumb}
+            alt={items[photos[0].id].caption}
+            width={photos[0].w}
+            height={photos[0].h}
             loading="lazy"
             initial={{ scale: 1.2 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1.4, ease: EASE }}
           />
-          <figcaption>{photoText.title}</figcaption>
+          <figcaption>{items[photos[0].id].title}</figcaption>
         </motion.figure>
       )}
     </motion.div>
@@ -249,8 +289,9 @@ const Expertises = () => {
             d={current}
             ctaLabel={e.contactCta}
             sep={t.code === "fr" ? " : " : ": "}
-            photo={PANEL_PHOTOS[current.id]}
-            photoText={PANEL_PHOTOS[current.id] && t.gallery.items[PANEL_PHOTOS[current.id].id]}
+            photos={PANEL_PHOTOS[current.id]}
+            items={t.gallery.items}
+            coversLabel={t.gallery.covers}
           />
         </AnimatePresence>
       </div>

@@ -109,6 +109,43 @@
         }
     }
 
+    // Éventail de unes (direction des médias)
+    .panel-covers {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: clamp(220px, 22vw, 290px);
+        outline: none;
+
+        @media (max-width: 1024px) { grid-column: 1 / -1; min-height: 260px; }
+
+        img {
+            grid-area: 1 / 1;
+            width: clamp(120px, 11vw, 160px);
+            height: auto;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.75);
+        }
+        figcaption {
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: var(--brand-orange);
+            color: var(--ink);
+            font-size: 0.75rem;
+            font-weight: 800;
+            white-space: nowrap;
+            z-index: 10;
+        }
+    }
+
     // Photo d'illustration de la direction
     .panel-photo {
         position: relative;
@@ -123,6 +160,7 @@
         img { width: 100%; height: 100%; object-fit: cover; }
         &.photo-nouvelle-ere-une img { object-position: 50% 12%; }
         &.photo-tournage-camera img { object-position: 50% 22%; }
+        &.photo-drone-pilote img { object-position: 60% 50%; }
 
         figcaption {
             position: absolute;

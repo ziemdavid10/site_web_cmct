@@ -1,9 +1,10 @@
 import { useRef } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { LuLayers, LuMap, LuAward, LuEar, LuFileText, LuRocket, LuPackageCheck } from "react-icons/lu";
 import { useI18n } from "../../i18n/context.js";
 import { SectionHeading } from "../ui/ui.jsx";
 import { fadeUp, stagger, inView, EASE } from "../ui/motion.js";
+import { PHOTOS } from "../../data/site.js";
 import "./Why.scss";
 
 const REASON_ICONS = [LuLayers, LuMap, LuAward];
@@ -16,6 +17,13 @@ const Why = () => {
   const methodRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: methodRef, offset: ["start 80%", "end 55%"] });
   const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 25 });
+
+  // Bandeau photo en parallaxe entre les raisons et la méthode
+  const bannerRef = useRef(null);
+  const { scrollYProgress: bannerProgress } = useScroll({ target: bannerRef, offset: ["start end", "end start"] });
+  const bannerY = useTransform(bannerProgress, [0, 1], ["-12%", "12%"]);
+  const banner = PHOTOS.dronePaysage;
+  const bannerText = t.gallery.items[banner.id];
 
   return (
     <div className="why container">
@@ -38,6 +46,28 @@ const Why = () => {
           );
         })}
       </motion.ol>
+
+      <motion.figure
+        ref={bannerRef}
+        className="why-banner"
+        initial={{ opacity: 0, clipPath: "inset(10% 6% 10% 6% round 28px)" }}
+        whileInView={{ opacity: 1, clipPath: "inset(0% 0% 0% 0% round 28px)" }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 1.1, ease: EASE }}
+      >
+        <motion.img
+          src={banner.src}
+          alt={bannerText.caption}
+          width={banner.w}
+          height={banner.h}
+          loading="lazy"
+          style={{ y: bannerY }}
+        />
+        <figcaption>
+          <strong>{bannerText.title}</strong>
+          <span>{bannerText.caption}</span>
+        </figcaption>
+      </motion.figure>
 
       <div className="method" ref={methodRef}>
         <motion.h3 variants={fadeUp} {...inView()}>{w.method.title}</motion.h3>

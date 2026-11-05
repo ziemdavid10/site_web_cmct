@@ -1,10 +1,11 @@
 import "./Actualité.scss";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { LuArrowRight, LuCalendar, LuPlus, LuInfo } from "react-icons/lu";
+import { LuArrowRight, LuCalendar, LuPlus, LuInfo, LuNewspaper, LuMaximize2 } from "react-icons/lu";
 import { useI18n } from "../../i18n/context.js";
 import { SectionHeading } from "../ui/ui.jsx";
-import { fadeUp, stagger, inView } from "../ui/motion.js";
+import { fadeUp, stagger, inView, EASE } from "../ui/motion.js";
+import { BRANDS, ISSUES, PHOTOS } from "../../data/site.js";
 
 const PAGE_SIZE = 6;
 
@@ -19,6 +20,49 @@ const CATEGORY_COLORS = {
   POLITIQUE: "#e63946", SOCIETE: "#457b9d", CULTURE: "#a86200", ECONOMIE: "#1a1a1a", TECH: "#0b66d6",
   EDUCATION: "#21867a", SANTE: "#c1121f", SPORT: "#c45c00", ENVIRONNEMENT: "#21867a", SCIENCE: "#8338ec",
 };
+
+// Illustration des articles selon la rubrique (photos de l'écosystème)
+const CATEGORY_IMAGES = {
+  EDUCATION: PHOTOS.formation.thumb,
+  TECH: PHOTOS.dronePilote.thumb,
+  ECONOMIE: PHOTOS.entrepot.thumb,
+  ENVIRONNEMENT: PHOTOS.dronePaysage.thumb,
+  SOCIETE: PHOTOS.echange.thumb,
+  CULTURE: PHOTOS.photographe.thumb,
+  SCIENCE: PHOTOS.pricnac.thumb,
+};
+
+// « Nos dernières unes » : couvertures qui se redressent au survol
+const Issues = ({ n, dateFmt }) => (
+  <div className="issues">
+    <motion.h3 className="issues-title" variants={fadeUp} {...inView(0.5)}>
+      <LuNewspaper aria-hidden="true" /> {n.issuesTitle}
+    </motion.h3>
+    <motion.ul className="issues-list" variants={stagger(0.12)} {...inView(0.2)}>
+      {ISSUES.map(({ photo, brand, number, date }, i) => (
+        <motion.li
+          key={photo.id}
+          variants={{
+            hidden: { opacity: 0, y: 50, rotate: i % 2 ? 4 : -4 },
+            show: { opacity: 1, y: 0, rotate: i % 2 ? 1.5 : -1.5, transition: { duration: 0.8, ease: EASE } },
+          }}
+          whileHover={{ rotate: 0, y: -10, scale: 1.02 }}
+        >
+          <a href={photo.src} target="_blank" rel="noreferrer" className="issue" aria-label={n.issueOpen(BRANDS[brand].name, number)}>
+            <span className="issue-cover">
+              <img src={photo.thumb} alt="" width={photo.w} height={photo.h} loading="lazy" />
+              <span className="issue-zoom" aria-hidden="true"><LuMaximize2 /></span>
+            </span>
+            <span className="issue-meta">
+              <strong>{BRANDS[brand].name} · {n.issueNumber(number)}</strong>
+              <time dateTime={date}>{dateFmt.format(new Date(date))}</time>
+            </span>
+          </a>
+        </motion.li>
+      ))}
+    </motion.ul>
+  </div>
+);
 
 const articles = [
   { id: 1, source: "etudiant", category: "POLITIQUE", title: "Ernest Ouandié: un héros immortel dans l'histoire du Cameroun", date: "2025-02-15" },
@@ -41,7 +85,7 @@ const articles = [
   { id: 18, source: "etudiant", category: "SPORT", title: "Les exploits des athlètes camerounais", date: "2025-03-02" },
   { id: 19, source: "national", category: "ENVIRONNEMENT", title: "Les initiatives vertes au Cameroun", date: "2025-03-03" },
   { id: 20, source: "nouvelle", category: "CULTURE", title: "La musique camerounaise conquiert le monde", date: "2025-03-04" },
-].map((a) => ({ ...a, image: "/news1.webp" }));
+].map((a) => ({ ...a, image: CATEGORY_IMAGES[a.category] ?? "/news1.webp" }));
 
 const Actualites = () => {
   const { t, lang } = useI18n();
@@ -63,6 +107,8 @@ const Actualites = () => {
   return (
     <div className="news container">
       <SectionHeading label={n.kicker} title={n.title} />
+
+      <Issues n={n} dateFmt={dateFmt} />
 
       <motion.div className="filter-nav" variants={stagger(0.06)} {...inView(0.5)}>
         <div className="filter-group" role="group" aria-label={n.filterLabel}>

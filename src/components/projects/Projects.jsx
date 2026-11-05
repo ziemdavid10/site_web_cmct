@@ -4,27 +4,15 @@ import { createPortal } from 'react-dom';
 import { LuX, LuPlay } from 'react-icons/lu';
 import { useI18n } from '../../i18n/context.js';
 import { SplitWords } from '../ui/ui.jsx';
+import { PHOTOS } from '../../data/site.js';
 import './Projects.scss';
 
+// Réalisations illustrées par les photos de l'écosystème (textes dans t.projects.items, même ordre)
 const projects = [
-  {
-    id: 1,
-    type: "video",
-    src: "https://vjs.zencdn.net/v/oceans.mp4",
-    device: "tv"
-  },
-  {
-    id: 2,
-    type: "image",
-    src: "/news1.webp",
-    device: "iphone"
-  },
-  {
-    id: 3,
-    type: "audio",
-    src: "/audio_projet.mp3",
-    device: "tablet"
-  }
+  { id: 1, type: "image", device: "tv", src: PHOTOS.visiteUe.src, thumb: PHOTOS.visiteUe.thumb },
+  { id: 2, type: "image", device: "iphone", src: PHOTOS.etudiant151.src, thumb: PHOTOS.etudiant151.thumb },
+  { id: 3, type: "image", device: "tablet", src: PHOTOS.formation.src, thumb: PHOTOS.formation.thumb },
+  { id: 4, type: "image", device: "tv", src: PHOTOS.dronePaysage.src, thumb: PHOTOS.dronePaysage.thumb },
 ];
 
 // Parallaxe uniquement sur grand écran (évite les chevauchements sur mobile/tablette)
@@ -92,7 +80,7 @@ const Lightbox = ({ project, onClose }) => {
 
         <div className={`media-container ${project.type}`}>
           {project.type === 'video' && <video src={project.src} autoPlay controls playsInline />}
-          {project.type === 'image' && <img src={project.src} alt={project.title} />}
+          {project.type === 'image' && <img src={project.src} alt={project.alt ?? project.title} />}
           {project.type === 'audio' && (
             <div className="audio-player">
               <AudioVisual />
@@ -134,7 +122,7 @@ const SingleProject = ({ project, onOpen, reverse }) => {
           <div className="hardware-frame">
             <div className="screen-content">
               {project.type === 'video' && <video src={project.src} muted autoPlay loop playsInline preload="metadata" />}
-              {project.type === 'image' && <img src={project.src} alt="" loading="lazy" />}
+              {project.type === 'image' && <img src={project.thumb ?? project.src} alt="" loading="lazy" />}
               {project.type === 'audio' && <AudioVisual />}
             </div>
           </div>

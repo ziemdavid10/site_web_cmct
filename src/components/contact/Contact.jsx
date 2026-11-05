@@ -6,10 +6,10 @@ import {
   LuSend, LuLoader2, LuCheckCircle2, LuAlertCircle, LuChevronDown,
 } from "react-icons/lu";
 import { FaLinkedinIn, FaFacebookF } from "react-icons/fa6";
-import { SOCIAL, CONTACT_EMAIL, COMPANY, RCCM, ADDRESS, PO_BOX, PHONES, LANDLINE, WEBSITE } from "../../data/site.js";
+import { PHOTOS, SOCIAL, CONTACT_EMAIL, COMPANY, RCCM, ADDRESS, PO_BOX, PHONES, LANDLINE, WEBSITE } from "../../data/site.js";
 import { useI18n } from "../../i18n/context.js";
 import { SplitWords } from "../ui/ui.jsx";
-import { fadeUp, slideLeft, slideRight, stagger, inView } from "../ui/motion.js";
+import { fadeUp, slideLeft, slideRight, stagger, inView, EASE } from "../ui/motion.js";
 import "./Contact.scss";
 
 // Clés EmailJS à placer dans un fichier .env.local (voir .env.example).
@@ -146,6 +146,23 @@ const Contact = () => {
           <motion.p className="contact-intro" variants={fadeUp} {...inView()}>{c.intro}</motion.p>
 
           <motion.div className="info-card" variants={slideLeft} {...inView(0.15)}>
+            <figure className="hq-photo">
+              <motion.img
+                src={PHOTOS.siege.thumb}
+                alt={t.gallery.items[PHOTOS.siege.id].caption}
+                width={PHOTOS.siege.w}
+                height={PHOTOS.siege.h}
+                loading="lazy"
+                initial={{ scale: 1.15 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.4, ease: EASE }}
+              />
+              <figcaption>
+                <LuMapPin aria-hidden="true" />
+                {t.gallery.items[PHOTOS.siege.id].title}
+              </figcaption>
+            </figure>
             <h3>{c.infoTitle}</h3>
             <motion.dl variants={stagger(0.05, 0.2)} {...inView(0.1)}>
               {info.map(({ icon: Icon, label, value, note, links }) => (
