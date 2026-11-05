@@ -24,7 +24,7 @@
     .domains-marquee {
         background: var(--brand-orange);
         color: var(--ink);
-        padding: 16px 0;
+        padding: clamp(18px, 2.4vw, 30px) 0;
         mask-image: none;
         -webkit-mask-image: none;
         transform: rotate(-1deg) scale(1.02);
@@ -34,60 +34,71 @@
     .domain {
         display: inline-flex;
         align-items: center;
-        gap: 28px;
-        padding-right: 28px;
+        gap: clamp(28px, 3vw, 44px);
+        padding-right: clamp(28px, 3vw, 44px);
         font-family: var(--font-display);
         font-weight: 800;
-        font-size: clamp(1.2rem, 2.6vw, 2rem);
+        font-size: clamp(1.6rem, 4vw, 3.2rem);
         letter-spacing: -0.02em;
         text-transform: uppercase;
         white-space: nowrap;
         .sep { width: 0.8em; height: 0.8em; color: var(--ink); }
     }
 
-    // Logos des marques
+    // Logos des marques : grandes tuiles en couleur
     .logos-row {
         display: flex;
-        align-items: center;
-        gap: 24px;
-        padding: 22px 0 24px var(--gutter);
+        flex-direction: column;
+        gap: 18px;
+        padding: clamp(28px, 4vw, 44px) 0 clamp(32px, 4.5vw, 52px);
         max-width: 1400px;
         margin: 0 auto;
-
-        @include mobile {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 12px;
-            padding: 18px 0 20px;
-        }
     }
     .logos-label {
-        flex-shrink: 0;
-        font-size: 0.78rem;
-        font-weight: 700;
-        letter-spacing: 0.14em;
+        text-align: center;
+        font-family: var(--font-display);
+        font-size: clamp(0.85rem, 1.2vw, 1rem);
+        font-weight: 800;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
-        color: var(--muted);
-        max-width: 160px;
+        color: var(--ink);
+        padding-inline: var(--gutter);
         span { color: var(--brand-orange); }
-
-        @include mobile { max-width: none; padding-inline: var(--gutter); }
     }
-    .logos-marquee { flex: 1; min-width: 0; }
+    .logos-marquee {
+        min-width: 0;
+        padding-block: 10px; // laisse la place au soulèvement au survol
+    }
     .brand-item {
         display: inline-flex;
+        flex-direction: column;
         align-items: center;
-        gap: 10px;
-        margin-right: 40px;
+        gap: 12px;
+        margin-right: clamp(14px, 2vw, 24px);
+        padding: 18px 22px 16px;
+        min-width: clamp(170px, 16vw, 210px);
+        border-radius: var(--radius);
+        background: var(--bg);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow-sm);
         white-space: nowrap;
-        filter: grayscale(1);
-        opacity: 0.75;
-        transition: filter 0.3s, opacity 0.3s;
-        &:hover { filter: none; opacity: 1; }
+        transition: box-shadow 0.35s, border-color 0.35s;
+
+        &:hover { box-shadow: var(--shadow); border-color: transparent; }
+
+        .brand-logo {
+            height: clamp(64px, 6.5vw, 84px);
+            width: 100%;
+            display: grid;
+            place-items: center;
+            img { max-height: clamp(64px, 6.5vw, 84px); max-width: clamp(130px, 13vw, 170px); width: auto; height: auto; object-fit: contain; }
+        }
+        .brand-mark.lg { width: clamp(64px, 6.5vw, 84px); height: clamp(64px, 6.5vw, 84px); }
     }
     .brand-name {
+        font-family: var(--font-display);
         font-weight: 700;
         color: var(--ink);
-        font-size: 0.95rem;
+        font-size: clamp(0.88rem, 1.1vw, 1rem);
     }
 }

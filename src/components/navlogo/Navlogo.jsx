@@ -41,10 +41,16 @@ const Brands = () => {
   const logos = (
     <div className="marquee-group">
       {LOGOS.map((key) => (
-        <span key={key} className="brand-item">
-          <BrandMark brand={BRANDS[key]} size="sm" />
+        <motion.span key={key} className="brand-item" whileHover={{ y: -6 }}>
+          {BRANDS[key].logo ? (
+            <span className="brand-logo">
+              <img src={BRANDS[key].logo} alt="" loading="lazy" />
+            </span>
+          ) : (
+            <BrandMark brand={BRANDS[key]} size="lg" />
+          )}
           <span className="brand-name">{BRANDS[key].name}</span>
-        </span>
+        </motion.span>
       ))}
     </div>
   );
@@ -56,7 +62,7 @@ const Brands = () => {
         <p className="logos-label">
           <span>/</span> {t.brands.label}
         </p>
-        <Marquee className="logos-marquee" duration={40} reverse>{logos}</Marquee>
+        <Marquee className="logos-marquee" duration={55} reverse>{logos}</Marquee>
       </div>
     </div>
   );
