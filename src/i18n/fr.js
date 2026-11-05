@@ -60,6 +60,24 @@ const fr = {
     scroll: "Faire défiler vers la présentation",
     cardTitle: "5 domaines, une seule entreprise",
   },
+  // ───────── Événement à venir ─────────
+  event: {
+    kicker: "Événement à venir",
+    liveKicker: "En ce moment",
+    name: "Journées Camerounaises de l'Intelligence Artificielle",
+    tagline: "L'IA Made in Cameroun :",
+    theme: "« Penser l'Intelligence Artificielle au Cameroun, pour le Cameroun »",
+    place: "Hilton Hotel, Yaoundé",
+    mode: "En présentiel et en ligne",
+    organizer: "Organisé par Intelligence Artificielle Cameroun (IAC) – Cameroon Artificial Intelligence Policy Institute (CAIPI).",
+    countdown: "Rendez-vous dans",
+    countdownLabel: (d) => `Début de l'événement dans ${d} jours`,
+    units: { days: "Jours", hours: "Heures", minutes: "Min", seconds: "Sec" },
+    liveNow: "L'événement a lieu en ce moment !",
+    cta: "Découvrir l'événement",
+    newTab: "(s'ouvre dans un nouvel onglet)",
+  },
+
   brands: {
     label: "Nos marques et programmes",
   },

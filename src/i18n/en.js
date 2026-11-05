@@ -58,6 +58,24 @@ const en = {
     scroll: "Scroll to the presentation",
     cardTitle: "5 fields, one single company",
   },
+  // ───────── Upcoming event ─────────
+  event: {
+    kicker: "Upcoming event",
+    liveKicker: "Happening now",
+    name: "Cameroonian Artificial Intelligence Days",
+    tagline: "AI Made in Cameroon:",
+    theme: "“Thinking Artificial Intelligence in Cameroon, for Cameroon”",
+    place: "Hilton Hotel, Yaoundé",
+    mode: "On site and online",
+    organizer: "Organised by Intelligence Artificielle Cameroun (IAC) – Cameroon Artificial Intelligence Policy Institute (CAIPI).",
+    countdown: "Starts in",
+    countdownLabel: (d) => `Event starts in ${d} days`,
+    units: { days: "Days", hours: "Hours", minutes: "Min", seconds: "Sec" },
+    liveNow: "The event is happening now!",
+    cta: "Discover the event",
+    newTab: "(opens in a new tab)",
+  },
+
   brands: {
     label: "Our brands and programmes",
   },

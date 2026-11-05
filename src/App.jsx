@@ -7,6 +7,7 @@ import Navbar from "./components/navbar/Navbar.jsx";
 import Navinfos from "./components/navinfos/Navinfos.jsx";
 import Hero from "./components/hero/Hero.jsx";
 import Brands from "./components/navlogo/Navlogo.jsx";
+import EventBanner from "./components/event/EventBanner.jsx";
 import About from "./components/about/About.jsx";
 import Organisation from "./components/organisation/Organisation.jsx";
 import Expertises from "./components/services/Services.jsx";
@@ -142,6 +143,7 @@ const App = () => {
           <Hero />
         </section>
         <Brands />
+        <EventBanner />
         <section id="About" className="section">
           <About />
         </section>
