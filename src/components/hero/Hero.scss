@@ -1,276 +1,239 @@
-// @import "../../App.scss";
-
-// .hero {
-//     height: calc(100vh - 100px);
-//     overflow: hidden;
-//     background: linear-gradient(180deg, #0c0c1d, #111132);
-//     position: relative;
-
-//     @include mobile{
-//         height: auto;
-//         min-height: 100vh;
-//     }
-
-//     .wrapper {
-//         height: 100%;
-//         margin:auto;
-//         max-width: 1366px;
-//         padding: 20px 50px;
-
-//         @include mobile{
-//             padding: 40px 20px;
-//         }
-
-//         @include tablet{
-//             padding: 40px 30px;
-//         }
-
-//         .hero-content {
-//             width: 70%;
-//             height: 100%;
-//             display: flex;
-//             flex-direction: column;
-//             justify-content: center;
-//             gap: 40px;
-
-//             @include mobile{
-//                 width: 100%;
-//                 gap: 20px;
-//                 align-items: center;
-//                 text-align: center;
-//                 padding: 20px 0;
-//             }
-
-//             @include tablet{
-//                 width: 90%;
-//                 gap: 30px;
-//             }
-
-//             h2 {
-//                 font-size: 55px;
-//                 color: white;
-//                 letter-spacing: 5px;
-
-//                 @include mobile{
-//                     font-size: 28px;
-//                     letter-spacing: 2px;
-//                 }
-
-//                 @include tablet{
-//                     font-size: 40px;
-//                     letter-spacing: 3px;
-//                 }
-//             }
-
-//             p {
-//                 font-size: 15px;
-//                 margin-bottom: 20px;
-//                 max-width: 1500px;
-
-//                 @include mobile{
-//                     font-size: 14px;
-//                     margin-bottom: 10px;
-//                 }
-//             }
-
-//             .hero-buttons {
-//                 display: flex;
-//                 gap: 20px;
-
-//                 @include mobile{
-//                     flex-direction: column;
-//                     width: 100%;
-//                     gap: 15px;
-//                 }
-
-//                 @include tablet{
-//                     gap: 15px;
-//                 }
-
-//                 button {
-//                     padding: 20px;
-//                     border: 1px solid red;
-//                     border-radius: 10px;
-//                     background-color: red;
-//                     color: white;
-//                     cursor: pointer;
-//                     font-weight: 300;
-
-//                     @include mobile{
-//                         padding: 15px;
-//                         font-size: 14px;
-//                     }
-//                 }
-//             }
-
-//             img {
-//                 width: 50px;
-
-//                 @include mobile{
-//                     width: 35px;
-//                 }
-//             }
-//         }
-//     }
-
-//     .hero-slidingText {
-//         position: absolute;
-//         font-size: 50vh;
-//         bottom: -120px;
-//         font-weight: bold;
-//         width: 100%;
-//         white-space: nowrap;
-//         color: #ffffff09;
-
-//         @include mobile{
-//             font-size: 20vh;
-//             bottom: -50px;
-//         }
-
-//         @include tablet{
-//             font-size: 35vh;
-//             bottom: -80px;
-//         }
-//     }
-// }
-
-@import "../../App.scss";
+@use "../../mixins" as *;
 
 .hero {
-  height: calc(100vh - 45px); // S'adapte à la Navinfos + Navbar
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  align-items: center;
+    position: relative;
+    min-height: calc(100svh - var(--nav-h) - 36px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--ink);
+    color: #fff;
+    isolation: isolate;
+    padding-block: clamp(56px, 9vh, 110px) 96px;
 
-  @include mobile {
-    height: 100vh;
-  }
+    // ── Fond ──
+    .hero-background {
+        position: absolute;
+        inset: -2% 0 0;
+        z-index: -3;
+        img, picture { width: 100%; height: 100%; object-fit: cover; }
+    }
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        background:
+            linear-gradient(100deg, rgba(11, 20, 48, 0.96) 0%, rgba(11, 20, 48, 0.86) 45%, rgba(22, 33, 74, 0.55) 100%),
+            linear-gradient(0deg, rgba(11, 20, 48, 0.9) 0%, transparent 40%);
+    }
+    .glow {
+        position: absolute;
+        z-index: -1;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.55;
+        pointer-events: none;
+    }
+    .glow-a { width: 420px; height: 420px; background: var(--brand-blue); top: -120px; right: 10%; }
+    .glow-b { width: 320px; height: 320px; background: rgba(255, 165, 0, 0.45); bottom: -140px; left: 30%; }
 
-  .hero-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-
-    .overlay {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, rgba(12, 12, 29, 0.9) 30%, rgba(12, 12, 29, 0.4) 100%);
-      z-index: 1;
+    .grid-lines {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background-image:
+            linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 80px 80px;
+        mask-image: radial-gradient(ellipse at 70% 40%, #000 0%, transparent 70%);
+        -webkit-mask-image: radial-gradient(ellipse at 70% 40%, #000 0%, transparent 70%);
     }
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    // ── Contenu ──
+    .hero-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+        gap: clamp(32px, 5vw, 80px);
+        align-items: center;
+        max-width: 1400px;
+
+        @media (max-width: 1024px) { grid-template-columns: 1fr; }
     }
-  }
 
-  .wrapper {
-    max-width: 1366px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 50px;
-    z-index: 2;
+    .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        font-size: clamp(0.72rem, 1.2vw, 0.85rem);
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--brand-orange);
+        margin-bottom: clamp(18px, 3vh, 28px);
 
-    @include tablet { padding: 0 30px; }
-    @include mobile { padding: 0 20px; }
+        .eyebrow-line {
+            display: inline-block;
+            width: 44px;
+            height: 2px;
+            background: currentColor;
+            transform-origin: 0 50%;
+            flex-shrink: 0;
+        }
+    }
 
-    .hero-content {
-      width: 60%;
-      display: flex;
-      flex-direction: column;
-      gap: 35px;
-
-      @include tablet { width: 80%; }
-      @include mobile { 
-        width: 100%; 
-        align-items: center; 
-        text-align: center;
-        gap: 25px;
-      }
-
-      h1 {
-        font-size: clamp(32px, 5vw, 64px); // Taille fluide intelligente
-        color: white;
-        line-height: 1.1;
+    h1 {
+        color: #fff;
+        font-size: clamp(2.2rem, 5.6vw, 4.6rem);
         font-weight: 800;
+        line-height: 1.06;
+        letter-spacing: -0.035em;
 
-        .text-media { color: #ff3b3b; }
-        .text-power { color: #ffcc00; }
-        .text-comm { color: #4a90e2; }
-      }
-
-      p {
-        font-size: clamp(16px, 1.5vw, 18px);
-        color: rgba(255, 255, 255, 0.8);
-        line-height: 1.6;
-        max-width: 600px;
-      }
-
-      .hero-buttons {
-        display: flex;
-        gap: 20px;
-
-        @include mobile {
-          flex-direction: column;
-          width: 100%;
-          max-width: 300px;
+        .line-mask {
+            display: block;
+            overflow: hidden;
+            padding-bottom: 0.12em;
+            margin-bottom: -0.06em;
         }
+        .line { display: block; }
 
-        button {
-          padding: 18px 35px;
-          border-radius: 50px; // Look plus moderne "pill"
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-
-          &.btn-primary {
-            background-color: #ff3b3b;
-            border: 2px solid #ff3b3b;
-            color: white;
-            &:hover { background-color: transparent; }
-          }
-
-          &.btn-secondary {
-            background-color: transparent;
-            border: 2px solid white;
-            color: white;
-            &:hover { background-color: white; color: #0c0c1d; }
-          }
+        .accent {
+            position: relative;
+            display: inline-block;
+            white-space: nowrap;
         }
-      }
+        .accent-0 { color: var(--brand-blue-light); }
+        .accent-1 { color: var(--brand-orange); }
+        .accent-2 { color: #ff6b75; }
 
-      .scroll-indicator {
-        margin-top: 20px;
-        img {
-          width: 30px;
-          filter: brightness(0) invert(1);
+        .underline {
+            position: absolute;
+            left: 0;
+            bottom: -0.06em;
+            width: 100%;
+            height: 0.22em;
+            overflow: visible;
+            path { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; opacity: 0.55; }
         }
-      }
     }
-  }
 
-  .hero-slidingText {
-    position: absolute;
-    font-size: 25vh; // Réduit pour éviter de manger tout l'écran
-    bottom: 5vh;
-    font-weight: 900;
-    white-space: nowrap;
-    color: rgba(255, 255, 255, 0.03);
-    pointer-events: none;
-    z-index: 1;
+    .hero-lead {
+        margin-top: clamp(20px, 3vh, 32px);
+        max-width: 620px;
+        font-size: clamp(1rem, 1.35vw, 1.15rem);
+        color: rgba(255, 255, 255, 0.78);
+        strong { color: #fff; }
+    }
+
+    .hero-buttons {
+        margin-top: clamp(24px, 4vh, 40px);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+
+    // ── Carte des domaines ──
+    .hero-card {
+        justify-self: end;
+        width: 100%;
+        max-width: 420px;
+
+        @media (max-width: 1024px) { justify-self: start; max-width: 640px; }
+    }
+    .card-float {
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: var(--radius-lg);
+        padding: clamp(22px, 3vw, 32px);
+        box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.6);
+    }
+    .card-title {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 1.1rem;
+        margin-bottom: 16px;
+    }
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        @media (max-width: 1024px) {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 12px 9px 9px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+    }
+    .d-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        svg { width: 18px; height: 18px; }
+    }
+    .d-0 { background: rgba(109, 143, 220, 0.25); color: #b9cbf5; }
+    .d-1 { background: rgba(255, 165, 0, 0.22); color: #ffc65c; }
+    .d-2 { background: rgba(230, 57, 70, 0.25); color: #ff98a0; }
+    .d-3 { background: rgba(46, 196, 182, 0.22); color: #7ee6dc; }
+    .d-4 { background: rgba(255, 255, 255, 0.14); color: #fff; }
+
+    .card-approach {
+        margin-top: 18px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.72);
+        strong { display: block; color: #fff; margin-bottom: 4px; }
+    }
+
+    // ── Bas de l'écran ──
+    .hero-bottom {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    .location {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.8rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.6);
+        svg { color: var(--brand-orange); }
+    }
+    .scroll-indicator {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255, 255, 255, 0.3);
+        display: grid;
+        place-items: center;
+        color: #fff;
+        transition: background 0.3s, border-color 0.3s;
+        &:hover { background: var(--brand-orange); border-color: var(--brand-orange); color: var(--ink); }
+    }
 
     @include mobile {
-      font-size: 15vh;
-      bottom: 2vh;
+        padding-block: 44px 88px;
+        .glow-a { width: 260px; height: 260px; }
     }
-  }
 }

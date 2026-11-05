@@ -1,368 +1,162 @@
-// import "./Actualité.scss";
-// import React, { useState, useEffect, useRef } from 'react';
-// import { motion, AnimatePresence } from 'framer-motion';
-
-// const Actualites = () => {
-//   const [filter, setFilter] = useState('all');
-//   const [visibleCount, setVisibleCount] = useState(6); // Nombre d'articles affichés
-//   const [isPaused, setIsPaused] = useState(false);
-//   const scrollRef = useRef(null);
-//   const loaderRef = useRef(null);
-
-//   const sources = [
-//     { id: 'etudiant', name: "L'Étudiant", logo: "/public/Journal l'Etudiant.jpg.jpeg" },
-//     { id: 'national', name: "National Post", logo: "/public/Logo National Post.png" },
-//     { id: 'nouvelle', name: "Nouvelle Ère", logo: "/public/IMG_2498.PNG" },
-//   ];
-
-//   const articles = [
-//     {
-//       id: 1,
-//       source: 'etudiant',
-//       category: 'POLITIQUE',
-//       categoryColor: '#e63946',
-//       title: "Ernest Ouandié: un héros immortel dans l'histoire du Camer...",
-//       date: "15/02/2025",
-//       image: "/public/news1.jpg"
-//     },
-//     {
-//       id: 2,
-//       source: 'etudiant',
-//       category: 'SOCIETE',
-//       categoryColor: '#457b9d',
-//       title: "“j’étais en mbeng, je suis rentré” Ines NTSAMA",
-//       date: "15/02/2025",
-//       image: "/public/news1.jpg"
-//     },
-//     {
-//       id: 3,
-//       source: 'etudiant',
-//       category: 'CULTURE',
-//       categoryColor: '#ffbe0b',
-//       title: "Les pays où les camerounais peuvent aller sans demand...",
-//       date: "15/02/2025",
-//       image: "/public/news1.jpg"
-//     },
-//     { id: 4, source: 'national', category: 'ECONOMIE', categoryColor: '#1a1a1a', title: "Nouvelle réforme fiscale au Cameroun", date: "16/02/2025", image: "/public/news1.jpg" },
-//     { id: 5, source: 'nouvelle', category: 'TECH', categoryColor: '#007bff', title: "L'IA au service des médias francophones", date: "17/02/2025", image: "/public/news1.jpg" },
-//     { id: 6, source: 'etudiant', category: 'EDUCATION', categoryColor: '#2a9d8f', title: "Bourses d'études 2025: le guide", date: "18/02/2025", image: "/public/news1.jpg" },
-//     { id: 7, source: 'national', category: 'SANTE', categoryColor: '#d90429', title: "Lutte contre le paludisme: les avancées récentes", date: "19/02/2025", image: "/public/news1.jpg" },
-//     { id: 8, source: 'nouvelle', category: 'SPORT', categoryColor: '#f4a261', title: "Le football camerounais en pleine renaissance", date: "20/02/2025", image: "/public/news1.jpg" },
-//     { id: 9, source: 'etudiant', category: 'ENVIRONNEMENT', categoryColor: '#2a9d8f', title: "Initiatives écologiques des jeunes camerounais", date: "21/02/2025", image: "/public/news1.jpg" },
-//     { id: 10, source: 'national', category: 'CULTURE', categoryColor: '#ffbe0b', title: "Festival de Douala 2025 : un succès retentissant", date: "22/02/2025", image: "/public/news1.jpg" },
-//     { id: 11, source: 'nouvelle', category: 'SCIENCE', categoryColor: '#8338ec', title: "Découverte scientifique majeure en Afrique", date: "23/02/2025", image: "/public/news1.jpg" },
-//     { id: 12, source: 'etudiant', category: 'POLITIQUE', categoryColor: '#e63946', title: "Nouvelles alliances politiques au Cameroun", date: "24/02/2025", image: "/public/news1.jpg" },
-//     { id: 13, source: 'national', category: 'SOCIETE', categoryColor: '#457b9d', title: "Les défis de la migration au Cameroun", date: "25/02/2025", image: "/public/news1.jpg" },
-//     { id: 14, source: 'nouvelle', category: 'CULTURE', categoryColor: '#ffbe0b', title: "La renaissance du cinéma camerounais", date: "26/02/2025", image: "/public/news1.jpg" },
-//     { id: 15, source: 'etudiant', category: 'ECONOMIE', categoryColor: '#1a1a1a', title: "Le boom des startups au Cameroun", date: "27/02/2025", image: "/public/news1.jpg" },
-//     { id: 16, source: 'national', category: 'TECH', categoryColor: '#007bff', title: "L'impact de la tech sur l'éducation camerounaise", date: "28/02/2025", image: "/public/news1.jpg" },
-//         { id: 17, source: 'nouvelle', category: 'SANTE', categoryColor: '#d90429', title: "Nouvelles avancées médicales au Cameroun", date: "01/03/2025", image: "/public/news1.jpg" },
-//         { id: 18, source: 'etudiant', category: 'SPORT', categoryColor: '#f4a261', title: "Les exploits des athlètes camerounais", date: "02/03/2025", image: "/public/news1.jpg" },
-//         { id: 19, source: 'national', category: 'ENVIRONNEMENT', categoryColor: '#2a9d8f', title: "Les initiatives vertes au Cameroun", date: "03/03/2025", image: "/public/news1.jpg" },
-//         { id: 20, source: 'nouvelle', category: 'CULTURE', categoryColor: '#ffbe0b', title: "La musique camerounaise conquiert le monde", date: "04/03/2025", image: "/public/news1.jpg" },
-//   ];
-
-//   // 1. Logique du Slider Automatique
-//   useEffect(() => {
-//     if (isPaused) return;
-//     const interval = setInterval(() => {
-//       if (scrollRef.current) {
-//         const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-//         if (scrollLeft + clientWidth >= scrollWidth) {
-//           scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-//         } else {
-//           scrollRef.current.scrollBy({ left: 350, behavior: 'smooth' });
-//         }
-//       }
-//     }, 4000);
-//     return () => clearInterval(interval);
-//   }, [isPaused]);
-
-//   // 2. Logique du Chargement Infini (Observer)
-//   useEffect(() => {
-//     const observer = new IntersectionObserver((entries) => {
-//       if (entries[0].isIntersecting && visibleCount < articles.length) {
-//         loadMore();
-//       }
-//     }, { threshold: 1.0 });
-
-//     if (loaderRef.current) observer.observe(loaderRef.current);
-//     return () => observer.disconnect();
-//   }, [visibleCount]);
-
-//   const loadMore = () => {
-//     setTimeout(() => { // Simulation délai réseau
-//       setVisibleCount(prev => Math.min(prev + 3, articles.length));
-//     }, 800);
-//   };
-
-
-
-
-
-
-//   const filteredArticles = articles 
-//     .filter(art => filter === 'all' || art.source === filter)
-//     .slice(0, visibleCount);
-
-//   return (
-//     <section className="actualites">
-//       <div className="container">
-//         {/* En-tête */}
-//         <header className="newsHeader">
-//           <motion.h4 
-//             initial={{ opacity: 0 }} 
-//             whileInView={{ opacity: 1 }}
-//             className="subtitle"
-//           >
-//             Actualités
-//           </motion.h4>
-//           <motion.h2 
-//             initial={{ y: 20, opacity: 0 }}
-//             whileInView={{ y: 0, opacity: 1 }}
-//             className="mainTitle"
-//           >
-//             Une section qui agrège les derniers articles <br />
-//             de <span>L’Étudiant, National Post et Nouvelle Ère.</span>
-//           </motion.h2>
-//           <div className="yellowDivider"></div>
-//         </header>
-
-//         {/* Filtres (Logos) */}
-//         <div className="filterBar">
-//           <div className="filterWrapper">
-//             {sources.map((src) => (
-//               <motion.div
-//                 key={src.id}
-//                 className={`filterItem ${filter === src.id ? 'active' : ''}`}
-//                 onClick={() => setFilter(filter === src.id ? 'all' : src.id)}
-//                 whileHover={{ scale: 1.05 }}
-//                 whileTap={{ scale: 0.95 }}
-//               >
-//                 <img src={src.logo} alt={src.name} />
-//                 {filter === src.id && (
-//                   <motion.div layoutId="outline" className="activeOutline" />
-//                 )}
-//               </motion.div>
-//             ))}
-//           </div>
-//         </div>
-
-//         {/* Grille d'articles */}
-//         <div 
-//           className="scrollContainer" 
-//           ref={scrollRef}
-//           onMouseEnter={() => setIsPaused(true)}
-//           onMouseLeave={() => setIsPaused(false)}
-//         >
-//             <motion.div layout className="articlesGrid">
-//           <AnimatePresence mode='popLayout'>
-//             {filteredArticles.map((article) => (
-//               <motion.article
-//                 key={article.id}
-//                 layout
-//                 initial={{ opacity: 0, scale: 0.9 }}
-//                 animate={{ opacity: 1, scale: 1 }}
-//                 exit={{ opacity: 0, scale: 0.9 }}
-//                 transition={{ duration: 0.4 }}
-//                 className="articleCard"
-//               >
-//                 <div className="imageContainer">
-//                   <img src={article.image} alt={article.title} />
-//                   <div className="sourceTag">{article.source}</div>
-//                 </div>
-//                 <div className="articleContent">
-//                   <span className="category" style={{ color: article.categoryColor }}>
-//                     {article.category}
-//                   </span>
-//                   <h3>{article.title}</h3>
-//                   <div className="dateInfo">
-//                     <span className="icon">📅</span>
-//                     {article.date}
-//                   </div>
-//                 </div>
-//               </motion.article>
-//             ))}
-//           </AnimatePresence>
-//         </motion.div>
-//         </div>
-
-//         {/* Bouton Voir Plus */}
-//         {visibleCount < articles.length && (
-//           <div className="actions">
-//             <motion.button 
-//               whileHover={{ scale: 1.05 }}
-//               whileTap={{ scale: 0.95 }}
-//               onClick={loadMore}
-//               className="btnMore"
-//             >
-//               Voir plus d'articles
-//             </motion.button>
-//           </div>
-//         )}
-
-//         {/* Element invisible pour le chargement infini */}
-//         <div ref={loaderRef} className="infinite-loader">
-//           {visibleCount < articles.length && <div className="spinner"></div>}
-//         </div>
-
-
-
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Actualites;
-
 import "./Actualité.scss";
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { LuArrowRight, LuCalendar, LuPlus, LuInfo } from "react-icons/lu";
+import { useI18n } from "../../i18n/context.js";
+import { SectionHeading } from "../ui/ui.jsx";
+import { fadeUp, stagger, inView } from "../ui/motion.js";
+
+const PAGE_SIZE = 6;
+
+const sources = [
+  { id: "etudiant", name: "L'Étudiant", logo: "/partners/etudiant.webp" },
+  { id: "national", name: "National Post", logo: "/partners/national-post.webp" },
+  { id: "nouvelle", name: "Nouvelle Ère", logo: "/partners/nouvelle-ere.webp" },
+];
+const sourceName = Object.fromEntries(sources.map((s) => [s.id, s.name]));
+
+const CATEGORY_COLORS = {
+  POLITIQUE: "#e63946", SOCIETE: "#457b9d", CULTURE: "#a86200", ECONOMIE: "#1a1a1a", TECH: "#0b66d6",
+  EDUCATION: "#21867a", SANTE: "#c1121f", SPORT: "#c45c00", ENVIRONNEMENT: "#21867a", SCIENCE: "#8338ec",
+};
+
+const articles = [
+  { id: 1, source: "etudiant", category: "POLITIQUE", title: "Ernest Ouandié: un héros immortel dans l'histoire du Cameroun", date: "2025-02-15" },
+  { id: 2, source: "etudiant", category: "SOCIETE", title: "\"j'étais en mbeng, je suis rentré\" Ines NTSAMA", date: "2025-02-15" },
+  { id: 3, source: "etudiant", category: "CULTURE", title: "Les pays où les camerounais peuvent aller sans demande de visa", date: "2025-02-15" },
+  { id: 4, source: "national", category: "ECONOMIE", title: "Nouvelle réforme fiscale au Cameroun", date: "2025-02-16" },
+  { id: 5, source: "nouvelle", category: "TECH", title: "L'IA au service des médias francophones", date: "2025-02-17" },
+  { id: 6, source: "etudiant", category: "EDUCATION", title: "Bourses d'études 2025: le guide", date: "2025-02-18" },
+  { id: 7, source: "national", category: "SANTE", title: "Lutte contre le paludisme: les avancées récentes", date: "2025-02-19" },
+  { id: 8, source: "nouvelle", category: "SPORT", title: "Le football camerounais en pleine renaissance", date: "2025-02-20" },
+  { id: 9, source: "etudiant", category: "ENVIRONNEMENT", title: "Initiatives écologiques des jeunes camerounais", date: "2025-02-21" },
+  { id: 10, source: "national", category: "CULTURE", title: "Festival de Douala 2025 : un succès retentissant", date: "2025-02-22" },
+  { id: 11, source: "nouvelle", category: "SCIENCE", title: "Découverte scientifique majeure en Afrique", date: "2025-02-23" },
+  { id: 12, source: "etudiant", category: "POLITIQUE", title: "Nouvelles alliances politiques au Cameroun", date: "2025-02-24" },
+  { id: 13, source: "national", category: "SOCIETE", title: "Les défis de la migration au Cameroun", date: "2025-02-25" },
+  { id: 14, source: "nouvelle", category: "CULTURE", title: "La renaissance du cinéma camerounais", date: "2025-02-26" },
+  { id: 15, source: "etudiant", category: "ECONOMIE", title: "Le boom des startups au Cameroun", date: "2025-02-27" },
+  { id: 16, source: "national", category: "TECH", title: "L'impact de la tech sur l'éducation camerounaise", date: "2025-02-28" },
+  { id: 17, source: "nouvelle", category: "SANTE", title: "Nouvelles avancées médicales au Cameroun", date: "2025-03-01" },
+  { id: 18, source: "etudiant", category: "SPORT", title: "Les exploits des athlètes camerounais", date: "2025-03-02" },
+  { id: 19, source: "national", category: "ENVIRONNEMENT", title: "Les initiatives vertes au Cameroun", date: "2025-03-03" },
+  { id: 20, source: "nouvelle", category: "CULTURE", title: "La musique camerounaise conquiert le monde", date: "2025-03-04" },
+].map((a) => ({ ...a, image: "/news1.webp" }));
 
 const Actualites = () => {
-  const [filter, setFilter] = useState('all');
-  const [visibleCount, setVisibleCount] = useState(6);
-  const scrollRef = useRef(null);
-  const loaderRef = useRef(null);
+  const { t, lang } = useI18n();
+  const n = t.news;
+  const [filter, setFilter] = useState("all");
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
-  const sources = [
-    { id: 'etudiant', name: "L'Étudiant", logo: "/Journal l'Etudiant.jpg.jpeg" },
-    { id: 'national', name: "National Post", logo: "/Logo National Post.png" },
-    { id: 'nouvelle', name: "Nouvelle Ère", logo: "/IMG_2498.PNG" },
-  ];
+  const matching = articles.filter((a) => filter === "all" || a.source === filter);
+  const shown = matching.slice(0, visibleCount);
+  const remaining = matching.length - shown.length;
 
-  const articles = [
-    { id: 1, source: 'etudiant', category: 'POLITIQUE', categoryColor: '#e63946', title: "Ernest Ouandié: un héros immortel dans l'histoire du Cameroun", date: "15/02/2025", image: "/news1.jpg" },
-    { id: 2, source: 'etudiant', category: 'SOCIETE', categoryColor: '#457b9d', title: "\"j'étais en mbeng, je suis rentré\" Ines NTSAMA", date: "15/02/2025", image: "/news1.jpg" },
-    { id: 3, source: 'etudiant', category: 'CULTURE', categoryColor: '#ffbe0b', title: "Les pays où les camerounais peuvent aller sans demande de visa", date: "15/02/2025", image: "/news1.jpg" },
-    { id: 4, source: 'national', category: 'ECONOMIE', categoryColor: '#1a1a1a', title: "Nouvelle réforme fiscale au Cameroun", date: "16/02/2025", image: "/news1.jpg" },
-    { id: 5, source: 'nouvelle', category: 'TECH', categoryColor: '#007bff', title: "L'IA au service des médias francophones", date: "17/02/2025", image: "/news1.jpg" },
-    { id: 6, source: 'etudiant', category: 'EDUCATION', categoryColor: '#2a9d8f', title: "Bourses d'études 2025: le guide", date: "18/02/2025", image: "/news1.jpg" },
-    { id: 7, source: 'national', category: 'SANTE', categoryColor: '#d90429', title: "Lutte contre le paludisme: les avancées récentes", date: "19/02/2025", image: "/news1.jpg" },
-    { id: 8, source: 'nouvelle', category: 'SPORT', categoryColor: '#f4a261', title: "Le football camerounais en pleine renaissance", date: "20/02/2025", image: "/news1.jpg" },
-    { id: 9, source: 'etudiant', category: 'ENVIRONNEMENT', categoryColor: '#2a9d8f', title: "Initiatives écologiques des jeunes camerounais", date: "21/02/2025", image: "/news1.jpg" },
-    { id: 10, source: 'national', category: 'CULTURE', categoryColor: '#ffbe0b', title: "Festival de Douala 2025 : un succès retentissant", date: "22/02/2025", image: "/news1.jpg" },
-    { id: 11, source: 'nouvelle', category: 'SCIENCE', categoryColor: '#8338ec', title: "Découverte scientifique majeure en Afrique", date: "23/02/2025", image: "/news1.jpg" },
-    { id: 12, source: 'etudiant', category: 'POLITIQUE', categoryColor: '#e63946', title: "Nouvelles alliances politiques au Cameroun", date: "24/02/2025", image: "/news1.jpg" },
-    { id: 13, source: 'national', category: 'SOCIETE', categoryColor: '#457b9d', title: "Les défis de la migration au Cameroun", date: "25/02/2025", image: "/news1.jpg" },
-    { id: 14, source: 'nouvelle', category: 'CULTURE', categoryColor: '#ffbe0b', title: "La renaissance du cinéma camerounais", date: "26/02/2025", image: "/news1.jpg" },
-    { id: 15, source: 'etudiant', category: 'ECONOMIE', categoryColor: '#1a1a1a', title: "Le boom des startups au Cameroun", date: "27/02/2025", image: "/news1.jpg" },
-    { id: 16, source: 'national', category: 'TECH', categoryColor: '#007bff', title: "L'impact de la tech sur l'éducation camerounaise", date: "28/02/2025", image: "/news1.jpg" },
-    { id: 17, source: 'nouvelle', category: 'SANTE', categoryColor: '#d90429', title: "Nouvelles avancées médicales au Cameroun", date: "01/03/2025", image: "/news1.jpg" },
-    { id: 18, source: 'etudiant', category: 'SPORT', categoryColor: '#f4a261', title: "Les exploits des athlètes camerounais", date: "02/03/2025", image: "/news1.jpg" },
-    { id: 19, source: 'national', category: 'ENVIRONNEMENT', categoryColor: '#2a9d8f', title: "Les initiatives vertes au Cameroun", date: "03/03/2025", image: "/news1.jpg" },
-    { id: 20, source: 'nouvelle', category: 'CULTURE', categoryColor: '#ffbe0b', title: "La musique camerounaise conquiert le monde", date: "04/03/2025", image: "/news1.jpg" },
-  ];
+  const dateFmt = new Intl.DateTimeFormat(lang === "fr" ? "fr-FR" : "en-GB", { day: "numeric", month: "long", year: "numeric" });
 
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && visibleCount < articles.length) {
-        loadMore();
-      }
-    }, { threshold: 0.1 });
-
-    if (loaderRef.current) observer.observe(loaderRef.current);
-    return () => observer.disconnect();
-  }, [visibleCount, filter]);
-
-  const loadMore = () => {
-    if (visibleCount >= articles.length) return;
-    setTimeout(() => setVisibleCount(prev => prev + 3), 400);
+  const changeFilter = (id) => {
+    setFilter(id);
+    setVisibleCount(PAGE_SIZE);
   };
 
-  const filteredArticles = articles 
-    .filter(art => filter === 'all' || art.source === filter)
-    .slice(0, visibleCount);
-
   return (
-    <section className="news-section">
-      <div className="container">
-        <header className="section-header">
-          <motion.span 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="kicker"
-          >
-            Insights & Médias
-          </motion.span>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            L'actualité de nos <span>pôles d'influence</span>
-          </motion.h2>
-          <div className="accent-line" />
-        </header>
+    <div className="news container">
+      <SectionHeading label={n.kicker} title={n.title} />
 
-        <nav className="filter-nav">
-          <div className="filter-group">
-            <button 
-              className={filter === 'all' ? 'active' : ''} 
-              onClick={() => { setFilter('all'); setVisibleCount(6); }}
+      <motion.div className="filter-nav" variants={stagger(0.06)} {...inView(0.5)}>
+        <div className="filter-group" role="group" aria-label={n.filterLabel}>
+          <motion.button
+            variants={fadeUp}
+            type="button"
+            className={filter === "all" ? "active" : ""}
+            aria-pressed={filter === "all"}
+            onClick={() => changeFilter("all")}
+          >
+            {filter === "all" && <motion.span layoutId="news-filter" className="f-bg" />}
+            <span className="f-label">{n.all}</span>
+          </motion.button>
+          {sources.map((src) => (
+            <motion.button
+              variants={fadeUp}
+              type="button"
+              key={src.id}
+              className={filter === src.id ? "active" : ""}
+              aria-pressed={filter === src.id}
+              onClick={() => changeFilter(src.id)}
             >
-              Tous les flux
-            </button>
-            {sources.map((src) => (
-              <button
-                key={src.id}
-                className={filter === src.id ? 'active' : ''}
-                onClick={() => { setFilter(src.id); setVisibleCount(6); }}
-              >
-                <img src={src.logo} alt={src.name} />
-              </button>
-            ))}
-          </div>
-        </nav>
-
-        <motion.div layout className="news-grid-wrapper">
-          <AnimatePresence mode='popLayout'>
-            {filteredArticles.map((article, idx) => (
-              <motion.article
-                key={article.id}
-                layout
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5, delay: idx * 0.05 }}
-                className="news-card"
-              >
-                <div className="card-media">
-                  <img src={article.image} alt={article.title} loading="lazy" />
-                  <div className="overlay-tag" style={{ backgroundColor: article.categoryColor }}>
-                    {article.category}
-                  </div>
-                </div>
-                <div className="card-body">
-                  <div className="meta">
-                    <span className="source-label">{article.source}</span>
-                    <span className="separator">•</span>
-                    <span className="date">{article.date}</span>
-                  </div>
-                  <h3>{article.title}</h3>
-                  <div className="card-footer">
-                    <span className="read-more">Lire l'article</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        <div ref={loaderRef} className="loading-zone">
-          {visibleCount < articles.length && (
-            <div className="shimmer-loader">
-              <div className="dot"></div>
-              <div className="dot"></div>
-              <div className="dot"></div>
-            </div>
-          )}
+              {filter === src.id && <motion.span layoutId="news-filter" className="f-bg" />}
+              <img src={src.logo} alt="" />
+              <span className="f-label">{src.name}</span>
+            </motion.button>
+          ))}
         </div>
-      </div>
-    </section>
+        {n.langNote && (
+          <p className="lang-note">
+            <LuInfo aria-hidden="true" /> {n.langNote}
+          </p>
+        )}
+      </motion.div>
+
+      <p className="visually-hidden" aria-live="polite">{n.live(shown.length, matching.length)}</p>
+
+      <motion.div layout className="news-grid">
+        <AnimatePresence mode="popLayout" initial={false}>
+          {shown.map((article, idx) => (
+            <motion.article
+              key={article.id}
+              layout
+              initial={{ opacity: 0, y: 40, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.92 }}
+              transition={{ duration: 0.5, delay: (idx % PAGE_SIZE) * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -8 }}
+              className="news-card"
+              lang="fr"
+            >
+              <div className="card-media">
+                <img src={article.image} alt="" loading="lazy" />
+                <span className="overlay-tag" style={{ backgroundColor: CATEGORY_COLORS[article.category] }} lang={lang}>
+                  {n.categories[article.category]}
+                </span>
+              </div>
+              <div className="card-body">
+                <div className="meta" lang={lang}>
+                  <span className="source-label">{sourceName[article.source]}</span>
+                  <span className="separator" aria-hidden="true">•</span>
+                  <time className="date" dateTime={article.date}>
+                    <LuCalendar aria-hidden="true" />
+                    {dateFmt.format(new Date(article.date))}
+                  </time>
+                </div>
+                <h3>{article.title}</h3>
+                <span className="card-line" aria-hidden="true" />
+                <div className="card-footer" lang={lang}>
+                  <span className="read-more">{n.readMore}</span>
+                  <LuArrowRight aria-hidden="true" />
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </AnimatePresence>
+      </motion.div>
+
+      {remaining > 0 && (
+        <div className="load-more-zone">
+          <motion.button
+            type="button"
+            className="btn ghost-dark load-more"
+            onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <LuPlus aria-hidden="true" />
+            {n.loadMore}
+            <span className="count">{remaining}</span>
+          </motion.button>
+        </div>
+      )}
+    </div>
   );
 };
 

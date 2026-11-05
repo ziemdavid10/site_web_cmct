@@ -1,178 +1,206 @@
-// import "./Navbar.scss";
-// import { motion } from "framer-motion";
-// import { useState, useEffect } from "react";
-
-// const textVariants = {
-//   initial: { opacity: 0, x: -500 },
-//   animate: { 
-//     opacity: 1, 
-//     x: 0, 
-//     transition: { duration: 0.5, staggerChildren: 0.1 } 
-//   },
-//   dropdownButton: {
-//     opacity: 1, // Corrigé de 0 à 1 pour être visible
-//     y: [0, 5, 0], // Création d'un petit mouvement de haut en bas
-//     transition: { duration: 2, repeat: Infinity }
-//   }
-// };
-
-// const Navbar = () => {
-//   const items = ["Homepage", "Services", "Projects", "About", "Actualités", "Contact"];
-
-//   const [isScrolled, setIsScrolled] = useState(false);
-//   const [isInProjects, setIsInProjects] = useState(false);
-
-//   useEffect(() => {
-//     const handleScroll = () => {
-//       setIsScrolled(window.scrollY > 50);
-      
-//       const projectsSection = document.getElementById('Projects');
-//       if (projectsSection) {
-//         const rect = projectsSection.getBoundingClientRect();
-//         setIsInProjects(rect.top <= 100 && rect.bottom > 100);
-//       }
-//     };
-
-//     window.addEventListener("scroll", handleScroll);
-//     return () => window.removeEventListener("scroll", handleScroll);
-//   }, []);
-
-//   return (
-//     <motion.div className={`navbar ${isInProjects ? 'projects-navbar' : ''}`}
-//     style={{ position: "fixed", top: 100, left: 0, right: 0 }} // Setup CSS
-//     initial={{ y: 20 }} // Position initiale sur la Homepage
-//     animate={{ y: isScrolled ? -100 : 20 }} // Passe de y à y + 20 au scroll
-//     transition={{ duration: 0.4, ease: "easeInOut" }}
-    
-//     >
-//       <div className="wrapper">
-//         <motion.span 
-//           initial={{ opacity: 0, scale: 0.5 }}
-//           animate={{ opacity: 1, scale: 1 }}
-//           transition={{ duration: 0.5 }}
-//         >
-//           {/* Note: Enlever /public/ du chemin */}
-//           <img src="/LOGO CMCT.png" alt="Logo"/>
-//         </motion.span>
-
-//         <div className="menu">
-//           {items.map((item) => (
-//             item === "Services" ? (
-//               <motion.a 
-//                 href={`#${item}`} 
-//                 key={item} 
-//                 // style={{ color: 'gold', display: 'flex', alignItems: 'center', gap: '5px' }} 
-//                 variants={textVariants}
-//                 whileHover={{ scale: 1.1 }} 
-//                 whileTap={{ scale: 0.95 }}
-//               >
-//                 {item} 
-//                 <motion.img 
-//                   animate="dropdownButton" 
-//                   variants={textVariants} 
-//                   src="/dropdownButton.png" 
-//                   alt="" 
-//                 />
-//               </motion.a>
-//             ) : (
-//               <motion.a 
-//                 href={`#${item}`} 
-//                 key={item} 
-//                 variants={textVariants} 
-//                 whileHover={{ scale: 1.1 }} 
-//                 whileTap={{ scale: 0.95 }}
-//               >
-//                 {item}
-//               </motion.a>
-//             )
-//           ))} 
-//         </div>
-//       </div>
-//     </motion.div>
-//   );
-// };
-
-// export default Navbar;
-
 import "./Navbar.scss";
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { LuArrowUpRight, LuMail, LuPhone, LuMapPin } from "react-icons/lu";
+import { FaLinkedinIn, FaFacebookF } from "react-icons/fa6";
+import { NAV_ITEMS, CONTACT_EMAIL, PHONES, SOCIAL } from "../../data/site.js";
+import { useI18n } from "../../i18n/context.js";
+import LangSwitch from "./LangSwitch.jsx";
+import { Magnetic } from "../ui/ui.jsx";
 
-const textVariants = {
-  initial: { opacity: 0, y: -10 },
-  animate: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.5, staggerChildren: 0.1 } 
-  },
-  dropdownButton: {
-    y: [0, 3, 0],
-    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-  }
+const menuVariants = {
+  closed: { clipPath: "circle(0% at calc(100% - 40px) 32px)", transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] } },
+  open: { clipPath: "circle(150% at calc(100% - 40px) 32px)", transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] } },
+};
+
+const linkVariants = {
+  closed: { opacity: 0, y: 40 },
+  open: (i) => ({ opacity: 1, y: 0, transition: { delay: 0.25 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] } }),
 };
 
 const Navbar = () => {
-  const items = ["Homepage", "Services", "Projects", "About", "Actualités", "Contact"];
-  const [isInProjects, setIsInProjects] = useState(false);
+  const { t } = useI18n();
+  const [active, setActive] = useState(null);
+  const [dark, setDark] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState(null);
 
+  // Section active + thème (clair/sombre) selon la section sous la barre
   useEffect(() => {
-    const handleScroll = () => {
-      const projectsSection = document.getElementById('Projects');
-      if (projectsSection) {
-        const rect = projectsSection.getBoundingClientRect();
-        setIsInProjects(rect.top <= 100 && rect.bottom > 100);
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 80;
+      const probe = navH + 10;
+      setScrolled(window.scrollY > 10);
+
+      let current = null;
+      for (const { id } of NAV_ITEMS) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= probe + window.innerHeight * 0.3) current = id;
+      }
+      setActive(current);
+
+      // La barre passe en sombre au-dessus des sections sombres
+      const nav = document.querySelector(".navbar");
+      const navBottom = nav ? nav.getBoundingClientRect().bottom : probe;
+      let isDark = false;
+      document.querySelectorAll("[data-nav-theme='dark']").forEach((s) => {
+        const r = s.getBoundingClientRect();
+        if (r.top <= navBottom - 1 && r.bottom > navBottom) isDark = true;
+      });
+      setDark(isDark);
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
       }
     };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
-  return (
-    <motion.nav 
-      className={`navbar ${isInProjects ? 'projects-navbar' : ''}`}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="wrapper">
-        <motion.div 
-          className="logo-container"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-        >
-          <img src="/LOGO CMCT.png" alt="CMCT Logo" />
-        </motion.div>
+  const close = useCallback(() => setOpen(false), []);
 
-        <motion.div 
-          className="menu"
-          variants={textVariants}
-          initial="initial"
-          animate="animate"
-        >
-          {items.map((item) => (
-            <motion.a 
-              href={`#${item}`} 
-              key={item} 
-              className="menu-item"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {item}
-              {item === "Services" && (
-                <motion.img 
-                  animate="dropdownButton" 
-                  variants={textVariants} 
-                  src="/dropdownButton.png" 
-                  className="icon-dropdown"
-                  alt="" 
-                />
-              )}
-            </motion.a>
-          ))} 
-        </motion.div>
+  // Menu mobile : bloque le défilement, ferme avec Échap ou si l'écran s'élargit
+  useEffect(() => {
+    document.body.classList.toggle("menu-open", open);
+    if (!open) return;
+    const onKey = (e) => e.key === "Escape" && close();
+    const mq = window.matchMedia("(min-width: 1201px)");
+    const onMq = (e) => e.matches && close();
+    window.addEventListener("keydown", onKey);
+    mq.addEventListener("change", onMq);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      mq.removeEventListener("change", onMq);
+      document.body.classList.remove("menu-open");
+    };
+  }, [open, close]);
+
+  const classes = ["navbar", dark && !open && "is-dark", scrolled && "scrolled", open && "is-open"].filter(Boolean).join(" ");
+  const indicator = hovered ?? active;
+
+  return (
+    <nav className={classes} aria-label={t.nav.label}>
+      <div className="nav-inner">
+        <a href="#Homepage" className="logo-container" onClick={close} aria-label={t.nav.home}>
+          <motion.img
+            src="/logo-cmct.png"
+            alt="CMCT"
+            width="400"
+            height="355"
+            whileHover={{ rotate: -6, scale: 1.06 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+          />
+          <span className="logo-text">
+            <strong>CMCT</strong>
+            <small>Media · Com · Tech</small>
+          </span>
+        </a>
+
+        <ul className="menu" onMouseLeave={() => setHovered(null)}>
+          {NAV_ITEMS.map(({ id, key }) => (
+            <li key={id}>
+              <a
+                href={`#${id}`}
+                className={`menu-item ${active === id ? "active" : ""}`}
+                aria-current={active === id ? "true" : undefined}
+                onMouseEnter={() => setHovered(id)}
+                onFocus={() => setHovered(id)}
+                onBlur={() => setHovered(null)}
+              >
+                {indicator === id && (
+                  <motion.span
+                    layoutId="nav-indicator"
+                    className="indicator"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
+                )}
+                <span className="label">{t.nav[key]}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div className="nav-actions">
+          <LangSwitch id="desktop" />
+          <Magnetic className="cta-wrap">
+            <a href="#Contact" className="nav-cta">
+              <span>{t.nav.cta}</span>
+              <LuArrowUpRight aria-hidden="true" />
+            </a>
+          </Magnetic>
+
+          <button
+            className="burger"
+            aria-label={open ? t.nav.closeMenu : t.nav.open}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen((o) => !o)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
       </div>
-    </motion.nav>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="mobile-menu"
+            className="mobile-menu"
+            variants={menuVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
+          >
+            <div className="mobile-inner">
+              <ul>
+                {NAV_ITEMS.map(({ id, key }, i) => (
+                  <motion.li key={id} custom={i} variants={linkVariants}>
+                    <a
+                      href={`#${id}`}
+                      className={active === id ? "active" : ""}
+                      aria-current={active === id ? "true" : undefined}
+                      onClick={close}
+                    >
+                      <span className="num">0{i + 1}</span>
+                      {t.nav[key]}
+                    </a>
+                  </motion.li>
+                ))}
+              </ul>
+
+              <motion.div className="mobile-bottom" custom={NAV_ITEMS.length} variants={linkVariants}>
+                <a href="#Contact" className="btn primary" onClick={close}>
+                  {t.nav.cta}
+                  <LuArrowUpRight className="btn-icon" aria-hidden="true" />
+                </a>
+                <p className="mobile-label">{t.nav.menuContact}</p>
+                <ul className="mobile-contact">
+                  <li><a href={`mailto:${CONTACT_EMAIL}`}><LuMail aria-hidden="true" />{CONTACT_EMAIL}</a></li>
+                  <li><a href={PHONES[0].href}><LuPhone aria-hidden="true" />{PHONES[0].display}</a></li>
+                  <li><span><LuMapPin aria-hidden="true" />{t.topbar.location}</span></li>
+                </ul>
+                <div className="mobile-social">
+                  <a href={SOCIAL.linkedin} target="_blank" rel="noreferrer" aria-label={t.topbar.linkedin}><FaLinkedinIn /></a>
+                  <a href={SOCIAL.facebook} target="_blank" rel="noreferrer" aria-label={t.topbar.facebook}><FaFacebookF /></a>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
 };
 

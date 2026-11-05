@@ -1,486 +1,133 @@
-// @import "../../App.scss";
-
-// .footer {
-//   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-//   color: #fff;
-//   padding: 60px 20px 20px;
-//   margin-top: 80px;
-
-//   @include mobile {
-//     padding: 40px 15px 15px;
-//     margin-top: 60px;
-//   }
-
-//   .footer-content {
-//     max-width: 1366px;
-//     margin: 0 auto;
-//     display: grid;
-//     grid-template-columns: repeat(4, 1fr);
-//     gap: 40px;
-//     padding-bottom: 40px;
-//     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-//     @include mobile {
-//       grid-template-columns: 1fr;
-//       gap: 30px;
-//       padding-bottom: 30px;
-//     }
-
-//     @include tablet {
-//       grid-template-columns: repeat(2, 1fr);
-//       gap: 30px;
-//     }
-
-//     .footer-section {
-//       display: flex;
-//       flex-direction: column;
-//       gap: 20px;
-
-//       @include mobile {
-//         align-items: center;
-//         text-align: center;
-//       }
-
-//       .footer-logo {
-//         width: 120px;
-//         height: auto;
-//         margin-bottom: 10px;
-
-//         @include mobile {
-//           width: 100px;
-//         }
-//       }
-
-//       .footer-description {
-//         font-size: 14px;
-//         line-height: 1.6;
-//         color: rgba(255, 255, 255, 0.7);
-//         max-width: 280px;
-
-//         @include mobile {
-//           font-size: 13px;
-//           max-width: 100%;
-//         }
-//       }
-
-//       .footer-social {
-//         display: flex;
-//         gap: 15px;
-//         margin-top: 10px;
-
-//         @include mobile {
-//           justify-content: center;
-//         }
-
-//         a {
-//           width: 40px;
-//           height: 40px;
-//           background: rgba(255, 255, 255, 0.1);
-//           border-radius: 50%;
-//           display: flex;
-//           align-items: center;
-//           justify-content: center;
-//           transition: all 0.3s ease;
-
-//           @include mobile {
-//             width: 35px;
-//             height: 35px;
-//           }
-
-//           &:hover {
-//             background: #ffbe0b;
-//             transform: translateY(-3px);
-//           }
-
-//           img {
-//             width: 20px;
-//             height: 20px;
-//             filter: brightness(0) invert(1);
-
-//             @include mobile {
-//               width: 18px;
-//               height: 18px;
-//             }
-//           }
-//         }
-//       }
-
-//       h3 {
-//         font-size: 18px;
-//         font-weight: bold;
-//         color: #ffbe0b;
-//         margin-bottom: 5px;
-
-//         @include mobile {
-//           font-size: 16px;
-//         }
-//       }
-
-//       ul {
-//         list-style: none;
-//         padding: 0;
-//         margin: 0;
-//         display: flex;
-//         flex-direction: column;
-//         gap: 12px;
-
-//         @include mobile {
-//           align-items: center;
-//         }
-
-//         li {
-//           font-size: 14px;
-//           color: rgba(255, 255, 255, 0.7);
-//           transition: all 0.3s ease;
-//           cursor: pointer;
-
-//           @include mobile {
-//             font-size: 13px;
-//           }
-
-//           a {
-//             color: rgba(255, 255, 255, 0.7);
-//             transition: all 0.3s ease;
-
-//             &:hover {
-//               color: #ffbe0b;
-//               padding-left: 5px;
-//             }
-//           }
-
-//           &:hover {
-//             color: #ffbe0b;
-//             padding-left: 5px;
-//           }
-//         }
-//       }
-
-//       .footer-contact {
-//         display: flex;
-//         flex-direction: column;
-//         gap: 15px;
-
-//         .contact-item {
-//           display: flex;
-//           align-items: center;
-//           gap: 12px;
-//           font-size: 14px;
-//           color: rgba(255, 255, 255, 0.7);
-
-//           @include mobile {
-//             font-size: 13px;
-//             justify-content: center;
-//           }
-
-//           img {
-//             width: 20px;
-//             height: 20px;
-//             filter: brightness(0) invert(1);
-//             opacity: 0.7;
-
-//             @include mobile {
-//               width: 18px;
-//               height: 18px;
-//             }
-//           }
-
-//           span {
-//             @include mobile {
-//               font-size: 12px;
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-
-//   .footer-bottom {
-//     max-width: 1366px;
-//     margin: 0 auto;
-//     padding-top: 30px;
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     font-size: 14px;
-//     color: rgba(255, 255, 255, 0.5);
-
-//     @include mobile {
-//       flex-direction: column;
-//       gap: 15px;
-//       padding-top: 20px;
-//       text-align: center;
-//       font-size: 12px;
-//     }
-
-//     @include tablet {
-//       font-size: 13px;
-//     }
-
-//     p {
-//       margin: 0;
-//     }
-
-//     .footer-links {
-//       display: flex;
-//       gap: 15px;
-//       align-items: center;
-
-//       @include mobile {
-//         gap: 10px;
-//         flex-wrap: wrap;
-//         justify-content: center;
-//       }
-
-//       a {
-//         color: rgba(255, 255, 255, 0.5);
-//         transition: color 0.3s ease;
-//         font-size: 14px;
-
-//         @include mobile {
-//           font-size: 12px;
-//         }
-
-//         &:hover {
-//           color: #ffbe0b;
-//         }
-//       }
-
-//       span {
-//         color: rgba(255, 255, 255, 0.3);
-
-//         @include mobile {
-//           display: none;
-//         }
-//       }
-//     }
-//   }
-// }
-
-
-@import "../../App.scss";
-
-// Variables locales
-$footer-bg: #11141d; // Un bleu-noir plus profond et pro
-$accent: #ffbe0b;
-$text-light: #ffffff;
-$text-dim: rgba(255, 255, 255, 0.6);
+@use "../../mixins" as *;
 
 .footer {
-  background: $footer-bg;
-  color: $text-light;
-  padding: 100px 0 40px;
-  position: relative;
-  overflow: hidden;
+    background: var(--ink);
+    color: rgba(255, 255, 255, 0.7);
+    padding-top: clamp(64px, 9vw, 110px);
+    overflow: hidden;
 
-  @include mobile {
-    padding: 60px 0 30px;
-  }
+    .footer-cta {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 32px;
+        padding-bottom: clamp(40px, 6vw, 64px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
-  .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 40px;
-
-    @include mobile {
-      padding: 0 25px;
+        @include mobile { flex-direction: column; align-items: flex-start; }
     }
-  }
-
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1.5fr 1fr;
-    gap: 80px;
-    padding-bottom: 80px;
-
-    @include tablet {
-      grid-template-columns: 1fr 1fr;
-      gap: 50px;
+    .footer-tagline {
+        font-family: var(--font-display);
+        font-size: clamp(1.7rem, 4.2vw, 3.2rem);
+        font-weight: 800;
+        line-height: 1.12;
+        letter-spacing: -0.03em;
+        color: #fff;
+        max-width: 860px;
     }
 
-    @include mobile {
-      grid-template-columns: 1fr;
-      gap: 40px;
-      padding-bottom: 50px;
-      text-align: center;
-    }
-  }
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr 1fr 1.5fr;
+        gap: clamp(28px, 4vw, 56px);
+        padding-block: clamp(40px, 6vw, 64px);
 
-  // Branding Section
-  .footer-brand {
-    .footer-logo {
-      height: 45px;
-      width: auto;
-      margin-bottom: 25px;
-      filter: brightness(0) invert(1); // Force le logo en blanc si besoin
+        @media (max-width: 1024px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        @include small { grid-template-columns: 1fr; }
     }
 
-    .brand-tagline {
-      color: $text-dim;
-      font-size: 15px;
-      line-height: 1.7;
-      max-width: 300px;
-      margin-bottom: 30px;
-
-      @include mobile {
-        max-width: 100%;
-      }
-    }
+    .footer-logo { width: 72px; height: auto; margin-bottom: 14px; }
+    .brand-name { color: #fff; font-weight: 700; font-family: var(--font-display); max-width: 240px; }
 
     .social-wrap {
-      display: flex;
-      gap: 15px;
-
-      @include mobile { justify-content: center; }
-
-      .social-link {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    .social-link {
         width: 42px;
         height: 42px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-
-        img {
-          width: 18px;
-          height: 18px;
-          opacity: 0.8;
-          // filter: brightness(0) invert(1);
-        }
-
-        &:hover {
-          background: $accent;
-          border-color: $accent;
-          transform: translateY(-5px);
-          img { opacity: 1; filter: none; }
-        }
-      }
-    }
-  }
-
-  // Navigation Links
-  .footer-nav {
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
-
-    @include mobile {
-      flex-direction: column;
-      gap: 35px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        transition: background 0.3s, color 0.3s, transform 0.3s;
+        &:hover { background: var(--brand-orange); color: var(--ink); transform: translateY(-3px); }
     }
 
-    .nav-group {
-      h4 {
-        color: $text-light;
-        font-size: 16px;
-        font-weight: 700;
+    h4 {
+        color: #fff;
+        font-size: 0.8rem;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        letter-spacing: 1.5px;
-        margin-bottom: 25px;
-      }
+        margin-bottom: 18px;
+        font-family: var(--font-body);
+    }
 
-      ul {
-        list-style: none;
-        padding: 0;
+    .footer-col ul {
         display: flex;
         flex-direction: column;
-        gap: 14px;
+        gap: 10px;
 
-        li {
-          font-size: 15px;
-          color: $text-dim;
-          transition: 0.3s;
-
-          a {
-            color: inherit;
-            text-decoration: none;
-            transition: 0.3s ease;
-
-            &:hover {
-              color: $accent;
-              padding-left: 8px;
-            }
-          }
-
-          &:hover {
-            color: $text-light;
-          }
+        a, span {
+            position: relative;
+            display: inline-flex;
+            align-items: flex-start;
+            gap: 10px;
+            transition: color 0.25s, transform 0.25s;
+            word-break: break-word;
+            svg { flex-shrink: 0; margin-top: 4px; color: var(--brand-orange); }
         }
-      }
-    }
-  }
-
-  // Contact Info
-  .footer-info {
-    h4 {
-      font-size: 16px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 25px;
+        a:hover { color: #fff; transform: translateX(4px); }
     }
 
-    .info-list {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
+    .disclaimer {
+        font-size: 0.82rem;
+        font-style: italic;
+        color: rgba(255, 255, 255, 0.45);
+        max-width: 980px;
+        padding-bottom: 28px;
+    }
 
-      .info-item {
+    .footer-bottom {
         display: flex;
-        align-items: flex-start;
-        gap: 15px;
-        color: $text-dim;
-        text-decoration: none;
-        font-size: 15px;
-        transition: 0.3s;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding-block: 22px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.88rem;
 
-        @include mobile { justify-content: center; }
-
-        .icon {
-          color: $accent;
-          font-size: 18px;
+        strong { color: #fff; }
+        .rccm { opacity: 0.6; margin-left: 8px; white-space: nowrap; }
+        .to-top {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            color: #fff;
+            transition: color 0.25s;
+            svg { transition: transform 0.3s; }
+            &:hover { color: var(--brand-orange); svg { transform: translateY(-3px); } }
         }
+    }
 
-        &:hover:not(.location) {
-          color: $text-light;
-          transform: translateX(5px);
+    // Grand texte décoratif en bas de page
+    .footer-giant {
+        white-space: nowrap;
+        line-height: 0.8;
+        padding-top: 10px;
+        margin-bottom: -0.12em;
+        span {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: clamp(4rem, 13vw, 12rem);
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.14);
         }
-      }
     }
-  }
-
-  // Bottom Bar
-  .footer-bottom {
-    padding-top: 40px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.3);
-
-    @include mobile {
-      flex-direction: column-reverse;
-      gap: 20px;
-      padding-top: 30px;
-    }
-
-    strong { color: rgba(255, 255, 255, 0.5); }
-
-    .legal-links {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-
-      a {
-        color: inherit;
-        text-decoration: none;
-        transition: 0.3s;
-        &:hover { color: $text-light; }
-      }
-
-      .separator { opacity: 0.2; }
-    }
-  }
 }

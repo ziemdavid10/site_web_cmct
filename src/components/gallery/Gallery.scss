@@ -1,0 +1,205 @@
+@use "../../mixins" as *;
+
+.gallery {
+    // ── Filtres ──
+    .g-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: clamp(24px, 4vw, 40px);
+    }
+    .g-filter {
+        position: relative;
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: 1.5px solid var(--line);
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--text);
+        transition: color 0.25s, border-color 0.25s;
+
+        &:hover { border-color: var(--ink); color: var(--ink); }
+        &.active { color: #fff; border-color: var(--ink); }
+        .g-label { position: relative; z-index: 1; }
+        .g-pill { position: absolute; inset: -1.5px; border-radius: inherit; background: var(--ink); }
+    }
+
+    // ── Mosaïque : les photos verticales occupent deux rangées ──
+    .g-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-auto-rows: clamp(180px, 20vw, 260px);
+        grid-auto-flow: dense;
+        gap: clamp(10px, 1.6vw, 18px);
+
+        @media (max-width: 900px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        @include small { grid-auto-rows: 150px; gap: 8px; }
+    }
+    .g-item {
+        min-width: 0;
+        &.portrait { grid-row: span 2; }
+        // En 2 colonnes, la dernière photo horizontale prend toute la largeur pour fermer la mosaïque
+        @media (max-width: 900px) {
+            &.fill { grid-column: 1 / -1; }
+        }
+    }
+
+    .g-card {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: var(--radius);
+        overflow: hidden;
+        background: var(--bg-soft);
+        cursor: zoom-in;
+        isolation: isolate;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .g-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-start;
+            gap: 4px;
+            padding: clamp(12px, 2vw, 22px);
+            text-align: left;
+            color: #fff;
+            background: linear-gradient(to top, rgba(11, 20, 48, 0.85), rgba(11, 20, 48, 0) 60%);
+            opacity: 0;
+            transition: opacity 0.4s;
+
+            strong {
+                font-family: var(--font-display);
+                font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+                line-height: 1.25;
+                transform: translateY(12px);
+                transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+        }
+        .g-cat {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--brand-orange);
+        }
+        .g-zoom {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--brand-orange);
+            color: var(--ink);
+            transform: scale(0.4) rotate(-45deg);
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            svg { width: 18px; height: 18px; }
+        }
+
+        &:hover, &:focus-visible {
+            img { transform: scale(1.06); }
+            .g-overlay { opacity: 1; }
+            .g-overlay strong { transform: none; }
+            .g-zoom { transform: none; }
+        }
+
+        // Sur écran tactile, titre toujours visible
+        @media (hover: none) {
+            .g-overlay { opacity: 1; }
+            .g-overlay strong { transform: none; }
+            .g-zoom { display: none; }
+        }
+    }
+}
+
+// ── Visionneuse ──
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 4000;
+    background: rgba(6, 11, 28, 0.94);
+    backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    padding: 16px clamp(12px, 5vw, 96px) calc(16px + env(safe-area-inset-bottom));
+    color: #fff;
+
+    .lb-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+    }
+    .lb-counter { font-weight: 700; font-size: 0.9rem; letter-spacing: 0.1em; color: rgba(255, 255, 255, 0.7); }
+
+    .lb-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        transition: background 0.25s, color 0.25s;
+        svg { width: 22px; height: 22px; }
+        &:hover { background: var(--brand-orange); color: var(--ink); }
+    }
+    .lb-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        &.prev { left: clamp(8px, 2vw, 28px); }
+        &.next { right: clamp(8px, 2vw, 28px); }
+        @include mobile { top: auto; bottom: calc(16px + env(safe-area-inset-bottom)); transform: none; }
+    }
+
+    .lb-stage {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        padding-block: 12px;
+        @include mobile { padding-bottom: 64px; }
+    }
+    .lb-figure {
+        max-width: 100%;
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        cursor: grab;
+        touch-action: pan-y;
+        &:active { cursor: grabbing; }
+
+        img {
+            max-width: 100%;
+            max-height: calc(100dvh - 210px);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 12px;
+            user-select: none;
+            -webkit-user-drag: none;
+            box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.6);
+        }
+        figcaption {
+            text-align: center;
+            max-width: 640px;
+            strong { display: block; font-family: var(--font-display); font-size: 1.1rem; }
+            span { font-size: 0.92rem; color: rgba(255, 255, 255, 0.72); }
+        }
+    }
+}

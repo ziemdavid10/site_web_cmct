@@ -1,126 +1,93 @@
-// @import "../../App.scss";
+@use "../../mixins" as *;
 
-// .navlogo{
-//     height: 60px;
-//     background-color: white;
+.brands-band {
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
 
-//     @include mobile{
-//         height: 50px;
-//     }
-
-//     .wrapper{
-//         max-width: 1366px;
-//         margin: auto;
-//         padding: 20px 50px;
-//         display: flex;
-//         justify-content: space-between;
-//         align-items: center;
-//         height: 100%;
-
-//         @include mobile{
-//             padding: 10px 20px;
-//         }
-
-//         @include tablet{
-//             padding: 15px 30px;
-//         }
-        
-//         .infos{
-//             display: flex;
-//             gap: 5px;
-
-//             img{
-//                 width: 115px;
-//                 height: 39px;
-//                 transition: all 0.3s ease;
-//                 color: white;
-
-//                 @include mobile{
-//                     width: 80px;
-//                     height: 27px;
-//                 }
-
-//                 @include tablet{
-//                     width: 100px;
-//                     height: 34px;
-//                 }
-//             }
-//         }
-//     } 
-// }  
-
-
-@import "../../App.scss";
-
-.navlogo {
-  width: 100%;
-  background-color: white;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05); // Subtile séparation
-  display: flex;
-  align-items: center;
-  min-height: 80px; // Un peu plus d'air pour l'aspect premium
-
-  @include mobile {
-    min-height: auto;
-    padding: 15px 0;
-  }
-
-  .wrapper {
-    max-width: 1366px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: nowrap;
-
-    @include tablet {
-      padding: 0 30px;
-      // Sur tablette, on permet le passage à la ligne pour garder les logos lisibles
-      flex-wrap: wrap; 
-      justify-content: center;
-      gap: 30px;
+    .marquee {
+        overflow: hidden;
+        mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+    .marquee-track {
+        display: flex;
+        width: max-content;
+    }
+    .marquee-group {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
     }
 
-    @include mobile {
-      padding: 0 20px;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      gap: 15px;
+    // Bandeau orange des domaines
+    .domains-marquee {
+        background: var(--brand-orange);
+        color: var(--ink);
+        padding: 16px 0;
+        mask-image: none;
+        -webkit-mask-image: none;
+        transform: rotate(-1deg) scale(1.02);
+        margin: -10px 0 8px;
+        box-shadow: 0 10px 30px -10px rgba(255, 165, 0, 0.6);
+    }
+    .domain {
+        display: inline-flex;
+        align-items: center;
+        gap: 28px;
+        padding-right: 28px;
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: clamp(1.2rem, 2.6vw, 2rem);
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        .sep { width: 0.8em; height: 0.8em; color: var(--ink); }
     }
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      img {
-        max-width: 120px;
-        height: auto; // Garder le ratio
-        max-height: 45px;
-        object-fit: contain;
-        // filter: grayscale(100%); // Optionnel : look minimaliste
-        opacity: 0.7;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
-        &:hover {
-          filter: grayscale(0%);
-          opacity: 1;
-          transform: scale(1.05);
-        }
-
-        @include tablet {
-          max-width: 100px;
-          max-height: 35px;
-        }
+    // Logos des marques
+    .logos-row {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding: 22px 0 24px var(--gutter);
+        max-width: 1400px;
+        margin: 0 auto;
 
         @include mobile {
-          max-width: 80px;
-          max-height: 30px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            padding: 18px 0 20px;
         }
-      }
     }
-  }
+    .logos-label {
+        flex-shrink: 0;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        max-width: 160px;
+        span { color: var(--brand-orange); }
+
+        @include mobile { max-width: none; padding-inline: var(--gutter); }
+    }
+    .logos-marquee { flex: 1; min-width: 0; }
+    .brand-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-right: 40px;
+        white-space: nowrap;
+        filter: grayscale(1);
+        opacity: 0.75;
+        transition: filter 0.3s, opacity 0.3s;
+        &:hover { filter: none; opacity: 1; }
+    }
+    .brand-name {
+        font-weight: 700;
+        color: var(--ink);
+        font-size: 0.95rem;
+    }
 }

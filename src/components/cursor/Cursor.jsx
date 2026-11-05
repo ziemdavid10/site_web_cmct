@@ -1,41 +1,69 @@
 import { useEffect, useState } from "react";
-import { motion, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import "./Cursor.scss";
 
+// Vrai uniquement avec une souris (pas sur téléphone / tablette tactile)
+const canUseCustomCursor = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+  !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 const Cursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  
-  // Utilisation de useSpring pour un mouvement fluide et organique (physique)
-  const springConfig = { damping: 25, stiffness: 150 };
-  const cursorX = useSpring(0, springConfig);
-  const cursorY = useSpring(0, springConfig);
+  const [enabled, setEnabled] = useState(canUseCustomCursor);
+  const [hovering, setHovering] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  // Valeurs animées : aucun re-rendu React à chaque mouvement de souris
+  const x = useMotionValue(-100);
+  const y = useMotionValue(-100);
+  const outlineX = useSpring(x, { damping: 25, stiffness: 250, mass: 0.5 });
+  const outlineY = useSpring(y, { damping: 25, stiffness: 250, mass: 0.5 });
 
   useEffect(() => {
-    const moveCursor = (e) => {
-      cursorX.set(e.clientX - 16); // Centrer le curseur (32px / 2)
-      cursorY.set(e.clientY - 16);
-      setPosition({ x: e.clientX, y: e.clientY });
-    };
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const onChange = () => setEnabled(canUseCustomCursor());
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
-    window.addEventListener("mousemove", moveCursor);
-    return () => window.removeEventListener("mousemove", moveCursor);
-  }, [cursorX, cursorY]);
+  useEffect(() => {
+    document.body.classList.toggle("has-custom-cursor", enabled);
+    if (!enabled) return;
+
+    const move = (e) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+      setVisible(true);
+    };
+    const over = (e) => {
+      setHovering(!!e.target.closest?.("a, button, [role='button'], input, textarea, select, label"));
+    };
+    const leave = () => setVisible(false);
+
+    window.addEventListener("mousemove", move, { passive: true });
+    window.addEventListener("mouseover", over, { passive: true });
+    document.documentElement.addEventListener("mouseleave", leave);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseover", over);
+      document.documentElement.removeEventListener("mouseleave", leave);
+      document.body.classList.remove("has-custom-cursor");
+    };
+  }, [enabled, x, y]);
+
+  if (!enabled) return null;
 
   return (
     <>
-      {/* Curseur principal (Cercle fluide) */}
-      <motion.div 
-        className="cursor-outline" 
-        style={{ 
-          x: cursorX, 
-          y: cursorY 
-        }}
+      <motion.div
+        className={`cursor-outline ${hovering ? "active" : ""}`}
+        style={{ x: outlineX, y: outlineY, opacity: visible ? 1 : 0 }}
+        aria-hidden="true"
       />
-      {/* Point central (Réaction immédiate) */}
-      <motion.div 
+      <motion.div
         className="cursor-dot"
-        animate={{ x: position.x - 2, y: position.y - 2 }}
-        transition={{ type: "tween", ease: "linear", duration: 0 }}
+        style={{ x, y, opacity: visible ? 1 : 0 }}
+        aria-hidden="true"
       />
     </>
   );

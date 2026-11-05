@@ -1,0 +1,129 @@
+@use "../../mixins" as *;
+
+.why {
+    // ── Raisons : liste éditoriale ──
+    .reasons {
+        list-style: none;
+        border-top: 1px solid var(--line);
+    }
+    .reason {
+        position: relative;
+        display: grid;
+        grid-template-columns: 90px minmax(0, 1fr) auto;
+        gap: clamp(16px, 3vw, 40px);
+        align-items: start;
+        padding: clamp(26px, 4vw, 44px) clamp(8px, 2vw, 24px);
+        border-bottom: 1px solid var(--line);
+        isolation: isolate;
+        overflow: hidden;
+
+        @include mobile { grid-template-columns: 1fr; gap: 12px; }
+
+        // fond qui balaie la ligne au survol
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: var(--bg-soft);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        &:hover::before { transform: scaleY(1); }
+        &:hover .r-num { color: var(--brand-orange-ink); }
+        &:hover .r-icon { background: var(--brand-orange); color: var(--ink); }
+
+        .r-num {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1;
+            color: var(--line);
+            transition: color 0.4s;
+            -webkit-text-stroke: 1px var(--muted);
+            color: transparent;
+        }
+        h3 { font-size: clamp(1.2rem, 2.2vw, 1.6rem); font-weight: 800; margin-bottom: 10px; }
+        p { color: var(--text); max-width: 760px; }
+
+        .r-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--ink);
+            color: #fff;
+            transition: background 0.35s, color 0.35s;
+            svg { width: 24px; height: 24px; }
+
+            @include mobile { display: none; }
+        }
+    }
+
+    // ── Méthode de collaboration ──
+    .method {
+        margin-top: clamp(64px, 9vw, 110px);
+        position: relative;
+
+        h3 { font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 800; margin-bottom: 40px; }
+
+        .method-track {
+            position: absolute;
+            left: 32px;
+            right: 32px;
+            margin-top: 31px;
+            height: 3px;
+            background: var(--line);
+            border-radius: 3px;
+            overflow: hidden;
+
+            span {
+                display: block;
+                height: 100%;
+                transform-origin: 0 50%;
+                background: linear-gradient(90deg, var(--brand-blue), var(--brand-orange));
+            }
+            @media (max-width: 900px) { display: none; }
+        }
+
+        ol {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            position: relative;
+
+            @media (max-width: 900px) { grid-template-columns: repeat(2, 1fr); }
+            @include small { grid-template-columns: 1fr; }
+        }
+        li {
+            position: relative;
+            .s-icon {
+                width: 64px;
+                height: 64px;
+                border-radius: 20px;
+                display: grid;
+                place-items: center;
+                background: var(--brand-blue);
+                color: #fff;
+                margin-bottom: 20px;
+                box-shadow: 0 14px 30px -12px rgba(50, 73, 134, 0.7);
+                svg { width: 26px; height: 26px; }
+            }
+            &:nth-child(2) .s-icon { background: var(--brand-orange); color: var(--ink); box-shadow: 0 14px 30px -12px rgba(255, 165, 0, 0.8); }
+            &:nth-child(3) .s-icon { background: var(--brand-red); }
+            &:nth-child(4) .s-icon { background: var(--ink); }
+
+            .s-num {
+                font-size: 0.78rem;
+                font-weight: 800;
+                letter-spacing: 0.14em;
+                color: var(--muted);
+            }
+            h4 { font-size: 1.2rem; margin: 6px 0 8px; }
+            p { color: var(--text); font-size: 0.96rem; }
+        }
+    }
+}

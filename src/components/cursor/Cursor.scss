@@ -1,49 +1,37 @@
-@import "../../App.scss";
-
-// On cache le curseur par défaut sur le body pour un effet total immersion
-// (À ajouter dans votre fichier global App.scss ou index.scss)
-// body { cursor: none; a, button { cursor: none; } }
+// Le composant ne s'affiche qu'avec une souris (voir Cursor.jsx)
+.cursor-outline,
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none; // permet de cliquer "à travers" le curseur
+  mix-blend-mode: difference; // s'inverse selon la couleur du fond
+  transition: opacity 0.2s ease;
+}
 
 .cursor-outline {
   width: 32px;
   height: 32px;
-  border: 1.5px solid white;
-  border-radius: 50%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none; // Crucial : permet de cliquer "à travers" le curseur
+  margin: -16px 0 0 -16px; // centré sur la pointe de la souris
+  border: 1.5px solid #fff;
   z-index: 9999;
-  mix-blend-mode: difference; // S'inverse selon la couleur du fond (Magique !)
-  transition: width 0.3s, height 0.3s, background-color 0.3s;
+  transition: width 0.25s ease, height 0.25s ease, margin 0.25s ease,
+    background-color 0.25s ease, opacity 0.2s ease;
 
-  @include mobile {
-    display: none;
+  &.active {
+    width: 56px;
+    height: 56px;
+    margin: -28px 0 0 -28px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: transparent;
   }
 }
 
 .cursor-dot {
-  width: 4px;
-  height: 4px;
-  background-color: white;
-  border-radius: 50%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background-color: #fff;
   z-index: 10000;
-  mix-blend-mode: difference;
-
-  @include mobile {
-    display: none;
-  }
-}
-
-// Optionnel : Interaction avec les liens
-// Ajoutez une classe .active au curseur via JS quand vous survolez un <a>
-.cursor-outline.active {
-  width: 60px;
-  height: 60px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: transparent;
 }

@@ -1,0 +1,232 @@
+@use "../../mixins" as *;
+
+.organisation {
+    h3 { font-size: clamp(1.3rem, 2.4vw, 1.8rem); font-weight: 800; margin-bottom: 20px; }
+
+    // ── Organigramme ──
+    .org-chart {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .org-hq {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 18px 28px 18px 18px;
+        border-radius: 20px;
+        background: var(--ink);
+        color: rgba(255, 255, 255, 0.75);
+        box-shadow: var(--shadow);
+
+        strong { display: block; font-family: var(--font-display); font-size: 1.4rem; color: #fff; }
+        span { font-size: 0.92rem; }
+        .hq-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: var(--brand-orange);
+            color: var(--ink);
+            flex-shrink: 0;
+            svg { width: 26px; height: 26px; }
+        }
+    }
+
+    .org-stem {
+        width: 2px;
+        height: 36px;
+        background: var(--brand-blue);
+        transform-origin: top;
+    }
+    .org-branch {
+        // relie le centre de la 1re carte au centre de la 4e (4 colonnes, 16px d'écart)
+        width: calc(75% + 12px);
+        height: 2px;
+        background: var(--brand-blue);
+        transform-origin: center;
+
+        @media (max-width: 1024px) { display: none; }
+    }
+
+    .org-directions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        padding-top: 28px;
+
+        @media (max-width: 1024px) { grid-template-columns: repeat(2, 1fr); padding-top: 8px; }
+        @include small { grid-template-columns: 1fr; }
+    }
+
+    .dir {
+        --accent: var(--brand-blue);
+        --accent-soft: rgba(50, 73, 134, 0.12);
+        position: relative;
+        background: var(--bg);
+        border-radius: var(--radius-lg);
+        padding: 26px 22px 22px;
+        border-top: 4px solid var(--accent);
+        box-shadow: var(--shadow-sm);
+        transition: box-shadow 0.35s;
+
+        &:hover { box-shadow: var(--shadow); }
+
+        // Petit trait vertical qui relie la carte à la branche
+        &::before {
+            content: "";
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            width: 2px;
+            height: 24px;
+            background: var(--brand-blue);
+            @media (max-width: 1024px) { display: none; }
+        }
+
+        &.dir-comm { --accent: var(--brand-orange); --accent-soft: rgba(255, 165, 0, 0.16); }
+        &.dir-tech { --accent: var(--brand-red); --accent-soft: rgba(230, 57, 70, 0.12); }
+        &.dir-training { --accent: #2a9d8f; --accent-soft: rgba(42, 157, 143, 0.14); }
+
+        .dir-num {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        .dir-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: var(--accent-soft);
+            color: var(--accent);
+            margin-bottom: 16px;
+            svg { width: 22px; height: 22px; }
+        }
+        &.dir-comm .dir-icon { color: var(--brand-orange-ink); }
+        h3 { font-size: 1.08rem; margin-bottom: 18px; line-height: 1.3; }
+    }
+
+    .dir-brands {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--ink);
+        }
+    }
+
+    .org-transversal {
+        margin-top: 16px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 18px 24px;
+        border-radius: 20px;
+        border: 2px dashed rgba(50, 73, 134, 0.35);
+        background: rgba(50, 73, 134, 0.05);
+
+        svg { width: 30px; height: 30px; color: var(--brand-blue); flex-shrink: 0; }
+        strong { display: block; color: var(--ink); font-family: var(--font-display); }
+        span { color: var(--muted); font-size: 0.92rem; }
+    }
+
+    // ── Détails ──
+    .org-details {
+        margin-top: clamp(56px, 8vw, 96px);
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(28px, 4vw, 56px);
+
+        @media (max-width: 900px) { grid-template-columns: 1fr; }
+    }
+
+    .functions article {
+        padding: 22px 0;
+        border-top: 1px solid var(--line);
+        h4 { font-size: 1.08rem; margin-bottom: 8px; color: var(--brand-blue); }
+        p { color: var(--text); }
+    }
+
+    .collaboration {
+        padding: clamp(26px, 4vw, 40px);
+        border-radius: var(--radius-lg);
+        background: var(--bg);
+        box-shadow: var(--shadow-sm);
+
+        > p { color: var(--text); }
+    }
+    .collab-visual {
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: 1fr auto 1.4fr;
+        gap: 16px;
+        align-items: start;
+
+        @include small { grid-template-columns: 1fr; }
+    }
+    .collab-or {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--brand-orange);
+        align-self: center;
+        @include small { display: none; }
+    }
+    .collab-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 800;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 12px;
+    }
+    .collab-col ul {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: var(--bg-soft);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--ink);
+        }
+    }
+    .collab-col.integrated li {
+        background: rgba(50, 73, 134, 0.08);
+        .plus { color: var(--brand-orange-ink); flex-shrink: 0; }
+    }
+
+    .org-note {
+        margin-top: 40px;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        font-size: 0.88rem;
+        font-style: italic;
+        color: var(--muted);
+        svg { flex-shrink: 0; margin-top: 3px; color: var(--brand-blue); }
+    }
+}

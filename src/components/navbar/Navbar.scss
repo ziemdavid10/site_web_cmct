@@ -1,239 +1,289 @@
-// @import "../../App.scss";
-
-// .navbar{
-//     height: 100px;
-//     background-color: white;
-//     position:fixed;
-//     z-index: 999;
-//     width: 100%;
-    
-//     &.projects-navbar {
-//         background-color: rgba(11, 11, 26, 0.95);
-//         backdrop-filter: blur(10px);
-        
-//         .wrapper {
-//             .menu a {
-//                 color: white;
-                
-//                 &:hover {
-//                     color: orange;
-//                 }
-                
-//                 img {
-//                     filter: invert(100%);
-//                 }
-//             }
-            
-//             span img {
-//                 filter: brightness(0) invert(1);
-//             }
-//         }
-//     }
-
-//     .wrapper{
-//         max-width: 1366px;
-//         margin: auto;
-//         padding: 20px 50px;
-//         display: flex;
-//         justify-content: space-between;
-//         align-items: center;
-//         height: 100%;
-
-//         @include mobile{
-//             padding: 15px 20px;
-//         }
-
-//         @include tablet{
-//             padding: 20px 30px;
-//         }
-
-//         span{
-//             font-weight: bold;
-//             img{
-//                 width: 104px;
-//                 height: 104px;
-
-//                 @include mobile{
-//                     width: 60px;
-//                     height: 60px;
-//                 }
-
-//                 @include tablet{
-//                     width: 80px;
-//                     height: 80px;
-//                 }
-//             }
-//         }
-
-//         .menu{
-//             display: flex;
-//             gap: 20px;
-
-//             @include mobile{
-//                 gap: 10px;
-//                 flex-wrap: wrap;
-//                 justify-content: flex-end;
-//             }
-
-//             @include tablet{
-//                 gap: 15px;
-//             }
-
-//             a{
-//                 font-weight: 500;
-//                 color: black;
-//                 transition: all 0.3s ease;
-//                 font-size: 16px;
-
-//                 @include mobile{
-//                     font-size: 12px;
-//                 }
-
-//                 @include tablet{
-//                     font-size: 14px;
-//                 }
-
-//                 img{
-//                     width: 16px;
-//                     height: 16px;
-//                     filter: invert(80%) sepia(20%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(85%);
-//                     transition: all 0.3s ease;
-//                     color: black;
-
-//                     @include mobile{
-//                         width: 12px;
-//                         height: 12px;
-//                     }
-//                 }
-
-//                 &:hover{
-//                     color: yellow;
-//                 }
-//             }
-
-//             // a{
-//             //     margin-left: 20px;
-
-//             //     img{
-//             //         width: 24px;
-//             //         height: 24px;
-//             //         filter: invert(80%) sepia(20%) saturate(500%) hue-rotate(180deg) brightness(90%) contrast(85%);
-//             //         transition: all 0.3s ease;
-
-//             //         &:hover{
-//             //             filter: invert(60%) sepia(40%) saturate(800%) hue-rotate(150deg) brightness(110%) contrast(120%);
-//             //         }
-//             //     }
-//             // }
-//         }
-//     }
-// }
-
-@import "../../App.scss";
+@use "../../mixins" as *;
 
 .navbar {
-  width: 100%;
-  position: relative;
-  top: unset;
-  left: unset;
-  z-index: 999;
-  background-color: white;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    --nav-fg: var(--ink);
+    --nav-muted: var(--text);
+    --nav-bg: #ffffff;
+    --nav-line: var(--line);
+    --nav-indicator: var(--bg-soft);
 
-  &.scrolled {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  }
+    position: relative;
+    height: var(--nav-h);
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--nav-line);
+    color: var(--nav-fg);
+    transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
 
-  &.projects-navbar {
-    background-color: #0b0b1a !important;
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    &.scrolled { box-shadow: 0 10px 30px -18px rgba(11, 20, 48, 0.35); }
 
-    .wrapper {
-      .menu .menu-item {
-        color: white;
-        &:hover { color: #ffa500; }
-        .icon-dropdown { filter: invert(1); }
-      }
-      .logo-container img { filter: brightness(0) invert(1);}
-    }
-  }
-
-  .wrapper {
-    max-width: 1366px;
-    margin: 0 auto;
-    padding: 0 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80px; // Hauteur fixe plus petite pour la fluidité
-    transition: height 0.3s ease;
-
-    @include tablet { height: 70px; padding: 0 30px; }
-    @include mobile { 
-      height: 60px; 
-      padding: 0 20px;
+    &.is-dark,
+    &.is-open {
+        --nav-fg: #fff;
+        --nav-muted: rgba(255, 255, 255, 0.75);
+        --nav-bg: #0b1430;
+        --nav-line: rgba(255, 255, 255, 0.08);
+        --nav-indicator: rgba(255, 255, 255, 0.1);
     }
 
-    .logo-container {
-      img {
-        height: 65px;
-        width: auto;
-        object-fit: contain;
-        transition: transform 0.3s ease;
-
-        @include tablet { height: 50px; }
-        @include mobile { height: 40px; }
-      }
-    }
-
-    .menu {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-
-      @include tablet { gap: 15px; }
-      
-      @include mobile { 
-        // Solution experte pour mobile sans menu burger : scroll horizontal discret
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        background: white;
-        padding: 10px 20px;
-        overflow-x: auto;
-        gap: 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        border-top: 1px solid #f0f0f0;
-        
-        // On cache la scrollbar pour le look pro
-        &::-webkit-scrollbar { display: none; }
-        scrollbar-width: none;
-      }
-
-      .menu-item {
-        text-decoration: none;
-        color: #333;
-        font-weight: 600;
-        font-size: 15px;
+    .nav-inner {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding-inline: var(--gutter);
         display: flex;
         align-items: center;
-        gap: 6px;
-        white-space: nowrap;
-        transition: color 0.3s ease;
-
-        &:hover { color: #324986; }
-
-        .icon-dropdown {
-          width: 10px;
-          height: auto;
-          opacity: 0.6;
-        }
-
-        @include mobile { font-size: 13px; }
-      }
+        justify-content: space-between;
+        gap: 20px;
     }
-  }
+
+    // ── Logo ──
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+
+        img {
+            height: calc(var(--nav-h) - 26px);
+            width: auto;
+        }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+            strong { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: 0.02em; }
+            small { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--nav-muted); }
+            @include small { display: none; }
+        }
+    }
+
+    // ── Menu principal ──
+    .menu {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+
+        @media (max-width: 1200px) { display: none; }
+    }
+
+    .menu-item {
+        position: relative;
+        display: block;
+        padding: 9px 14px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.93rem;
+        color: var(--nav-muted);
+        transition: color 0.25s;
+        white-space: nowrap;
+
+        .label { position: relative; z-index: 1; }
+        .indicator {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: var(--nav-indicator);
+        }
+        &:hover, &.active { color: var(--nav-fg); }
+        &.active::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 3px;
+            width: 5px;
+            height: 5px;
+            margin-left: -2.5px;
+            border-radius: 50%;
+            background: var(--brand-orange);
+        }
+    }
+
+    // ── Actions (langue, CTA, burger) ──
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .nav-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 20px;
+        border-radius: 999px;
+        background: var(--brand-orange);
+        color: var(--ink);
+        font-weight: 700;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        transition: background 0.3s, transform 0.3s;
+        svg { transition: transform 0.3s; }
+        &:hover { background: #ffb733; svg { transform: rotate(45deg); } }
+    }
+    .cta-wrap {
+        @media (max-width: 1440px) { display: none; }
+    }
+
+    .burger {
+        display: none;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 1.5px solid var(--nav-line);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        color: var(--nav-fg);
+
+        span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            background: currentColor;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s, width 0.35s;
+        }
+        span:nth-child(2) { width: 14px; align-self: center; transform: translateX(3px); }
+
+        @media (max-width: 1200px) { display: flex; }
+    }
+    &.is-open .burger {
+        span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        span:nth-child(2) { opacity: 0; transform: translateX(10px); }
+        span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    }
+
+    // Sur grand écran le sélecteur de langue est dans la barre ; sur petit écran, dans le menu
+    .nav-actions > .lang-switch {
+        @include small {
+            padding: 3px;
+            .lang-icon { display: none; }
+            button { padding: 6px 9px; }
+        }
+    }
+}
+
+// ── Sélecteur de langue ──
+.lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    border-radius: 999px;
+    border: 1.5px solid var(--nav-line, var(--line));
+    color: var(--nav-fg, var(--ink));
+
+    .lang-icon { width: 16px; height: 16px; margin: 0 4px 0 6px; opacity: 0.7; }
+
+    button {
+        position: relative;
+        padding: 6px 11px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        color: inherit;
+        opacity: 0.65;
+        transition: opacity 0.2s, color 0.3s;
+
+        &:hover { opacity: 1; }
+        &.active { opacity: 1; color: var(--ink); }
+        .code { position: relative; z-index: 1; }
+        .pill {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: var(--brand-orange);
+        }
+    }
+}
+
+// ── Menu plein écran (mobile / tablette) ──
+.mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: var(--ink);
+    color: #fff;
+    padding-top: var(--nav-h);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    .mobile-inner {
+        min-height: 100%;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: clamp(24px, 6vh, 56px) var(--gutter) calc(32px + env(safe-area-inset-bottom));
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 40px;
+    }
+
+    ul:first-child li { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+
+    ul:first-child a {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        padding: 14px 4px;
+        font-family: var(--font-display);
+        font-size: clamp(1.6rem, 6vw, 2.4rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: rgba(255, 255, 255, 0.85);
+        transition: color 0.25s, padding 0.3s;
+
+        .num { font-size: 0.8rem; font-weight: 700; color: var(--brand-orange); letter-spacing: 0.1em; }
+        &:hover, &.active { color: var(--brand-orange); padding-left: 12px; }
+    }
+
+    .mobile-bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+
+        .btn { align-self: stretch; }
+    }
+
+    .mobile-label {
+        font-size: 0.75rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 6px;
+    }
+
+    .mobile-contact {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        a, span {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            word-break: break-word;
+            svg { color: var(--brand-orange); flex-shrink: 0; }
+        }
+    }
+
+    .mobile-social {
+        display: flex;
+        gap: 10px;
+        a {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background 0.3s, color 0.3s;
+            &:hover { background: var(--brand-orange); color: var(--ink); }
+        }
+    }
 }

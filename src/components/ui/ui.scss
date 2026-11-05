@@ -1,0 +1,105 @@
+@use "../../mixins" as *;
+
+// Mots révélés depuis un masque
+.split-words {
+    display: block;
+
+    .word-mask {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+        // évite de couper les jambages (g, p, j)
+        padding-bottom: 0.08em;
+        margin-bottom: -0.08em;
+    }
+    .word {
+        display: inline-block;
+        transform-origin: 0 100%;
+        will-change: transform;
+    }
+}
+
+// En-tête de section
+.section-heading {
+    max-width: 860px;
+    margin-bottom: clamp(40px, 6vw, 72px);
+
+    &.center {
+        margin-inline: auto;
+        text-align: center;
+        .section-label { justify-content: center; }
+    }
+
+    .section-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--brand-blue);
+        margin-bottom: 18px;
+
+        .slash { color: var(--brand-orange); font-size: 1.2em; font-weight: 800; }
+        .num {
+            font-family: var(--font-display);
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: rgba(50, 73, 134, 0.1);
+            letter-spacing: 0.04em;
+        }
+    }
+
+    .section-title {
+        font-size: clamp(1.9rem, 4.6vw, 3.4rem);
+        font-weight: 800;
+    }
+
+    .section-intro {
+        margin-top: 22px;
+        font-size: clamp(1rem, 1.4vw, 1.15rem);
+        color: var(--muted);
+        max-width: 720px;
+    }
+    &.center .section-intro { margin-inline: auto; }
+
+    &.dark {
+        .section-label { color: var(--brand-orange); .num { background: rgba(255, 255, 255, 0.1); color: #fff; } }
+        .section-title { color: #fff; }
+        .section-intro { color: rgba(255, 255, 255, 0.7); }
+    }
+}
+
+.counter { font-variant-numeric: tabular-nums; }
+
+.magnetic { display: inline-flex; }
+@include small { .magnetic { display: flex; width: 100%; } }
+
+// Logo de marque / monogramme
+.brand-mark {
+    display: inline-grid;
+    place-items: center;
+    flex-shrink: 0;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+
+    &.sm { width: 44px; height: 44px; border-radius: 10px; }
+    &.md { width: 64px; height: 64px; }
+    &.lg { width: 88px; height: 88px; border-radius: 18px; }
+
+    img { width: 82%; height: 82%; object-fit: contain; }
+
+    &.mono {
+        background: linear-gradient(135deg, var(--brand-blue), var(--ink));
+        border-color: transparent;
+        color: #fff;
+        font-family: var(--font-display);
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        font-size: 1.05rem;
+    }
+    &.sm.mono { font-size: 0.85rem; }
+}

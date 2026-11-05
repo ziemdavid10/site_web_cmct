@@ -14,6 +14,8 @@ module.exports = {
   rules: {
     "react/prop-types": "off",
     "no-unused-vars": "warn",
+    // Site en français : les apostrophes dans le texte sont normales
+    "react/no-unescaped-entities": ["error", { forbid: [">", "}"] }],
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },

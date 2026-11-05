@@ -1,304 +1,261 @@
-// import { useRef, useState } from "react";
-// import "./Services.scss" 
-// import { motion, stagger, useInView } from "framer-motion"
-
-
-// const variants = {
-//     initial: {
-//         x: -500,
-//         y: 100,
-//         opacity: 0
-//     },
-//     animate: {
-//         x: 0,
-//         y: 0,
-//         opacity: 1,
-//         transition: { 
-//             duration: 1, 
-//             staggerChildren: 0.1,  
-//         },
-//     },
-// };
-// const Services = () =>  {
-
-//     const services = [
-//         {
-//             id: 1,
-//             icon: "/public/media.png",
-//             title: "Média",
-//             desc: "Une couverture médiatique complète,\nde l'étudiant au monde francophone...",
-//         },
-//         {
-//             id: 2,
-//             icon: "/public/communication.png",
-//             title: "Communication",
-//             desc: "Nous façonnons votre image \n et préparons votre avenir.",
-//         },
-//         {
-//             id: 3,
-//             icon: "/public/tech.png",
-//             title: "Tech",
-//             desc: "La technologie au service \n des nouveaux médias.",
-//         },
-//     ]
-
-//     const media = [
-//         {
-//             id: 1,
-//             icon: "/public/Journal l'Etudiant.jpg.jpeg",
-//             lien: "https://www.facebook.com/CMCT.Cameroun",
-//             desc: "Le guide de référence pour l'actualité \n jeunesse et estudiantine.",
-//             boutontext: "Consulter l'actualité"
-//         },
-//         {
-//             id: 2,
-//             icon: "/public/Logo National Post.png",
-//             lien: "https://www.facebook.com/CMCT.Cameroun",
-//             desc: "L'œil sur l'ensemble du territoire national.",
-//             boutontext: "Consulter l'actualité"
-//         },
-//         {
-//             id: 3,
-//             icon: "/public/IMG_2498.PNG",
-//             lien: "https://www.facebook.com/CMCT.Cameroun",
-//             desc: "Le pont vers l'actualité de l'espace \nfrancophone mondial.",
-//             boutontext: "Consulter l'actualité"
-//         },
-//     ]
-
-//     const communication = [
-//         {
-//             id: 1,
-//             icon: "/public/Logo Camigra PNG.png",
-//             lien: "https://www.facebook.com/CMCT.Cameroun",
-//             desc: "Experts en montages audiovisuels, \ngraphisme haute définition et \nformations professionnelle",
-//             boutontext: "Se former"
-//         },
-//         {
-//             id: 2,
-//             icon: "/public/IMG_3905.JPG.jpeg",
-//             lien: "https://www.facebook.com/CMCT.Cameroun",
-//             desc: "Plateformes d'excellence \npour la préparation aux concours IRIC.",
-//             boutontext: "Préparer un concours"
-//         },
-//         {
-//             id: 3,
-//             icon: "/public/IMG_3906.PNG",
-//             size: { width: "50px", height: "50px" },
-//             lien: "https://www.facebook.com/CMCT.Cameroun",
-//             desc: "Plateformes d'excellence \npour la préparation aux concours ESSTIC.",
-//             boutontext: "Préparer un concours"
-//         },
-//     ]
-
-//     const Tech = [
-//         {
-//             id: 1,
-//             icon: "/public/Logo Makemba-03.jpg.jpeg",
-//             size: { width: "175px", height: "70px" },
-//             lien: "https://www.facebook.com/CMCT.Cameroun",
-//             desc: "Solutions informatiques sur mesure \noptimisées pour \nvos besoins.",
-//             boutontext: "Demander une prestation tech"
-//         },
-//     ]
-
-//     // 1. Initialize state to track selected category (default to 'Média')
-//     const [selectedCategory, setSelectedCategory] = useState("Média");
-
-//     // Helper to get the correct sub-array based on selection
-//     const getSubServices = () => {
-//         switch(selectedCategory) {
-//             case "Média": return media;
-//             case "Communication": return communication;
-//             case "Tech": return Tech;
-//             default: return [];
-//         }
-//     }
-
-//     const ref = useRef();
-
-//     const isInView = useInView(ref, { margin:"-100px" })
-
-//   return (
-//     <motion.div 
-//         className="services" 
-//         variants={variants} 
-//         initial="initial" 
-//         // animate="animate"
-//         // whileInView="animate" 
-//         ref={ref}
-//         animate={isInView && "animate"}    
-//     >
-//       <motion.div className="textContainer" variants={variants}>
-//             <h1>
-//                 <span style={{ color: "black"}}>Nos</span> <span style={{ color: "red"}}>Branches</span> 
-//                 <br/>
-//                 <span style={{ color: "black"}}>Nos 3 pôles d'<motion.b whileHover={{color:"orange"}}>expertise</motion.b></span>
-//             </h1>
-//       </motion.div>
-      
-//       <hr />
-      
-//       <motion.div className="services-list" variants={variants}>
-//         {services.map((item) => (
-//             <motion.div
-//                 key={item.id}
-//                 className={`service-item ${selectedCategory === item.title ? "active" : ""}`}
-//                 onClick={() => setSelectedCategory(item.title)}
-                
-//                 // On combine l'animation d'entrée des variants ET le changement de couleur
-//                 animate={{
-//                 // On garde les propriétés de ton variant 'animate' initial
-//                 x: 0, 
-//                 y: 0, 
-//                 opacity: 1,
-//                 // On ajoute la logique dynamique pour la sélection
-//                 backgroundColor: selectedCategory === item.title ? "#ffa500" : "#F5F5F5",
-//                 borderColor: selectedCategory === item.title ? "#ffa500" : "gray",
-//                 }}
-                
-//                 // Le whileHover peut entrer en conflit, on s'assure qu'il ne bloque pas l'état actif
-//                 whileHover={{ scale: 1.02, backgroundColor: selectedCategory === item.title ? "#ffa500" : "lightgray" }}
-                
-//                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-//                 style={{ cursor: "pointer", border: "0.5px solid" }} // On laisse le style de base ici
-//             >
-//                 <img src={item.icon} alt="" />
-//                 <h3 style={{ color: selectedCategory === item.title ? "white" : "black" }}>{item.title}</h3>
-//                 <p style={{ color: selectedCategory === item.title ? "white" : "black" }}>{item.desc}</p>
-//             </motion.div>
-// ))}
-//         </motion.div>
-
-//         <hr />
-
-//         <motion.div 
-//             className="sub-services-list" 
-//             variants={variants}
-//             key={selectedCategory}
-//             initial={{ opacity: 0, y: 50 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             transition={{ duration: 0.5, delay: 0.3 }}
-//         >
-//             {getSubServices().map((sub) => (
-//                 <motion.div className="service-item" whileHover={{ background: "lightgray", color: "black" }} transition={{ type: "spring", stiffness: 300 }}
-//                 key={sub.id}    
-//             >   
-//                 <img src={sub.icon} alt=""  style={sub.size}/>
-//                 <h3>{sub.title}</h3>
-//                 <p>{sub.desc}</p>
-//                 <button><p>{sub.boutontext}</p></button>
-//             </motion.div>
-//             ))}
-//         </motion.div>
-//     </motion.div>
-//   )
-// }
-
-// export default Services
-
 import { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  LuNewspaper, LuClapperboard, LuCpu, LuGraduationCap, LuCheck, LuInfo,
+  LuArrowUpRight, LuFileVideo, LuCamera, LuMegaphone, LuLightbulb, LuMonitor, LuWifi, LuShuffle,
+} from "react-icons/lu";
+import { useI18n } from "../../i18n/context.js";
+import { BRANDS, PHOTOS } from "../../data/site.js";
+import { SectionHeading, BrandMark } from "../ui/ui.jsx";
+import { fadeUp, stagger, EASE } from "../ui/motion.js";
 import "./Services.scss";
-import { motion, useInView, AnimatePresence } from "framer-motion";
 
-const variants = {
-  initial: { opacity: 0, y: 30 },
-  animate: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.6, staggerChildren: 0.1 } 
-  },
-};
+const TAB_ICONS = { media: LuNewspaper, comm: LuClapperboard, tech: LuCpu, training: LuGraduationCap };
+const CARD_ICONS = [LuFileVideo, LuCamera, LuMegaphone];
+const FORMAT_ICONS = [LuMonitor, LuWifi, LuShuffle];
+// Photo d'illustration de chaque direction (aucune pour le moment pour la tech)
+const PANEL_PHOTOS = { media: PHOTOS.une, comm: PHOTOS.interview, training: PHOTOS.tournage };
 
-const Services = () => {
-  const [selectedCategory, setSelectedCategory] = useState("Média");
-  const ref = useRef();
-  const isInView = useInView(ref, { margin: "-100px", once: true });
+// Contenu détaillé d'une direction
+const Panel = ({ d, ctaLabel, sep, photo, photoText }) => (
+  <motion.div
+    className="panel-inner"
+    variants={stagger(0.08)}
+    initial="hidden"
+    animate="show"
+    exit={{ opacity: 0, y: -20, transition: { duration: 0.25 } }}
+  >
+    <motion.div className={`panel-head ${photo ? "has-photo" : ""}`} variants={fadeUp}>
+      <span className="panel-num" aria-hidden="true">{d.number}</span>
+      <div>
+        <h3>{d.title}</h3>
+        <p className="panel-lead">{d.lead}</p>
+      </div>
+      {photo && (
+        <motion.figure
+          className={`panel-photo photo-${photo.id}`}
+          initial={{ opacity: 0, clipPath: "inset(0 0 100% 0 round 20px)" }}
+          animate={{ opacity: 1, clipPath: "inset(0 0 0% 0 round 20px)" }}
+          transition={{ duration: 0.9, delay: 0.15, ease: EASE }}
+        >
+          <motion.img
+            src={photo.thumb}
+            alt={photoText.caption}
+            width={photo.w}
+            height={photo.h}
+            loading="lazy"
+            initial={{ scale: 1.2 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.4, ease: EASE }}
+          />
+          <figcaption>{photoText.title}</figcaption>
+        </motion.figure>
+      )}
+    </motion.div>
 
-  const categories = [
-    { id: 1, title: "Média", icon: "/media.png", desc: "Couverture médiatique du monde francophone." },
-    { id: 2, title: "Communication", icon: "/communication.png", desc: "Conseil en image et stratégie d'avenir." },
-    { id: 3, title: "Tech", icon: "/tech.png", desc: "Solutions digitales pour les nouveaux médias." },
-  ];
+    {d.structures && (
+      <motion.div className="block" variants={fadeUp}>
+        <h4 className="block-title">{d.structures.title}</h4>
+        <div className={`structures count-${d.structures.items.length}`}>
+          {d.structures.items.map((s, i) => (
+            <motion.article
+              key={s.name}
+              className="structure"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 + i * 0.08, duration: 0.6, ease: EASE }}
+              whileHover={{ y: -6 }}
+            >
+              <BrandMark brand={BRANDS[s.brand]} size="lg" />
+              <div>
+                <h5>{s.name}</h5>
+                <p>{s.text}</p>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </motion.div>
+    )}
 
-  // Regroupement des données pour plus de clarté
-  const subData = {
-    "Média": [
-      { id: 1, icon: "/Journal l'Etudiant.jpg.jpeg", desc: "Actualité jeunesse et estudiantine.", btn: "Consulter" },
-      { id: 2, icon: "/Logo National Post.png", desc: "Actualité du territoire national.", btn: "Consulter" },
-      { id: 3, icon: "/IMG_2498.PNG", desc: "Le pont vers l'espace francophone.", btn: "Consulter" },
-    ],
-    "Communication": [
-      { id: 1, icon: "/Logo Camigra PNG.png", desc: "Montage audiovisuel et graphisme HD.", btn: "Se former" },
-      { id: 2, icon: "/IMG_3905.JPG.jpeg", desc: "Préparation aux concours de l'IRIC.", btn: "Préparer" },
-      { id: 3, icon: "/IMG_3906.PNG", desc: "Préparation aux concours de l'ESSTIC.", btn: "Préparer" },
-    ],
-    "Tech": [
-      { id: 1, icon: "/logo.png", desc: "Solutions informatiques sur mesure.", btn: "Demander un devis" },
-    ]
+    <div className={`lists count-${d.lists.length}`}>
+      {d.lists.map((l) => (
+        <motion.div className="block list-block" key={l.title} variants={fadeUp}>
+          <h4 className="block-title">{l.title}</h4>
+          <ul className="checklist">
+            {l.items.map((it, i) => (
+              <motion.li
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 + i * 0.05, duration: 0.45 }}
+              >
+                <span className="check"><LuCheck aria-hidden="true" /></span>
+                <p>
+                  {it.lead && <strong>{it.lead}{sep}</strong>}
+                  {it.text}
+                </p>
+              </motion.li>
+            ))}
+          </ul>
+        </motion.div>
+      ))}
+    </div>
+
+    {d.cards && (
+      <motion.div className="block" variants={fadeUp}>
+        <h4 className="block-title">{d.cards.title}</h4>
+        <div className="deliverables">
+          {d.cards.items.map((c, i) => {
+            const Icon = CARD_ICONS[i % CARD_ICONS.length];
+            return (
+              <motion.article key={c.title} className="deliverable" whileHover={{ y: -6, rotate: -0.5 }}>
+                <Icon className="d-icon" aria-hidden="true" />
+                <h5>{c.title}</h5>
+                <p>{c.text}</p>
+              </motion.article>
+            );
+          })}
+        </div>
+      </motion.div>
+    )}
+
+    {d.steps && (
+      <motion.div className="block" variants={fadeUp}>
+        <h4 className="block-title">{d.steps.title}</h4>
+        <ol className="steps">
+          {d.steps.items.map((s, i) => (
+            <motion.li
+              key={s.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 + i * 0.12, duration: 0.55, ease: EASE }}
+            >
+              <span className="step-num">{i + 1}</span>
+              <h5>{s.title}</h5>
+              <p>{s.text}</p>
+            </motion.li>
+          ))}
+        </ol>
+      </motion.div>
+    )}
+
+    {d.formats && (
+      <motion.ul className="formats" variants={fadeUp}>
+        {d.formats.map((f, i) => {
+          const Icon = FORMAT_ICONS[i];
+          return (
+            <li key={f}>
+              <Icon aria-hidden="true" /> {f}
+            </li>
+          );
+        })}
+      </motion.ul>
+    )}
+
+    <div className="texts">
+      {d.texts.map((x) => (
+        <motion.div className="text-box" key={x.title} variants={fadeUp}>
+          <LuLightbulb className="tb-icon" aria-hidden="true" />
+          <h4>{x.title}</h4>
+          <p>{x.text}</p>
+        </motion.div>
+      ))}
+    </div>
+
+    <motion.div className="panel-foot" variants={fadeUp}>
+      <p className="note">
+        <LuInfo aria-hidden="true" />
+        <span>{d.note}</span>
+      </p>
+      <a href="#Contact" className="btn primary">
+        {ctaLabel}
+        <LuArrowUpRight className="btn-icon" aria-hidden="true" />
+      </a>
+    </motion.div>
+  </motion.div>
+);
+
+const Expertises = () => {
+  const { t } = useI18n();
+  const e = t.expertises;
+  const [selected, setSelected] = useState(e.directions[0].id);
+  const tabsRef = useRef([]);
+  const current = e.directions.find((d) => d.id === selected) ?? e.directions[0];
+
+  // Navigation au clavier entre onglets (flèches, Début, Fin)
+  const onKeyDown = (ev, index) => {
+    const n = e.directions.length;
+    let next = null;
+    if (ev.key === "ArrowRight" || ev.key === "ArrowDown") next = (index + 1) % n;
+    if (ev.key === "ArrowLeft" || ev.key === "ArrowUp") next = (index - 1 + n) % n;
+    if (ev.key === "Home") next = 0;
+    if (ev.key === "End") next = n - 1;
+    if (next === null) return;
+    ev.preventDefault();
+    setSelected(e.directions[next].id);
+    tabsRef.current[next]?.focus();
   };
 
   return (
-    <motion.section 
-      className="services" 
-      ref={ref}
-      variants={variants}
-      initial="initial"
-      animate={isInView ? "animate" : "initial"}
-    >
-      <div className="container">
-        <motion.div className="header" variants={variants}>
-          <h2>Nos <span>Branches</span></h2>
-          <p className="subtitle">Explorez nos 3 pôles d'expertise</p>
-          <div className="line" />
-        </motion.div>
+    <div className="expertises container">
+      <SectionHeading label={e.label} title={e.title} intro={e.intro} dark />
 
-        {/* Sélecteur de catégories principal */}
-        <motion.div className="category-grid" variants={variants}>
-          {categories.map((cat) => (
-            <motion.div
-              key={cat.id}
-              className={`category-card ${selectedCategory === cat.title ? "active" : ""}`}
-              onClick={() => setSelectedCategory(cat.title)}
-              whileHover={{ y: -5 }}
+      <motion.div
+        className="tabs"
+        role="tablist"
+        aria-label={e.tablist}
+        variants={stagger(0.08)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        {e.directions.map((d, i) => {
+          const Icon = TAB_ICONS[d.id];
+          const active = d.id === selected;
+          return (
+            <motion.button
+              key={d.id}
+              ref={(el) => (tabsRef.current[i] = el)}
+              type="button"
+              role="tab"
+              id={`tab-${d.id}`}
+              aria-selected={active}
+              aria-controls="expertise-panel"
+              tabIndex={active ? 0 : -1}
+              className={`tab tab-${d.id} ${active ? "active" : ""}`}
+              onClick={() => setSelected(d.id)}
+              onKeyDown={(ev) => onKeyDown(ev, i)}
+              variants={fadeUp}
+              whileHover={{ y: -4 }}
               whileTap={{ scale: 0.98 }}
             >
-              <div className="icon-wrapper">
-                <img src={cat.icon} alt={cat.title} />
-              </div>
-              <h3>{cat.title}</h3>
-              <p>{cat.desc}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+              {active && (
+                <motion.span layoutId="tab-bg" className="tab-bg" transition={{ type: "spring", stiffness: 380, damping: 32 }} />
+              )}
+              <span className="tab-icon"><Icon aria-hidden="true" /></span>
+              <span className="tab-text">
+                <span className="tab-num">{d.number}</span>
+                <span className="tab-label">{d.tab}</span>
+              </span>
+            </motion.button>
+          );
+        })}
+      </motion.div>
 
-        {/* Liste des sous-services dynamique */}
+      <div id="expertise-panel" className="panel" role="tabpanel" aria-labelledby={`tab-${current.id}`}>
         <AnimatePresence mode="wait">
-          <motion.div 
-            className="details-grid"
-            key={selectedCategory}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.4 }}
-          >
-            {subData[selectedCategory].map((sub) => (
-              <div key={sub.id} className="sub-card">
-                <div className="logo-box">
-                  <img src={sub.icon} alt="Service Logo" />
-                </div>
-                <p>{sub.desc}</p>
-                <button className="btn-action">
-                   <span>{sub.btn}</span>
-                   <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor"></path></svg>
-                </button>
-              </div>
-            ))}
-          </motion.div>
+          <Panel
+            key={`${current.id}-${t.code}`}
+            d={current}
+            ctaLabel={e.contactCta}
+            sep={t.code === "fr" ? " : " : ": "}
+            photo={PANEL_PHOTOS[current.id]}
+            photoText={PANEL_PHOTOS[current.id] && t.gallery.items[PANEL_PHOTOS[current.id].id]}
+          />
         </AnimatePresence>
       </div>
-    </motion.section>
+    </div>
   );
 };
 
-export default Services;
+export default Expertises;

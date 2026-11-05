@@ -1,208 +1,113 @@
-// import React, { useRef, useState } from 'react';
-// import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-// import { createPortal } from 'react-dom';
-// import './Projects.scss';
-
-// const projects = [
-//   {
-//     id: 1,
-//     title: "Campagne Vidéo Événementielle",
-//     category: "Vidéo",
-//     type: "video",
-//     src: "https://vjs.zencdn.net/v/oceans.mp4",
-//     device: "tv",
-//     description: "Production vidéo 4K captivante pour le festival international des arts numériques."
-//   },
-//   {
-//     id: 2,
-//     title: "Application Mobile Interactive",
-//     category: "Digital",
-//     type: "image",
-//     src: "/public/news1.jpg",
-//     device: "iphone",
-//     description: "Expérience utilisateur immersive redéfinissant la consommation de l'information mobile."
-//   },
-//   {
-//     id: 3,
-//     title: "Podcast Narratif : Nouvelle Ère",
-//     category: "Audio",
-//     type: "audio",
-//     src: "/audio_projet.mp3",
-//     device: "tablet",
-//     description: "Série audio immersive explorant les mutations sociétales du 21ème siècle."
-//   }
-// ];
-
-// // --- COMPOSANT LIGHTBOX (MODAL) ---
-// const Lightbox = ({ project, onClose }) => {
-//   return createPortal(
-//     <motion.div 
-//       className="lightbox-overlay"
-//       initial={{ opacity: 0 }}
-//       animate={{ opacity: 1 }}
-//       exit={{ opacity: 0 }}
-//       onClick={onClose}
-//     >
-//       <motion.div 
-//         className="lightbox-content"
-//         initial={{ scale: 0.8, y: 50 }}
-//         animate={{ scale: 1, y: 0 }}
-//         exit={{ scale: 0.8, y: 50 }}
-//         onClick={(e) => e.stopPropagation()}
-//       >
-//         <button className="close-btn" onClick={onClose}>&times;</button>
-//         <div className="media-container">
-//           {project.type === 'video' && <video src={project.src} autoPlay controls />}
-//           {project.type === 'image' && <img src={project.src} alt="" />}
-//           {project.type === 'audio' && <audio src={project.src} controls autoPlay />}
-//         </div>
-//         <div className="info">
-//           <h2>{project.title}</h2>
-//           <p>{project.description}</p>
-//         </div>
-//       </motion.div>
-//     </motion.div>,
-//     document.body
-//   );
-// };
-
-// // --- COMPOSANT ARTICLE UNIQUE ---
-// const SingleProject = ({ project, onOpen }) => {
-//   const ref = useRef();
-//   const { scrollYProgress } = useScroll({
-//     target: ref,
-//     offset: ["start end", "end start"]
-//   });
-
-//   const yImage = useTransform(scrollYProgress, [0, 1], [-150, 150]);
-//   const yText = useTransform(scrollYProgress, [0, 1], [150, -150]);
-
-//   return (
-//     <section className="project-item-section" ref={ref}>
-//       <div className="wrapper">
-//         <motion.div className={`device-preview ${project.device}`} style={{ y: yImage }}>
-//           <div className="hardware-frame">
-//             <div className="screen-content">
-//               {project.type === 'video' ? <video src={project.src} muted autoPlay loop /> : <img src={project.src} alt="" />}
-//             </div>
-//           </div>
-//         </motion.div>
-
-//         <motion.div className="text-zone" style={{ y: yImage }}>
-//           <span className="cat-tag">{project.category}</span>
-//           <h2>{project.title}</h2>
-//           <p>{project.description}</p>
-//           <motion.button 
-//             whileHover={{ scale: 1.05, backgroundColor: "#fff", color: "#000" }} 
-//             onClick={() => onOpen(project)}
-//           >
-//             Découvrir le projet
-//           </motion.button>
-//         </motion.div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// // --- COMPOSANT PRINCIPAL ---
-// const Projects = () => {
-//   const containerRef = useRef();
-//   const [selectedProject, setSelectedProject] = useState(null);
-
-//   const { scrollYProgress } = useScroll({
-//     target: containerRef,
-//     offset: ["start start", "end end"]
-//   });
-
-//   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-
-//   return (
-//     <div className="portfolio-scope" ref={containerRef}>
-//       <div className="sticky-header">
-//         <h1>Nos Réalisations</h1>
-//         {/* <motion.div style={{ scaleX }} className="scroll-progress" /> */}
-//       </div>
-
-//       <div className="projects-list">
-//         {projects.map(p => (
-//           <SingleProject key={p.id} project={p} onOpen={setSelectedProject} />
-//         ))}
-//       </div>
-
-//       <AnimatePresence>
-//         {selectedProject && (
-//           <Lightbox 
-//             project={selectedProject} 
-//             onClose={() => setSelectedProject(null)} 
-//           />
-//         )}
-//       </AnimatePresence>
-//     </div>
-//   );
-// };
-
-// export default Projects;
-
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { useRef, useState, useEffect, useCallback } from 'react';
+import { motion, useScroll, useTransform, useSpring, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { createPortal } from 'react-dom';
+import { LuX, LuPlay } from 'react-icons/lu';
+import { useI18n } from '../../i18n/context.js';
+import { SplitWords } from '../ui/ui.jsx';
 import './Projects.scss';
 
 const projects = [
   {
     id: 1,
-    title: "Campagne Vidéo Événementielle",
-    category: "Vidéo",
     type: "video",
     src: "https://vjs.zencdn.net/v/oceans.mp4",
-    device: "tv",
-    description: "Production vidéo 4K captivante pour le festival international des arts numériques."
+    device: "tv"
   },
   {
     id: 2,
-    title: "Application Mobile Interactive",
-    category: "Digital",
     type: "image",
-    src: "/news1.jpg",
-    device: "iphone",
-    description: "Expérience utilisateur immersive redéfinissant la consommation de l'information mobile."
+    src: "/news1.webp",
+    device: "iphone"
   },
   {
     id: 3,
-    title: "Podcast Narratif : Nouvelle Ère",
-    category: "Audio",
     type: "audio",
     src: "/audio_projet.mp3",
-    device: "tablet",
-    description: "Série audio immersive explorant les mutations sociétales du 21ème siècle."
+    device: "tablet"
   }
 ];
 
+// Parallaxe uniquement sur grand écran (évite les chevauchements sur mobile/tablette)
+const useIsLargeScreen = () => {
+  const query = "(min-width: 1025px)";
+  const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const onChange = (e) => setMatches(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return matches;
+};
+
+// Visuel "onde sonore" pour les projets audio
+const AudioVisual = ({ animated = true }) => (
+  <div className="audio-visual" aria-hidden="true">
+    {Array.from({ length: 24 }).map((_, i) => (
+      <span key={i} style={{ animationDelay: `${(i % 8) * 0.12}s`, animationPlayState: animated ? "running" : "paused" }} />
+    ))}
+  </div>
+);
+
 const Lightbox = ({ project, onClose }) => {
+  const { t } = useI18n();
+  const closeRef = useRef(null);
+  const [audioError, setAudioError] = useState(false);
+
+  useEffect(() => {
+    const previouslyFocused = document.activeElement;
+    closeRef.current?.focus();
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+      previouslyFocused?.focus?.();
+    };
+  }, [onClose]);
+
   return createPortal(
-    <motion.div 
+    <motion.div
       className="lightbox-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
     >
-      <motion.div 
+      <motion.div
         className="lightbox-content"
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="lightbox-title"
+        initial={{ scale: 0.94, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.94, opacity: 0, y: 20 }}
+        transition={{ duration: 0.25 }}
         onClick={(e) => e.stopPropagation()}
       >
-        <button className="close-btn" onClick={onClose}>&times;</button>
-        <div className="media-container">
-          {project.type === 'video' && <video src={project.src} autoPlay controls />}
+        <button ref={closeRef} className="close-btn" onClick={onClose} aria-label={t.common.close}>
+          <LuX aria-hidden="true" />
+        </button>
+
+        <div className={`media-container ${project.type}`}>
+          {project.type === 'video' && <video src={project.src} autoPlay controls playsInline />}
           {project.type === 'image' && <img src={project.src} alt={project.title} />}
-          {project.type === 'audio' && <audio src={project.src} controls autoPlay />}
+          {project.type === 'audio' && (
+            <div className="audio-player">
+              <AudioVisual />
+              {audioError ? (
+                <p className="media-note">{t.projects.audioSoon}</p>
+              ) : (
+                <audio src={project.src} controls onError={() => setAudioError(true)} />
+              )}
+            </div>
+          )}
         </div>
+
         <div className="info">
           <span>{project.category}</span>
-          <h2>{project.title}</h2>
+          <h2 id="lightbox-title">{project.title}</h2>
           <p>{project.description}</p>
         </div>
       </motion.div>
@@ -211,87 +116,84 @@ const Lightbox = ({ project, onClose }) => {
   );
 };
 
-const SingleProject = ({ project, onOpen }) => {
+const SingleProject = ({ project, onOpen, reverse }) => {
+  const { t } = useI18n();
   const ref = useRef();
-  const [isMobile, setIsMobile] = useState(false);
+  const large = useIsLargeScreen();
+  const reduce = useReducedMotion();
+  const parallax = large && !reduce;
 
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
-
-  // Parallaxe désactivée ou réduite sur mobile pour éviter les bugs de layout
-  const yImage = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [-100, 100]);
-  const yText = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [100, -100]);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const yImage = useTransform(scrollYProgress, [0, 1], parallax ? [-60, 60] : [0, 0]);
+  const yText = useTransform(scrollYProgress, [0, 1], parallax ? [60, -60] : [0, 0]);
 
   return (
-    <section className="project-item-section" ref={ref}>
+    <article className={`project-item ${reverse ? "reverse" : ""}`} ref={ref}>
       <div className="wrapper">
         <motion.div className={`device-preview ${project.device}`} style={{ y: yImage }}>
           <div className="hardware-frame">
             <div className="screen-content">
-              {project.type === 'video' ? (
-                <video src={project.src} muted autoPlay loop playsInline />
-              ) : (
-                <img src={project.src} alt="" />
-              )}
+              {project.type === 'video' && <video src={project.src} muted autoPlay loop playsInline preload="metadata" />}
+              {project.type === 'image' && <img src={project.src} alt="" loading="lazy" />}
+              {project.type === 'audio' && <AudioVisual />}
             </div>
           </div>
         </motion.div>
 
-        <motion.div className="text-zone" style={{ y: yText }}>
+        <motion.div
+          className="text-zone"
+          style={{ y: yText }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-80px" }}
+        >
           <span className="cat-tag">{project.category}</span>
-          <h2>{project.title}</h2>
+          <h3>{project.title}</h3>
           <p>{project.description}</p>
-          <motion.button 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
             onClick={() => onOpen(project)}
           >
-            Voir l'étude de cas
+            <LuPlay aria-hidden="true" />
+            {t.projects.caseStudy}
           </motion.button>
         </motion.div>
       </div>
-    </section>
+    </article>
   );
 };
 
 const Projects = () => {
+  const { t } = useI18n();
+  const items = projects.map((p, i) => ({ ...p, ...t.projects.items[i] }));
   const containerRef = useRef();
   const [selectedProject, setSelectedProject] = useState(null);
+  const closeLightbox = useCallback(() => setSelectedProject(null), []);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
   return (
     <div className="portfolio-scope" ref={containerRef}>
-      <div className="sticky-header">
+      <div className="portfolio-header">
         <div className="header-content">
-          <h1>Nos Réalisations</h1>
+          <SplitWords as="h2" text={t.projects.title} />
           <motion.div style={{ scaleX }} className="scroll-progress" />
         </div>
       </div>
 
       <div className="projects-list">
-        {projects.map(p => (
-          <SingleProject key={p.id} project={p} onOpen={setSelectedProject} />
+        {items.map((p, i) => (
+          <SingleProject key={p.id} project={p} onOpen={setSelectedProject} reverse={i % 2 === 1} />
         ))}
       </div>
 
       <AnimatePresence>
         {selectedProject && (
-          <Lightbox 
-            project={selectedProject} 
-            onClose={() => setSelectedProject(null)} 
-          />
+          <Lightbox project={items.find((p) => p.id === selectedProject.id)} onClose={closeLightbox} />
         )}
       </AnimatePresence>
     </div>

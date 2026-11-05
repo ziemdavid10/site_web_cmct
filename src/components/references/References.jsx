@@ -1,0 +1,126 @@
+import { useRef } from "react";
+import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
+import { LuGlobe, LuLandmark, LuFlag, LuHeartHandshake, LuSchool, LuFilm, LuArrowUpRight, LuImage } from "react-icons/lu";
+import { useI18n } from "../../i18n/context.js";
+import { SectionHeading } from "../ui/ui.jsx";
+import { fadeUp, stagger, inView, EASE } from "../ui/motion.js";
+import { PHOTOS } from "../../data/site.js";
+import "./References.scss";
+
+const ICONS = [LuGlobe, LuLandmark, LuFlag, LuHeartHandshake, LuSchool, LuFilm];
+
+// Carte qui s'incline en 3D selon la position de la souris
+const TiltCard = ({ children, className }) => {
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const srx = useSpring(rx, { stiffness: 200, damping: 18 });
+  const sry = useSpring(ry, { stiffness: 200, damping: 18 });
+  const glareX = useTransform(sry, [-10, 10], ["0%", "100%"]);
+
+  const onMove = (e) => {
+    if (e.pointerType !== "mouse") return;
+    const r = e.currentTarget.getBoundingClientRect();
+    ry.set(((e.clientX - r.left) / r.width - 0.5) * 16);
+    rx.set(-((e.clientY - r.top) / r.height - 0.5) * 16);
+  };
+  const reset = () => {
+    rx.set(0);
+    ry.set(0);
+  };
+
+  return (
+    <motion.li
+      className={className}
+      variants={fadeUp}
+      style={{ rotateX: srx, rotateY: sry, transformPerspective: 800 }}
+      onPointerMove={onMove}
+      onPointerLeave={reset}
+    >
+      <motion.span className="glare" style={{ left: glareX }} aria-hidden="true" />
+      {children}
+    </motion.li>
+  );
+};
+
+// Bandeau "Sur le terrain" : deux photos en léger parallaxe
+const FieldBand = ({ g }) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y1 = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [-30, 50]);
+  const shots = [
+    { p: PHOTOS.mission, y: y1, cls: "shot-a" },
+    { p: PHOTOS.terrain, y: y2, cls: "shot-b" },
+  ];
+
+  return (
+    <div className="ref-field" ref={ref}>
+      <motion.div className="field-text" variants={stagger(0.1)} {...inView(0.3)}>
+        <motion.h3 variants={fadeUp}>{g.fieldTitle}</motion.h3>
+        <motion.p variants={fadeUp}>{g.fieldText}</motion.p>
+        <motion.a variants={fadeUp} href="#Galerie" className="field-link">
+          <LuImage aria-hidden="true" />
+          {g.seeAll}
+          <LuArrowUpRight aria-hidden="true" />
+        </motion.a>
+      </motion.div>
+      <div className="field-shots">
+        {shots.map(({ p, y, cls }, i) => (
+          <motion.figure
+            key={p.id}
+            className={`field-shot ${cls}`}
+            style={{ y }}
+            initial={{ opacity: 0, scale: 0.92 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.9, delay: i * 0.15, ease: EASE }}
+          >
+            <img src={p.thumb} alt={g.items[p.id].caption} width={p.w} height={p.h} loading="lazy" />
+            <figcaption>{g.items[p.id].title}</figcaption>
+          </motion.figure>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const References = () => {
+  const { t } = useI18n();
+  const r = t.references;
+
+  return (
+    <div className="references container">
+      <SectionHeading label={r.label} title={r.title} intro={r.intro} />
+
+      <motion.ul className="ref-grid" variants={stagger(0.08)} {...inView(0.15)}>
+        {r.items.map((it, i) => {
+          const Icon = ICONS[i];
+          return (
+            <TiltCard key={it.short} className={`ref-card ref-${i}`}>
+              <Icon className="ref-icon" aria-hidden="true" />
+              <strong className="ref-short">{it.short}</strong>
+              <span className="ref-name">{it.name}</span>
+            </TiltCard>
+          );
+        })}
+      </motion.ul>
+
+      <FieldBand g={t.gallery} />
+
+      <motion.div className="ref-more" variants={stagger(0.1)} {...inView(0.3)}>
+        <motion.p variants={fadeUp}>{r.more}</motion.p>
+        <motion.ul className="sectors" variants={stagger(0.06)}>
+          {r.sectors.map((s) => (
+            <motion.li key={s} variants={fadeUp}>{s}</motion.li>
+          ))}
+        </motion.ul>
+        <motion.a variants={fadeUp} href="#Contact" className="btn dark">
+          {r.cta}
+          <LuArrowUpRight className="btn-icon" aria-hidden="true" />
+        </motion.a>
+      </motion.div>
+    </div>
+  );
+};
+
+export default References;

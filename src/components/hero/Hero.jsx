@@ -1,163 +1,191 @@
-// import React from 'react';
-// import './Hero.scss';
-// import { color, stagger } from 'framer-motion';
-// import { motion } from 'framer-motion';
+import "./Hero.scss";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { LuNewspaper, LuMegaphone, LuClapperboard, LuGraduationCap, LuCpu, LuArrowUpRight, LuMapPin, LuChevronDown } from "react-icons/lu";
+import { useI18n } from "../../i18n/context.js";
+import { Magnetic } from "../ui/ui.jsx";
+import { EASE } from "../ui/motion.js";
 
-// const textVariants = {
-//   initial: { 
-//     opacity: 0, 
-//     x: -500, 
-//     },
-//   animate: { 
-//     opacity: 1, 
-//     x: 0, 
-//     transition: { 
-//         duration: 0.5,
-//         staggerChildren: 0.1
-//      } 
-//   },
-//   scrollButton: {
-//     opacity: 0, 
-//     y: 10, 
-//       transition: { 
-//           duration: 0.5,
-//           repeat: Infinity,
-//         //   repeatType: "mirror",
-//         //   ease: "easeInOut"
-//        } 
-//   }
-// };
-
-// const sliderVariants = {
-//   initial: { 
-//     x: 0, 
-//     },
-//   animate: {  
-//     x: "-220%",
-//     transition: { 
-//         duration: 20,
-//         repeat: Infinity,
-//         repeatType: "mirror",
-//         ease: "easeInOut"
-//      } 
-//   },
-// };
-
-// const Hero = () => {
-//   return (
-//     <div className="hero" style={{ backgroundImage: `url(${'../../../public/industrial-designers-working-3d-model.jpg'})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-//         <div className="wrapper">
-//             <motion.div 
-//                 className="hero-content" 
-//                 variants={textVariants}
-//                 initial="initial"
-//                 animate="animate"
-//                 >
-//                 <motion.h2 variants={textVariants}>L'expertise <span style={{ color:"red" }}>média</span>, 
-//                                                   <br></br>la <span style={{ color:"gold" }}>puissance</span> de la Tech, l'impact de <span style={{ color:"#324986" }}>communication</span></motion.h2>
-//                 <p>Un écosystème unique pour informer, former et transformer votre présence digitale à travers nos 3 pôles d'excellence</p>
-//                 <motion.div variants={textVariants} className="hero-buttons">
-//                     <motion.button variants={textVariants}>commencer</motion.button>
-//                     {/* <motion.button variants={textVariants}>Contact Me</motion.button> */}
-//                 </motion.div>
-//                 <motion.img variants={textVariants} animate="scrollButton"  src="/public/scroll.png" alt="" />
-//             </motion.div>
-//         </div>
-//         <motion.div 
-//             className="hero-slidingText" 
-//             variants={sliderVariants} 
-//             initial="initial" 
-//             animate="animate"
-//             >
-//             Central Media Communication Technologies
-//         </motion.div>
-//         {/* <div className="hero-image">
-//             <img src="/public/mypic.jpg" alt="" />
-//         </div> */}
-//     </div>
-//   );
-// };
-
-// export default Hero;
-
-import React from 'react';
-import './Hero.scss';
-import { motion } from 'framer-motion';
-
-const textVariants = {
-  initial: { opacity: 0, x: -50 }, // -500 est trop brusque, -50 est plus élégant
-  animate: { 
-    opacity: 1, 
-    x: 0, 
-    transition: { duration: 0.8, staggerChildren: 0.2, ease: "easeOut" } 
-  },
-  scrollButton: {
-    opacity: [0, 1, 0],
-    y: [0, 10, 0],
-    transition: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-  }
-};
-
-const sliderVariants = {
-  initial: { x: "0%" },
-  animate: {  
-    x: "-100%", // Ajusté pour un défilement plus fluide
-    transition: { 
-      duration: 30, // Plus lent = plus premium
-      repeat: Infinity,
-      repeatType: "loop", // "loop" est préférable pour un texte qui défile
-      ease: "linear"
-    } 
-  },
-};
+const DOMAIN_ICONS = [LuNewspaper, LuMegaphone, LuClapperboard, LuGraduationCap, LuCpu];
 
 const Hero = () => {
+  const { t, lang } = useI18n();
+  const h = t.hero;
+  const reduce = useReducedMotion();
+  const ref = useRef(null);
+
+  // Parallaxe au défilement
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const bgY = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["0%", "25%"]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1.08, 1.2]);
+  const contentY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -80]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  // Halos lumineux qui suivent la souris
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const glowX = useSpring(mx, { stiffness: 40, damping: 20 });
+  const glowY = useSpring(my, { stiffness: 40, damping: 20 });
+  const onPointerMove = (e) => {
+    if (reduce || e.pointerType !== "mouse") return;
+    const r = e.currentTarget.getBoundingClientRect();
+    mx.set((e.clientX - r.left - r.width / 2) / 12);
+    my.set((e.clientY - r.top - r.height / 2) / 12);
+  };
+
   return (
-    <section className="hero">
-      {/* Background avec overlay pour la lisibilité */}
-      <div className="hero-background">
-        <div className="overlay"></div>
-        <img src="/industrial-designers-working-3d-model.jpg" alt="Background" />
-      </div>
+    <div className="hero" ref={ref} onPointerMove={onPointerMove}>
+      <motion.div className="hero-background" aria-hidden="true" style={{ y: bgY, scale: bgScale }}>
+        <picture>
+          <source media="(max-width: 768px)" srcSet="/hero-bg-mobile.webp" type="image/webp" />
+          <source srcSet="/hero-bg.webp" type="image/webp" />
+          <img src="/hero-bg.webp" alt="" decoding="async" />
+        </picture>
+      </motion.div>
+      <div className="hero-overlay" aria-hidden="true" />
+      <motion.div className="glow glow-a" style={{ x: glowX, y: glowY }} aria-hidden="true" />
+      <motion.div className="glow glow-b" style={{ x: glowY, y: glowX }} aria-hidden="true" />
+      <div className="grid-lines" aria-hidden="true" />
 
-      <div className="wrapper">
-        <motion.div 
-          className="hero-content" 
-          variants={textVariants}
-          initial="initial"
-          animate="animate"
-        >
-          <motion.h1 variants={textVariants}>
-            L'expertise <span className="text-media">média</span>, <br />
-            la <span className="text-power">puissance</span> de la Tech, <br />
-            l'impact de <span className="text-comm">communication</span>
-          </motion.h1>
-
-          <motion.p variants={textVariants}>
-            Un écosystème unique pour informer, former et transformer votre 
-            présence digitale à travers nos 3 pôles d'excellence.
+      <motion.div className="hero-inner container" style={{ y: contentY, opacity: contentOpacity }}>
+        <div className="hero-content" key={lang}>
+          <motion.p
+            className="eyebrow"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
+          >
+            <motion.span
+              className="eyebrow-line"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
+            />
+            {h.eyebrow}
           </motion.p>
 
-          <motion.div variants={textVariants} className="hero-buttons">
-            <button className="btn-primary">Découvrir notre expertise</button>
-            <button className="btn-secondary">Nos projets</button>
-          </motion.div>
+          <h1 aria-label={h.slogans.map((s) => `${s.lead} ${s.word}`).join(" ")}>
+            {h.slogans.map((s, i) => (
+              <span className="line-mask" key={s.word} aria-hidden="true">
+                <motion.span
+                  className="line"
+                  initial={{ y: "110%" }}
+                  animate={{ y: "0%" }}
+                  transition={{ duration: 1, ease: EASE, delay: 0.35 + i * 0.15 }}
+                >
+                  {s.lead}{" "}
+                  <span className={`accent accent-${i}`}>
+                    {s.word}
+                    <motion.svg
+                      className="underline"
+                      viewBox="0 0 200 12"
+                      preserveAspectRatio="none"
+                      aria-hidden="true"
+                    >
+                      <motion.path
+                        d="M2 8 Q 50 2 100 7 T 198 5"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 0.9, ease: "easeInOut", delay: 1.1 + i * 0.2 }}
+                      />
+                    </motion.svg>
+                  </span>
+                </motion.span>
+              </span>
+            ))}
+          </h1>
 
-          <motion.div className="scroll-indicator" variants={textVariants} animate="scrollButton">
-             <img src="/scroll.png" alt="Scroll icon" />
-          </motion.div>
-        </motion.div>
-      </div>
+          <motion.p
+            className="hero-lead"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: EASE, delay: 0.9 }}
+          >
+            <strong>{h.vocationTitle}. </strong>
+            {h.vocation}
+          </motion.p>
 
-      <motion.div 
-        className="hero-slidingText" 
-        variants={sliderVariants} 
-        initial="initial" 
-        animate="animate"
-      >
-        Central Media Communication Technologies — CMCT Group — Innovation & Excellence —
+          <motion.div
+            className="hero-buttons"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: EASE, delay: 1.05 }}
+          >
+            <Magnetic>
+              <a href="#Services" className="btn primary">
+                {h.ctaPrimary}
+                <LuArrowUpRight className="btn-icon" aria-hidden="true" />
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a href="#Contact" className="btn ghost">
+                {h.ctaSecondary}
+              </a>
+            </Magnetic>
+          </motion.div>
+        </div>
+
+        {/* Carte des 5 domaines */}
+        <motion.aside
+          className="hero-card"
+          key={`card-${lang}`}
+          initial={{ opacity: 0, y: 40, rotate: 2 }}
+          animate={{ opacity: 1, y: 0, rotate: 0 }}
+          transition={{ duration: 1, ease: EASE, delay: 0.6 }}
+        >
+          <motion.div
+            className="card-float"
+            animate={reduce ? undefined : { y: [0, -10, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <p className="card-title">{h.cardTitle}</p>
+            <motion.ul
+              initial="hidden"
+              animate="show"
+              variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1, delayChildren: 1 } } }}
+            >
+              {h.domains.map((d, i) => {
+                const Icon = DOMAIN_ICONS[i];
+                return (
+                  <motion.li
+                    key={d}
+                    variants={{ hidden: { opacity: 0, x: 30 }, show: { opacity: 1, x: 0, transition: { duration: 0.5, ease: EASE } } }}
+                    whileHover={{ x: 6 }}
+                  >
+                    <span className={`d-icon d-${i}`}><Icon aria-hidden="true" /></span>
+                    <span>{d}</span>
+                  </motion.li>
+                );
+              })}
+            </motion.ul>
+            <div className="card-approach">
+              <strong>{h.approachTitle}</strong>
+              <p>{h.approach}</p>
+            </div>
+          </motion.div>
+        </motion.aside>
       </motion.div>
-    </section>
+
+      <div className="hero-bottom container">
+        <motion.span
+          className="location"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4 }}
+        >
+          <LuMapPin aria-hidden="true" /> {h.location}
+        </motion.span>
+        <motion.a
+          href="#About"
+          className="scroll-indicator"
+          aria-label={h.scroll}
+          animate={reduce ? undefined : { y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <LuChevronDown aria-hidden="true" />
+        </motion.a>
+      </div>
+    </div>
   );
 };
 
