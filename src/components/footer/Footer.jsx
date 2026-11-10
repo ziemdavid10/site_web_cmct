@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { LuMail, LuPhone, LuMapPin, LuArrowUp, LuArrowUpRight } from "react-icons/lu";
 import { FaLinkedinIn, FaFacebookF } from "react-icons/fa6";
 import { NAV_ITEMS, CONTACT_EMAIL, PHONES, LANDLINE, ADDRESS, SOCIAL, COMPANY, RCCM } from "../../data/site.js";
@@ -26,10 +27,10 @@ const Footer = () => {
         <div className="footer-cta">
           <SplitWords as="p" text={f.tagline} className="footer-tagline" />
           <Magnetic>
-            <a href="#Contact" className="btn primary">
+            <Link to="/contact" className="btn primary">
               {t.nav.cta}
               <LuArrowUpRight className="btn-icon" aria-hidden="true" />
-            </a>
+            </Link>
           </Magnetic>
         </div>
 
@@ -50,8 +51,8 @@ const Footer = () => {
           <motion.nav className="footer-col" variants={fadeUp} aria-label={f.ariaNav}>
             <h4>{f.navTitle}</h4>
             <ul>
-              {NAV_ITEMS.map(({ id, key }) => (
-                <li key={id}><a href={`#${id}`}>{t.nav[key]}</a></li>
+              {NAV_ITEMS.map(({ path, key }) => (
+                <li key={path}><Link to={path}>{t.nav[key]}</Link></li>
               ))}
             </ul>
           </motion.nav>
@@ -59,7 +60,7 @@ const Footer = () => {
           <motion.div className="footer-col" variants={fadeUp}>
             <h4>{f.expertisesTitle}</h4>
             <ul>
-              {t.hero.domains.map((d) => <li key={d}><a href="#Services">{d}</a></li>)}
+              {t.hero.domains.map((d) => <li key={d}><Link to="/expertises">{d}</Link></li>)}
             </ul>
           </motion.div>
 
@@ -81,9 +82,9 @@ const Footer = () => {
           <p>
             &copy; {year} <strong>CMCT</strong> — {f.rights} <span className="rccm">RCCM {RCCM}</span>
           </p>
-          <a href="#Homepage" className="to-top">
+          <button type="button" className="to-top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
             {t.common.toTop} <LuArrowUp aria-hidden="true" />
-          </a>
+          </button>
         </div>
       </div>
 

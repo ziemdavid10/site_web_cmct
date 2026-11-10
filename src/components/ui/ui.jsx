@@ -39,7 +39,7 @@ export const SplitWords = ({ text, className = "", delay = 0, as = "span" }) => 
 };
 
 // En-tête de section : « / 01 — Libellé », grand titre, introduction
-export const SectionHeading = ({ number, label, title, intro, dark = false, center = false }) => (
+export const SectionHeading = ({ label, title, intro, dark = false, center = false }) => (
   <header className={`section-heading ${dark ? "dark" : ""} ${center ? "center" : ""}`}>
     <motion.p
       className="section-label"
@@ -49,7 +49,6 @@ export const SectionHeading = ({ number, label, title, intro, dark = false, cent
       transition={{ duration: 0.6, ease: EASE }}
     >
       <span className="slash" aria-hidden="true">/</span>
-      {number && <span className="num">{number}</span>}
       <span>{label}</span>
     </motion.p>
     <SplitWords as="h2" text={title} className="section-title" />

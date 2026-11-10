@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LuNewspaper, LuClapperboard, LuCpu, LuGraduationCap, LuCheck, LuInfo,
@@ -207,10 +208,10 @@ const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
         <LuInfo aria-hidden="true" />
         <span>{d.note}</span>
       </p>
-      <a href="#Contact" className="btn primary">
+      <Link to="/contact" className="btn primary">
         {ctaLabel}
         <LuArrowUpRight className="btn-icon" aria-hidden="true" />
-      </a>
+      </Link>
     </motion.div>
   </motion.div>
 );

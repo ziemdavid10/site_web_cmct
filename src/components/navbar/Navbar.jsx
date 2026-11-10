@@ -1,6 +1,7 @@
 import "./Navbar.scss";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { LuArrowUpRight, LuMail, LuPhone, LuMapPin } from "react-icons/lu";
 import { FaLinkedinIn, FaFacebookF } from "react-icons/fa6";
 import { NAV_ITEMS, CONTACT_EMAIL, PHONES, SOCIAL } from "../../data/site.js";
@@ -20,13 +21,16 @@ const linkVariants = {
 
 const Navbar = () => {
   const { t } = useI18n();
-  const [active, setActive] = useState(null);
+  const { pathname } = useLocation();
+  // Page active : correspondance exacte pour l'accueil, par préfixe pour les autres
+  const isActive = (path) => (path === "/" ? pathname === "/" : pathname.startsWith(path));
+  const active = NAV_ITEMS.find((it) => isActive(it.path))?.path ?? null;
   const [dark, setDark] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState(null);
 
-  // Section active + thème (clair/sombre) selon la section sous la barre
+  // Thème (clair/sombre) selon la section qui passe sous la barre ; recalculé à chaque page
   useEffect(() => {
     let ticking = false;
     const update = () => {
@@ -34,13 +38,6 @@ const Navbar = () => {
       const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 80;
       const probe = navH + 10;
       setScrolled(window.scrollY > 10);
-
-      let current = null;
-      for (const { id } of NAV_ITEMS) {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top <= probe + window.innerHeight * 0.3) current = id;
-      }
-      setActive(current);
 
       // La barre passe en sombre au-dessus des sections sombres
       const nav = document.querySelector(".navbar");
@@ -59,13 +56,19 @@ const Navbar = () => {
       }
     };
     update();
+    // La nouvelle page s'affiche après la transition : on recalcule un peu plus tard
+    const late = setTimeout(update, 450);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
+      clearTimeout(late);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, []);
+  }, [pathname]);
+
+  // Ferme le menu mobile à chaque changement de page
+  useEffect(() => setOpen(false), [pathname]);
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -74,7 +77,7 @@ const Navbar = () => {
     document.body.classList.toggle("menu-open", open);
     if (!open) return;
     const onKey = (e) => e.key === "Escape" && close();
-    const mq = window.matchMedia("(min-width: 1201px)");
+    const mq = window.matchMedia("(min-width: 1280px)");
     const onMq = (e) => e.matches && close();
     window.addEventListener("keydown", onKey);
     mq.addEventListener("change", onMq);
@@ -91,7 +94,7 @@ const Navbar = () => {
   return (
     <nav className={classes} aria-label={t.nav.label}>
       <div className="nav-inner">
-        <a href="#Homepage" className="logo-container" onClick={close} aria-label={t.nav.home}>
+        <Link to="/" className="logo-container" onClick={close} aria-label={t.nav.home}>
           <motion.img
             src="/logo-cmct.png"
             alt="CMCT"
@@ -104,20 +107,20 @@ const Navbar = () => {
             <strong>CMCT</strong>
             <small>Media · Com · Tech</small>
           </span>
-        </a>
+        </Link>
 
         <ul className="menu" onMouseLeave={() => setHovered(null)}>
-          {NAV_ITEMS.map(({ id, key }) => (
-            <li key={id}>
-              <a
-                href={`#${id}`}
-                className={`menu-item ${active === id ? "active" : ""}`}
-                aria-current={active === id ? "true" : undefined}
-                onMouseEnter={() => setHovered(id)}
-                onFocus={() => setHovered(id)}
+          {NAV_ITEMS.map(({ path, key }) => (
+            <li key={path}>
+              <NavLink
+                to={path}
+                end={path === "/"}
+                className={`menu-item ${active === path ? "active" : ""}`}
+                onMouseEnter={() => setHovered(path)}
+                onFocus={() => setHovered(path)}
                 onBlur={() => setHovered(null)}
               >
-                {indicator === id && (
+                {indicator === path && (
                   <motion.span
                     layoutId="nav-indicator"
                     className="indicator"
@@ -125,7 +128,7 @@ const Navbar = () => {
                   />
                 )}
                 <span className="label">{t.nav[key]}</span>
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>
@@ -133,10 +136,10 @@ const Navbar = () => {
         <div className="nav-actions">
           <LangSwitch id="desktop" />
           <Magnetic className="cta-wrap">
-            <a href="#Contact" className="nav-cta">
+            <Link to="/contact" className="nav-cta">
               <span>{t.nav.cta}</span>
               <LuArrowUpRight aria-hidden="true" />
-            </a>
+            </Link>
           </Magnetic>
 
           <button
@@ -165,26 +168,21 @@ const Navbar = () => {
           >
             <div className="mobile-inner">
               <ul>
-                {NAV_ITEMS.map(({ id, key }, i) => (
-                  <motion.li key={id} custom={i} variants={linkVariants}>
-                    <a
-                      href={`#${id}`}
-                      className={active === id ? "active" : ""}
-                      aria-current={active === id ? "true" : undefined}
-                      onClick={close}
-                    >
+                {NAV_ITEMS.map(({ path, key }, i) => (
+                  <motion.li key={path} custom={i} variants={linkVariants}>
+                    <NavLink to={path} end={path === "/"} className={active === path ? "active" : ""} onClick={close}>
                       <span className="num">0{i + 1}</span>
                       {t.nav[key]}
-                    </a>
+                    </NavLink>
                   </motion.li>
                 ))}
               </ul>
 
               <motion.div className="mobile-bottom" custom={NAV_ITEMS.length} variants={linkVariants}>
-                <a href="#Contact" className="btn primary" onClick={close}>
+                <Link to="/contact" className="btn primary" onClick={close}>
                   {t.nav.cta}
                   <LuArrowUpRight className="btn-icon" aria-hidden="true" />
-                </a>
+                </Link>
                 <p className="mobile-label">{t.nav.menuContact}</p>
                 <ul className="mobile-contact">
                   <li><a href={`mailto:${CONTACT_EMAIL}`}><LuMail aria-hidden="true" />{CONTACT_EMAIL}</a></li>

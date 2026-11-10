@@ -34,15 +34,16 @@ export const BRANDS = {
   prepas: { name: "Prépas Plus", logo: null },
 };
 
-// id = identifiant de la section dans App.jsx ; la clé sert à trouver le libellé traduit (t.nav[key])
+// Pages du site : chemin + clé du libellé traduit (t.nav[key])
 export const NAV_ITEMS = [
-  { id: "About", key: "about" },
-  { id: "Organisation", key: "organisation" },
-  { id: "Services", key: "expertises" },
-  { id: "References", key: "projects" },
-  { id: "Galerie", key: "gallery" },
-  { id: "Actualites", key: "news" },
-  { id: "Contact", key: "contact" },
+  { path: "/", key: "homePage" },
+  { path: "/a-propos", key: "about" },
+  { path: "/organisation", key: "organisation" },
+  { path: "/expertises", key: "expertises" },
+  { path: "/realisations", key: "projects" },
+  { path: "/galerie", key: "gallery" },
+  { path: "/actualites", key: "news" },
+  { path: "/contact", key: "contact" },
 ];
 
 // Photothèque (fichiers dans /public/gallery, version "-sm" pour les vignettes).

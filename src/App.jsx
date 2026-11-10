@@ -1,22 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useAnimationControls, useReducedMotion, useScroll, useSpring } from "framer-motion";
 import { LuArrowUp } from "react-icons/lu";
 import "./App.scss";
 import { useI18n } from "./i18n/context.js";
 import Navbar from "./components/navbar/Navbar.jsx";
 import Navinfos from "./components/navinfos/Navinfos.jsx";
-import Hero from "./components/hero/Hero.jsx";
-import Brands from "./components/navlogo/Navlogo.jsx";
-import EventBanner from "./components/event/EventBanner.jsx";
-import About from "./components/about/About.jsx";
-import Organisation from "./components/organisation/Organisation.jsx";
-import Expertises from "./components/services/Services.jsx";
-import References from "./components/references/References.jsx";
-import Projects from "./components/projects/Projects.jsx";
-import Gallery from "./components/gallery/Gallery.jsx";
-import Why from "./components/why/Why.jsx";
-import Actualites from "./components/actualité/Actualité.jsx";
-import Contact from "./components/contact/Contact.jsx";
+import {
+  HomePage, AboutPage, OrganisationPage, ExpertisesPage, RealisationsPage,
+  GalleryPage, NewsPage, ContactPage, NotFoundPage,
+} from "./pages/Pages.jsx";
 import Footer from "./components/footer/Footer.jsx";
 
 // Barre de progression de lecture en haut de l'écran
@@ -117,6 +110,12 @@ const App = () => {
   const { t, lang } = useI18n();
   const controls = useAnimationControls();
   const first = useRef(true);
+  const location = useLocation();
+
+  // Le navigateur ne doit pas restaurer la position de défilement entre les pages
+  useLayoutEffect(() => {
+    if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
+  }, []);
 
   // Petit fondu du contenu à chaque changement de langue
   useEffect(() => {
@@ -139,38 +138,28 @@ const App = () => {
       </header>
 
       <motion.main id="main" className="lang-swap" animate={controls}>
-        <section id="Homepage" data-nav-theme="dark">
-          <Hero />
-        </section>
-        <Brands />
-        <EventBanner />
-        <section id="About" className="section">
-          <About />
-        </section>
-        <section id="Organisation" className="section soft">
-          <Organisation />
-        </section>
-        <section id="Services" className="section dark" data-nav-theme="dark">
-          <Expertises />
-        </section>
-        <section id="References" className="section cream">
-          <References />
-        </section>
-        <section id="Projects" data-nav-theme="dark">
-          <Projects />
-        </section>
-        <section id="Galerie" className="section soft">
-          <Gallery />
-        </section>
-        <section id="Why" className="section">
-          <Why />
-        </section>
-        <section id="Actualites" className="section soft">
-          <Actualites />
-        </section>
-        <section id="Contact" className="section">
-          <Contact />
-        </section>
+        {/* Transition douce entre les pages */}
+        <AnimatePresence mode="wait" initial={false} onExitComplete={() => window.scrollTo({ top: 0, behavior: "instant" })}>
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Routes location={location}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/a-propos" element={<AboutPage />} />
+              <Route path="/organisation" element={<OrganisationPage />} />
+              <Route path="/expertises" element={<ExpertisesPage />} />
+              <Route path="/realisations" element={<RealisationsPage />} />
+              <Route path="/galerie" element={<GalleryPage />} />
+              <Route path="/actualites" element={<NewsPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </motion.div>
+        </AnimatePresence>
       </motion.main>
 
       <Footer />

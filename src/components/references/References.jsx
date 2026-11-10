@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { LuGlobe, LuLandmark, LuFlag, LuHeartHandshake, LuSchool, LuFilm, LuArrowUpRight, LuImage } from "react-icons/lu";
 import { useI18n } from "../../i18n/context.js";
@@ -6,6 +7,8 @@ import { SectionHeading } from "../ui/ui.jsx";
 import { fadeUp, stagger, inView, EASE } from "../ui/motion.js";
 import { PHOTOS, PARTNERS } from "../../data/site.js";
 import "./References.scss";
+
+const MotionLink = motion(Link);
 
 const ICONS = [LuGlobe, LuLandmark, LuFlag, LuHeartHandshake, LuSchool, LuFilm];
 // Logo officiel affiché sur la carte quand on le possède (même ordre que t.references.items)
@@ -86,11 +89,11 @@ const FieldBand = ({ g }) => {
       <motion.div className="field-text" variants={stagger(0.1)} {...inView(0.3)}>
         <motion.h3 variants={fadeUp}>{g.fieldTitle}</motion.h3>
         <motion.p variants={fadeUp}>{g.fieldText}</motion.p>
-        <motion.a variants={fadeUp} href="#Galerie" className="field-link">
+        <MotionLink variants={fadeUp} to="/galerie" className="field-link">
           <LuImage aria-hidden="true" />
           {g.seeAll}
           <LuArrowUpRight aria-hidden="true" />
-        </motion.a>
+        </MotionLink>
       </motion.div>
       <div className="field-shots">
         {shots.map(({ p, y, cls }, i) => (
@@ -148,10 +151,10 @@ const References = () => {
             <motion.li key={s} variants={fadeUp}>{s}</motion.li>
           ))}
         </motion.ul>
-        <motion.a variants={fadeUp} href="#Contact" className="btn dark">
+        <MotionLink variants={fadeUp} to="/contact" className="btn dark">
           {r.cta}
           <LuArrowUpRight className="btn-icon" aria-hidden="true" />
-        </motion.a>
+        </MotionLink>
       </motion.div>
     </div>
   );

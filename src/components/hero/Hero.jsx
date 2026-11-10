@@ -1,5 +1,6 @@
 import "./Hero.scss";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { LuNewspaper, LuMegaphone, LuClapperboard, LuGraduationCap, LuCpu, LuArrowUpRight, LuMapPin, LuChevronDown } from "react-icons/lu";
 import { useI18n } from "../../i18n/context.js";
@@ -155,15 +156,15 @@ const Hero = () => {
             transition={{ duration: 0.8, ease: EASE, delay: 1.05 }}
           >
             <Magnetic>
-              <a href="#Services" className="btn primary">
+              <Link to="/expertises" className="btn primary">
                 {h.ctaPrimary}
                 <LuArrowUpRight className="btn-icon" aria-hidden="true" />
-              </a>
+              </Link>
             </Magnetic>
             <Magnetic>
-              <a href="#Contact" className="btn ghost">
+              <Link to="/contact" className="btn ghost">
                 {h.ctaSecondary}
-              </a>
+              </Link>
             </Magnetic>
           </motion.div>
         </div>
@@ -257,15 +258,16 @@ const Hero = () => {
             ))}
           </div>
         </div>
-        <motion.a
-          href="#About"
+        <motion.button
+          type="button"
+          onClick={() => ref.current && window.scrollTo({ top: ref.current.offsetTop + ref.current.offsetHeight - 70, behavior: "smooth" })}
           className="scroll-indicator"
           aria-label={h.scroll}
           animate={reduce ? undefined : { y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
           <LuChevronDown aria-hidden="true" />
-        </motion.a>
+        </motion.button>
       </div>
     </div>
   );
