@@ -26,12 +26,12 @@ const Navinfos = () => {
             <LuMail aria-hidden="true" />
             <span className="hide-small">{CONTACT_EMAIL}</span>
           </a>
+          <a href={LANDLINE.href} className="infos hide-mobile">
+            <span>{LANDLINE.display}</span>
+          </a>
           <a href={PHONES[0].href} className="infos">
             <LuPhone aria-hidden="true" />
             <span>{PHONES[0].display}</span>
-          </a>
-          <a href={LANDLINE.href} className="infos hide-mobile">
-            <span>{LANDLINE.display}</span>
           </a>
         </div>
 
