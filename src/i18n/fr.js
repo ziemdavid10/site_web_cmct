@@ -12,7 +12,6 @@ const fr = {
     backToTop: "Revenir en haut de la page",
     toTop: "Retour en haut",
     close: "Fermer",
-    learnMore: "En savoir plus",
     langSwitch: "Choisir la langue",
     langNames: { fr: "Français", en: "English" },
   },
@@ -81,7 +80,6 @@ const fr = {
 
   // ───────── 01. Qui sommes-nous ? ─────────
   about: {
-    number: "01",
     label: "Qui sommes-nous ?",
     title: "Une entreprise camerounaise au service de l'information, de la communication et des compétences",
     intro:
@@ -152,7 +150,6 @@ const fr = {
 
   // ───────── 02. Organisation ─────────
   organisation: {
-    number: "02",
     label: "Une organisation, plusieurs expertises",
     title: "Une entreprise, quatre directions, neuf marques et programmes",
     intro:
@@ -531,7 +528,6 @@ const fr = {
   },
 
   why: {
-    number: "07",
     label: "Pourquoi travailler avec CMCT ?",
     title: "Des expertises complémentaires, une connaissance fine du terrain",
     reasons: [

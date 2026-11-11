@@ -1,0 +1,37 @@
+# Lancement du site CMCT en une commande :
+#   docker compose up -d --build      → http://localhost:8080
+#   docker compose down               → arrêt
+#
+# Les variables viennent d'un fichier `.env` placé à côté de ce fichier (voir .env.example).
+# Port différent : SITE_PORT=80 docker compose up -d
+
+name: cmct
+
+services:
+  web:
+    image: cmct-site:latest
+    build:
+      context: .
+      args:
+        VITE_EMAILJS_SERVICE_ID: ${VITE_EMAILJS_SERVICE_ID:-}
+        VITE_EMAILJS_TEMPLATE_ID: ${VITE_EMAILJS_TEMPLATE_ID:-}
+        VITE_EMAILJS_PUBLIC_KEY: ${VITE_EMAILJS_PUBLIC_KEY:-}
+    container_name: cmct-site
+    ports:
+      - "${SITE_PORT:-8080}:8080"
+    restart: unless-stopped
+
+    # Durcissement : système de fichiers en lecture seule, aucun privilège supplémentaire
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

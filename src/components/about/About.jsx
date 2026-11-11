@@ -29,7 +29,7 @@ const About = () => {
 
   return (
     <div className="about container">
-      <SectionHeading number={a.number} label={a.label} title={a.title} />
+      <SectionHeading label={a.label} title={a.title} />
 
       {/* Présentation + direction */}
       <div className="about-intro">

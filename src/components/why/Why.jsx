@@ -27,7 +27,7 @@ const Why = () => {
 
   return (
     <div className="why container">
-      <SectionHeading number={w.number} label={w.label} title={w.title} />
+      <SectionHeading label={w.label} title={w.title} />
 
       <motion.ol className="reasons" variants={stagger(0.15)} {...inView(0.1)}>
         {w.reasons.map((r, i) => {

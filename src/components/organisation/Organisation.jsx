@@ -14,7 +14,7 @@ const Organisation = () => {
 
   return (
     <div className="organisation container">
-      <SectionHeading number={o.number} label={o.label} title={o.title} intro={o.intro} />
+      <SectionHeading label={o.label} title={o.title} intro={o.intro} />
 
       {/* Organigramme */}
       <div className="org-chart">

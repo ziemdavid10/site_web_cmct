@@ -42,13 +42,6 @@
         margin-bottom: 18px;
 
         .slash { color: var(--brand-orange); font-size: 1.2em; font-weight: 800; }
-        .num {
-            font-family: var(--font-display);
-            padding: 3px 9px;
-            border-radius: 999px;
-            background: rgba(50, 73, 134, 0.1);
-            letter-spacing: 0.04em;
-        }
     }
 
     .section-title {
@@ -65,7 +58,7 @@
     &.center .section-intro { margin-inline: auto; }
 
     &.dark {
-        .section-label { color: var(--brand-orange); .num { background: rgba(255, 255, 255, 0.1); color: #fff; } }
+        .section-label { color: var(--brand-orange); }
         .section-title { color: #fff; }
         .section-intro { color: rgba(255, 255, 255, 0.7); }
     }

@@ -11,7 +11,6 @@ const en = {
     backToTop: "Back to top of the page",
     toTop: "Back to top",
     close: "Close",
-    learnMore: "Learn more",
     langSwitch: "Choose language",
     langNames: { fr: "Français", en: "English" },
   },
@@ -78,7 +77,6 @@ const en = {
   },
 
   about: {
-    number: "01",
     label: "Who are we?",
     title: "A Cameroonian company serving information, communication and skills",
     intro:
@@ -148,7 +146,6 @@ const en = {
   },
 
   organisation: {
-    number: "02",
     label: "One organisation, several areas of expertise",
     title: "One company, four divisions, nine brands and programmes",
     intro:
@@ -523,7 +520,6 @@ const en = {
   },
 
   why: {
-    number: "07",
     label: "Why work with CMCT?",
     title: "Complementary expertise and in-depth knowledge of the field",
     reasons: [

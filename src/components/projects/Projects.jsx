@@ -12,7 +12,7 @@ import { SectionHeading } from "../ui/ui.jsx";
 import { EASE, fadeUp, inView } from "../ui/motion.js";
 import "./Projects.scss";
 
-const shot = (name) => ({ id: name, src: `/realisations/${name}.webp`, thumb: `/realisations/${name}-sm.webp`, w: 1440, h: 900 });
+const shot = (name) => ({ id: name, src: `/portfolio/${name}.webp`, thumb: `/portfolio/${name}-sm.webp`, w: 1440, h: 900 });
 
 // Réalisations : textes dans t.projects.items[id].
 // 👉 Pour une production vidéo, ajouter `video: "https://www.youtube.com/embed/<identifiant>"` : la vidéo

@@ -1,0 +1,29 @@
+# Tout ce qui n'est pas nécessaire à la construction de l'image
+
+# Dépendances et résultats de build (recréés dans l'image)
+node_modules
+dist
+dist-ssr
+
+# Git, éditeurs, système
+.git
+.gitignore
+.vscode
+.idea
+.DS_Store
+
+# Journaux et fichiers temporaires
+*.log
+vite.config.js.timestamp-*
+
+# Variables locales : les clés EmailJS passent par --build-arg, jamais par copie de fichier
+.env
+.env.*
+!.env.example
+
+# Fichiers Docker et configuration d'autres hébergeurs
+Dockerfile
+docker-compose.yml
+.dockerignore
+vercel.json
+README.md

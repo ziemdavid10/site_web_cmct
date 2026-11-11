@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Fichiers temporaires de Vite
+vite.config.js.timestamp-*
+
+# Variables locales (clés EmailJS)
+.env
