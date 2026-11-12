@@ -1,15 +1,17 @@
-name: cmct
+# Déploiement (Coolify) : aucun port publié, le proxy de Coolify route le trafic vers le port 8080.
+# Pas de `name`, `image` ni `container_name` fixes : Coolify nomme lui-même le projet et le conteneur.
+# En local : docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
 
 services:
   web:
-    image: cmct-site:latest
     build:
       context: .
       args:
         VITE_EMAILJS_SERVICE_ID: ${VITE_EMAILJS_SERVICE_ID:-}
         VITE_EMAILJS_TEMPLATE_ID: ${VITE_EMAILJS_TEMPLATE_ID:-}
         VITE_EMAILJS_PUBLIC_KEY: ${VITE_EMAILJS_PUBLIC_KEY:-}
-    container_name: cmct-site
+    expose:
+      - "8080"
     restart: unless-stopped
 
     read_only: true
