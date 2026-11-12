@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
-import { LuChevronLeft, LuChevronRight, LuX, LuMaximize2, LuPlus } from "react-icons/lu";
+import { LuChevronLeft, LuChevronRight, LuX, LuMaximize2 } from "react-icons/lu";
 import { useI18n } from "../../i18n/context.js";
 import { GALLERY } from "../../data/site.js";
 import { SectionHeading } from "../ui/ui.jsx";
@@ -9,7 +9,6 @@ import { EASE, fadeUp, inView } from "../ui/motion.js";
 import "./Gallery.scss";
 
 const FILTERS = ["all", "media", "production", "field", "institution"];
-const PAGE = 9; // photos affichées au départ puis à chaque « Voir plus »
 
 // Visionneuse plein écran : clavier (← → Échap), glisser au doigt, focus piégé
 const Lightbox = ({ photos, index, onClose, onNav, g }) => {
@@ -129,17 +128,24 @@ const Gallery = () => {
   const { t } = useI18n();
   const g = t.gallery;
   const [filter, setFilter] = useState("all");
-  const [limit, setLimit] = useState(PAGE);
   const [open, setOpen] = useState(null);
 
   const photos = useMemo(() => (filter === "all" ? GALLERY : GALLERY.filter((p) => p.category === filter)), [filter]);
   const close = useCallback(() => setOpen(null), []);
 
-  // Nombre impair de cases : la dernière photo horizontale s'étire (en 2 colonnes) pour éviter un trou
-  const visible = photos.slice(0, limit);
-  const cells = visible.reduce((n, p) => n + (p.h > p.w ? 2 : 1), 0);
-  const last = visible[visible.length - 1];
-  const fillId = cells % 2 && last && last.w > last.h ? last.id : null;
+  // Mosaïque sans trou. Une photo verticale occupe 2 cases, une horizontale 1.
+  const cells = photos.reduce((n, p) => n + (p.h > p.w ? 2 : 1), 0);
+  const landscapes = photos.filter((p) => p.w > p.h);
+  const lastPhoto = photos[photos.length - 1];
+  // 2 colonnes (tablette, mobile) : si le nombre de cases est impair, la dernière photo horizontale prend toute la largeur
+  const fillId = cells % 2 && lastPhoto && lastPhoto.w > lastPhoto.h ? lastPhoto.id : null;
+  // 3 colonnes (ordinateur) : on élargit une ou deux des dernières photos horizontales pour finir sur une rangée pleine
+  const wideIds = new Set();
+  if (cells % 3 === 2 && landscapes.length) wideIds.add(landscapes[landscapes.length - 1].id);
+  if (cells % 3 === 1 && landscapes.length >= 4) {
+    wideIds.add(landscapes[landscapes.length - 1].id);
+    wideIds.add(landscapes[landscapes.length - 4].id);
+  }
 
   return (
     <div className="gallery container">
@@ -153,10 +159,7 @@ const Gallery = () => {
               type="button"
               className={`g-filter ${filter === f ? "active" : ""}`}
               aria-pressed={filter === f}
-              onClick={() => {
-                setFilter(f);
-                setLimit(PAGE);
-              }}
+              onClick={() => setFilter(f)}
             >
               {filter === f && (
                 <motion.span layoutId="g-pill" className="g-pill" transition={{ type: "spring", stiffness: 400, damping: 32 }} />
@@ -169,14 +172,14 @@ const Gallery = () => {
 
       <motion.ul className="g-grid" layout>
         <AnimatePresence mode="popLayout">
-          {photos.slice(0, limit).map((p, i) => {
+          {photos.map((p, i) => {
             const item = g.items[p.id];
             const portrait = p.h > p.w;
             return (
               <motion.li
                 key={p.id}
                 layout
-                className={`g-item ${portrait ? "portrait" : "landscape"} ${p.id === fillId ? "fill" : ""}`}
+                className={`g-item ${portrait ? "portrait" : "landscape"} ${p.id === fillId ? "fill" : ""} ${wideIds.has(p.id) ? "wide" : ""}`}
                 initial={{ opacity: 0, y: 40, scale: 0.95 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, amount: 0.2 }}
@@ -197,23 +200,7 @@ const Gallery = () => {
         </AnimatePresence>
       </motion.ul>
 
-      {photos.length > PAGE && (
-        <div className="g-more">
-          <p className="g-count" aria-live="polite">{g.showing(Math.min(limit, photos.length), photos.length)}</p>
-          {limit < photos.length && (
-            <motion.button
-              type="button"
-              className="btn ghost-dark"
-              onClick={() => setLimit((l) => l + PAGE)}
-              whileHover={{ y: -3 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <LuPlus aria-hidden="true" />
-              {g.loadMore}
-            </motion.button>
-          )}
-        </div>
-      )}
+      <p className="g-count" aria-live="polite">{g.showing(photos.length)}</p>
 
       {/* Rendue dans <body> pour ne pas dépendre des transformations des sections */}
       {createPortal(

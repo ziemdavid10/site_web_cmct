@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   LuNewspaper, LuClapperboard, LuCpu, LuGraduationCap, LuCheck, LuInfo,
   LuArrowUpRight, LuFileVideo, LuCamera, LuMegaphone, LuLightbulb, LuMonitor, LuWifi, LuShuffle,
@@ -8,7 +8,7 @@ import {
 import { useI18n } from "../../i18n/context.js";
 import { BRANDS, PHOTOS } from "../../data/site.js";
 import { SectionHeading, BrandMark } from "../ui/ui.jsx";
-import { fadeUp, stagger, EASE } from "../ui/motion.js";
+import { fadeUp, inView, EASE } from "../ui/motion.js";
 import "./Services.scss";
 
 const TAB_ICONS = { media: LuNewspaper, comm: LuClapperboard, tech: LuCpu, training: LuGraduationCap };
@@ -58,25 +58,20 @@ const Covers = ({ photos, items, label }) => (
 
 // Contenu détaillé d'une direction
 const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
-  <motion.div
-    className="panel-inner"
-    variants={stagger(0.08)}
-    initial="hidden"
-    animate="show"
-    exit={{ opacity: 0, y: -20, transition: { duration: 0.25 } }}
-  >
-    <motion.div className={`panel-head ${photos ? "has-photo" : ""}`} variants={fadeUp}>
+  <div className="panel-inner">
+    <motion.div className={`panel-head ${photos ? "has-photo" : ""}`} variants={fadeUp} {...inView(0.15)}>
       <span className="panel-num" aria-hidden="true">{d.number}</span>
       <div>
-        <h3>{d.title}</h3>
+        <h3 id={`titre-${d.id}`}>{d.title}</h3>
         <p className="panel-lead">{d.lead}</p>
       </div>
       {photos && photos.length > 1 && <Covers photos={photos} items={items} label={coversLabel} />}
       {photos && photos.length === 1 && (
         <motion.figure
           className={`panel-photo photo-${photos[0].id}`}
-          initial={{ opacity: 0, clipPath: "inset(0% 0% 100% 0% round 20px)" }}
-          animate={{ opacity: 1, clipPath: "inset(0% 0% 0% 0% round 20px)" }}
+          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.9, delay: 0.15, ease: EASE }}
         >
           <motion.img
@@ -86,7 +81,8 @@ const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
             height={photos[0].h}
             loading="lazy"
             initial={{ scale: 1.2 }}
-            animate={{ scale: 1 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
             transition={{ duration: 1.4, ease: EASE }}
           />
           <figcaption>{items[photos[0].id].title}</figcaption>
@@ -95,7 +91,7 @@ const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
     </motion.div>
 
     {d.structures && (
-      <motion.div className="block" variants={fadeUp}>
+      <motion.div className="block" variants={fadeUp} {...inView(0.15)}>
         <h4 className="block-title">{d.structures.title}</h4>
         <div className={`structures count-${d.structures.items.length}`}>
           {d.structures.items.map((s, i) => (
@@ -103,8 +99,9 @@ const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
               key={s.name}
               className="structure"
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 + i * 0.08, duration: 0.6, ease: EASE }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ delay: i * 0.08, duration: 0.6, ease: EASE }}
               whileHover={{ y: -6 }}
             >
               <BrandMark brand={BRANDS[s.brand]} size="lg" />
@@ -120,15 +117,16 @@ const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
 
     <div className={`lists count-${d.lists.length}`}>
       {d.lists.map((l) => (
-        <motion.div className="block list-block" key={l.title} variants={fadeUp}>
+        <motion.div className="block list-block" key={l.title} variants={fadeUp} {...inView(0.15)}>
           <h4 className="block-title">{l.title}</h4>
           <ul className="checklist">
             {l.items.map((it, i) => (
               <motion.li
                 key={i}
                 initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 + i * 0.05, duration: 0.45 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ delay: i * 0.04, duration: 0.45 }}
               >
                 <span className="check"><LuCheck aria-hidden="true" /></span>
                 <p>
@@ -143,7 +141,7 @@ const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
     </div>
 
     {d.cards && (
-      <motion.div className="block" variants={fadeUp}>
+      <motion.div className="block" variants={fadeUp} {...inView(0.15)}>
         <h4 className="block-title">{d.cards.title}</h4>
         <div className="deliverables">
           {d.cards.items.map((c, i) => {
@@ -161,15 +159,16 @@ const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
     )}
 
     {d.steps && (
-      <motion.div className="block" variants={fadeUp}>
+      <motion.div className="block" variants={fadeUp} {...inView(0.15)}>
         <h4 className="block-title">{d.steps.title}</h4>
         <ol className="steps">
           {d.steps.items.map((s, i) => (
             <motion.li
               key={s.title}
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 + i * 0.12, duration: 0.55, ease: EASE }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ delay: i * 0.1, duration: 0.55, ease: EASE }}
             >
               <span className="step-num">{i + 1}</span>
               <h5>{s.title}</h5>
@@ -181,7 +180,7 @@ const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
     )}
 
     {d.formats && (
-      <motion.ul className="formats" variants={fadeUp}>
+      <motion.ul className="formats" variants={fadeUp} {...inView(0.15)}>
         {d.formats.map((f, i) => {
           const Icon = FORMAT_ICONS[i];
           return (
@@ -195,7 +194,7 @@ const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
 
     <div className="texts">
       {d.texts.map((x) => (
-        <motion.div className="text-box" key={x.title} variants={fadeUp}>
+        <motion.div className="text-box" key={x.title} variants={fadeUp} {...inView(0.15)}>
           <LuLightbulb className="tb-icon" aria-hidden="true" />
           <h4>{x.title}</h4>
           <p>{x.text}</p>
@@ -203,7 +202,7 @@ const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
       ))}
     </div>
 
-    <motion.div className="panel-foot" variants={fadeUp}>
+    <motion.div className="panel-foot" variants={fadeUp} {...inView(0.15)}>
       <p className="note">
         <LuInfo aria-hidden="true" />
         <span>{d.note}</span>
@@ -213,88 +212,91 @@ const Panel = ({ d, ctaLabel, sep, photos, items, coversLabel }) => (
         <LuArrowUpRight className="btn-icon" aria-hidden="true" />
       </Link>
     </motion.div>
-  </motion.div>
+  </div>
 );
+
+const sectionId = (id) => `direction-${id}`;
 
 const Expertises = () => {
   const { t } = useI18n();
   const e = t.expertises;
-  const [selected, setSelected] = useState(e.directions[0].id);
-  const tabsRef = useRef([]);
-  const current = e.directions.find((d) => d.id === selected) ?? e.directions[0];
+  const [active, setActive] = useState(e.directions[0].id);
 
-  // Navigation au clavier entre onglets (flèches, Début, Fin)
-  const onKeyDown = (ev, index) => {
-    const n = e.directions.length;
-    let next = null;
-    if (ev.key === "ArrowRight" || ev.key === "ArrowDown") next = (index + 1) % n;
-    if (ev.key === "ArrowLeft" || ev.key === "ArrowUp") next = (index - 1 + n) % n;
-    if (ev.key === "Home") next = 0;
-    if (ev.key === "End") next = n - 1;
-    if (next === null) return;
+  // Repère la direction affichée à l'écran pour la mettre en évidence dans la barre
+  useEffect(() => {
+    const sections = e.directions.map((d) => document.getElementById(sectionId(d.id))).filter(Boolean);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id.replace("direction-", ""));
+        });
+      },
+      // Zone de détection : une bande horizontale un peu au-dessus du milieu de l'écran
+      { rootMargin: "-35% 0px -60% 0px" }
+    );
+    sections.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [e.directions]);
+
+  // Garde le repère actif visible dans la barre quand elle défile horizontalement (mobile)
+  useEffect(() => {
+    const link = document.getElementById(`repere-${active}`);
+    const bar = link?.parentElement;
+    if (!link || !bar || bar.scrollWidth <= bar.clientWidth) return;
+    bar.scrollTo({ left: link.offsetLeft - (bar.clientWidth - link.offsetWidth) / 2, behavior: "smooth" });
+  }, [active]);
+
+  const goTo = (ev, id) => {
     ev.preventDefault();
-    setSelected(e.directions[next].id);
-    tabsRef.current[next]?.focus();
+    document.getElementById(sectionId(id))?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <div className="expertises container">
       <SectionHeading label={e.label} title={e.title} intro={e.intro} dark />
 
-      <motion.div
-        className="tabs"
-        role="tablist"
-        aria-label={e.tablist}
-        variants={stagger(0.08)}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        {e.directions.map((d, i) => {
-          const Icon = TAB_ICONS[d.id];
-          const active = d.id === selected;
-          return (
-            <motion.button
-              key={d.id}
-              ref={(el) => (tabsRef.current[i] = el)}
-              type="button"
-              role="tab"
-              id={`tab-${d.id}`}
-              aria-selected={active}
-              aria-controls="expertise-panel"
-              tabIndex={active ? 0 : -1}
-              className={`tab tab-${d.id} ${active ? "active" : ""}`}
-              onClick={() => setSelected(d.id)}
-              onKeyDown={(ev) => onKeyDown(ev, i)}
-              variants={fadeUp}
-              whileHover={{ y: -4 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              {active && (
-                <motion.span layoutId="tab-bg" className="tab-bg" transition={{ type: "spring", stiffness: 380, damping: 32 }} />
-              )}
-              <span className="tab-icon"><Icon aria-hidden="true" /></span>
-              <span className="tab-text">
-                <span className="tab-num">{d.number}</span>
-                <span className="tab-label">{d.tab}</span>
-              </span>
-            </motion.button>
-          );
-        })}
-      </motion.div>
+      {/* Barre de repères : reste visible pendant le défilement et indique la direction en cours */}
+      <nav className="dir-nav" aria-label={e.tablist}>
+        <div className="dir-nav-inner">
+          {e.directions.map((d) => {
+            const Icon = TAB_ICONS[d.id];
+            const isActive = d.id === active;
+            return (
+              <a
+                key={d.id}
+                id={`repere-${d.id}`}
+                href={`#${sectionId(d.id)}`}
+                className={`dir-link tab-${d.id} ${isActive ? "active" : ""}`}
+                aria-current={isActive ? "true" : undefined}
+                onClick={(ev) => goTo(ev, d.id)}
+              >
+                {isActive && (
+                  <motion.span layoutId="dir-bg" className="dir-bg" transition={{ type: "spring", stiffness: 380, damping: 32 }} />
+                )}
+                <span className="dir-icon"><Icon aria-hidden="true" /></span>
+                <span className="dir-text">
+                  <span className="dir-num">{d.number}</span>
+                  <span className="dir-label">{d.tab}</span>
+                </span>
+              </a>
+            );
+          })}
+        </div>
+      </nav>
 
-      <div id="expertise-panel" className="panel" role="tabpanel" aria-labelledby={`tab-${current.id}`}>
-        <AnimatePresence mode="wait">
-          <Panel
-            key={`${current.id}-${t.code}`}
-            d={current}
-            ctaLabel={e.contactCta}
-            sep={t.code === "fr" ? " : " : ": "}
-            photos={PANEL_PHOTOS[current.id]}
-            items={t.gallery.items}
-            coversLabel={t.gallery.covers}
-          />
-        </AnimatePresence>
+      <div className="directions">
+        {e.directions.map((d) => (
+          <section key={d.id} id={sectionId(d.id)} className={`panel panel-${d.id}`} aria-labelledby={`titre-${d.id}`}>
+            <Panel
+              d={d}
+              ctaLabel={e.contactCta}
+              sep={t.code === "fr" ? " : " : ": "}
+              photos={PANEL_PHOTOS[d.id]}
+              items={t.gallery.items}
+              coversLabel={t.gallery.covers}
+            />
+          </section>
+        ))}
       </div>
     </div>
   );

@@ -10,7 +10,10 @@ export const PHONES = [
   { display: "+237 698 933 346", href: "tel:+237698933346" },
   { display: "+237 677 137 263", href: "tel:+237677137263" },
 ];
+// Ligne fixe Camtel : numéro principal, toujours affiché avant les numéros mobiles
 export const LANDLINE = { display: "+237 222 306 079", href: "tel:+237222306079" };
+// Tous les numéros dans l'ordre d'affichage (Camtel en premier)
+export const ALL_PHONES = [LANDLINE, ...PHONES];
 
 export const ADDRESS = "Rue Felicia, Immeuble Dangote, Cami-Toyota, Coron, Yaoundé, Cameroun";
 export const PO_BOX = "P.O. Box 17019, Yaoundé, Cameroun";

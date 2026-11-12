@@ -125,8 +125,8 @@ const Contact = () => {
     { icon: LuFileBadge, label: c.info.rccm, value: RCCM },
     { icon: LuMapPin, label: c.info.address, value: ADDRESS },
     { icon: LuMailbox, label: c.info.po, value: PO_BOX },
-    { icon: LuSmartphone, label: c.info.phone, links: PHONES },
     { icon: LuPhone, label: c.info.landline, links: [LANDLINE] },
+    { icon: LuSmartphone, label: c.info.phone, links: PHONES },
     { icon: LuMail, label: c.info.email, links: [{ display: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` }] },
     { icon: LuGlobe, label: c.info.website, links: [{ ...WEBSITE, external: true }] },
   ];

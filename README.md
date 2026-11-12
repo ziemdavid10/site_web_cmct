@@ -37,6 +37,19 @@ Pour ajouter une page : créer le composant dans `src/pages/Pages.jsx`, déclare
 Copier `.env.example` en `.env.local` et renseigner les clés EmailJS. Sans clés, le formulaire
 ouvre la messagerie du visiteur avec le message pré-rempli.
 
+## Référencement (SEO)
+
+- **Adresse officielle, nom du site, image de partage** : `src/data/seo.js`.
+- **Titre et description de chaque page** : `src/i18n/fr.js` et `en.js`, bloc `pages`
+  (`title` et `seo`). L'accueil utilise `meta.description`.
+- **Balises de base et données structurées de l'entreprise** : `index.html`.
+- `npm run build` exécute ensuite `scripts/seo-build.mjs`, qui crée une page HTML par adresse
+  (avec ses propres balises), `sitemap.xml`, `robots.txt` et `404.html`.
+- Dans le navigateur, `src/pages/Seo.jsx` met les balises à jour à chaque changement de page ou
+  de langue.
+
+Une nouvelle page ajoutée à `NAV_ITEMS` entre automatiquement dans le sitemap.
+
 ## Hébergement
 
 Le site est une application à plusieurs pages gérées côté navigateur : l'hébergeur doit renvoyer

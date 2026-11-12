@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { LuArrowUpRight, LuMail, LuPhone, LuMapPin } from "react-icons/lu";
 import { FaLinkedinIn, FaFacebookF } from "react-icons/fa6";
-import { NAV_ITEMS, CONTACT_EMAIL, PHONES, SOCIAL } from "../../data/site.js";
+import { NAV_ITEMS, CONTACT_EMAIL, LANDLINE, SOCIAL } from "../../data/site.js";
 import { useI18n } from "../../i18n/context.js";
 import LangSwitch from "./LangSwitch.jsx";
 import { Magnetic } from "../ui/ui.jsx";
@@ -186,7 +186,7 @@ const Navbar = () => {
                 <p className="mobile-label">{t.nav.menuContact}</p>
                 <ul className="mobile-contact">
                   <li><a href={`mailto:${CONTACT_EMAIL}`}><LuMail aria-hidden="true" />{CONTACT_EMAIL}</a></li>
-                  <li><a href={PHONES[0].href}><LuPhone aria-hidden="true" />{PHONES[0].display}</a></li>
+                  <li><a href={LANDLINE.href}><LuPhone aria-hidden="true" />{LANDLINE.display}</a></li>
                   <li><span><LuMapPin aria-hidden="true" />{t.topbar.location}</span></li>
                 </ul>
                 <div className="mobile-social">

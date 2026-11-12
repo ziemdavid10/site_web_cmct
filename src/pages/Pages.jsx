@@ -1,8 +1,8 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { LuArrowLeft } from "react-icons/lu";
 import { useI18n } from "../i18n/context.js";
 import { PHOTOS } from "../data/site.js";
+import { useSeo } from "./Seo.jsx";
 import PageHeader from "../components/ui/PageHeader.jsx";
 import Hero from "../components/hero/Hero.jsx";
 import Brands from "../components/navlogo/Navlogo.jsx";
@@ -16,20 +16,11 @@ import Why from "../components/why/Why.jsx";
 import Actualites from "../components/actualité/Actualité.jsx";
 import Contact from "../components/contact/Contact.jsx";
 
-const SITE_NAME = "Central Media and Communication Technology";
-
-// Titre de l'onglet propre à chaque page
-const useTitle = (title) => {
-  useEffect(() => {
-    document.title = title ? `${title} | CMCT` : SITE_NAME;
-  }, [title]);
-};
-
 // Page intérieure générique : en-tête photo + contenu
 const InnerPage = ({ pageKey, photo, position, children }) => {
   const { t } = useI18n();
   const page = t.pages[pageKey];
-  useTitle(page.title);
+  useSeo(pageKey);
   return (
     <>
       <PageHeader title={page.title} intro={page.intro} photo={photo} position={position} />
@@ -40,7 +31,7 @@ const InnerPage = ({ pageKey, photo, position, children }) => {
 
 // Accueil : couverture, entités, expérience et références, expertises complémentaires, contact
 export const HomePage = () => {
-  useTitle(null);
+  useSeo("home");
   return (
     <>
       <section id="Homepage" data-nav-theme="dark">
@@ -119,7 +110,7 @@ export const ContactPage = () => (
 export const NotFoundPage = () => {
   const { t } = useI18n();
   const nf = t.pages.notFound;
-  useTitle(nf.title);
+  useSeo("notFound", { noindex: true });
   return (
     <>
       <PageHeader title={nf.title} intro={nf.intro} photo={PHOTOS.dronePaysage} position="50% 60%" />

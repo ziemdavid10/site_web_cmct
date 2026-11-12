@@ -27,11 +27,11 @@ const LanguageProvider = ({ children }) => {
 
   const t = DICTS[lang];
 
-  // Langue du document (lecteurs d'écran, césure) + méta description
+  // Langue du document (lecteurs d'écran, césure, moteurs de recherche).
+  // Les balises titre/description sont gérées page par page dans src/pages/Seo.jsx.
   useEffect(() => {
     document.documentElement.lang = lang;
-    document.querySelector('meta[name="description"]')?.setAttribute("content", t.meta.description);
-  }, [lang, t]);
+  }, [lang]);
 
   const value = useMemo(() => ({ lang, t, setLang }), [lang, t, setLang]);
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;

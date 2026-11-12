@@ -18,8 +18,8 @@ const CARD_LOGOS = { 1: "/partners/ue.webp", 3: "/partners/acf.webp", 4: "/partn
 const PartnerWall = ({ r }) => (
   <div className="partners">
     <motion.div className="partners-head" variants={stagger(0.1)} {...inView(0.4)}>
-      <motion.h3 variants={fadeUp}>{r.partnersTitle}</motion.h3>
-      <motion.p variants={fadeUp}>{r.partnersIntro}</motion.p>
+      {/* <motion.h3 variants={fadeUp}>{r.partnersTitle}</motion.h3> */}
+      {/* <motion.p variants={fadeUp}>{r.partnersIntro}</motion.p> */}
     </motion.div>
     <motion.ul className="partner-grid" variants={stagger(0.05)} {...inView(0.15)}>
       {PARTNERS.map((p) => (
@@ -88,7 +88,7 @@ const FieldBand = ({ g }) => {
     <div className="ref-field" ref={ref}>
       <motion.div className="field-text" variants={stagger(0.1)} {...inView(0.3)}>
         <motion.h3 variants={fadeUp}>{g.fieldTitle}</motion.h3>
-        <motion.p variants={fadeUp}>{g.fieldText}</motion.p>
+        {/* <motion.p variants={fadeUp}>{g.fieldText}</motion.p> */}
         <MotionLink variants={fadeUp} to="/galerie" className="field-link">
           <LuImage aria-hidden="true" />
           {g.seeAll}
@@ -123,7 +123,7 @@ const References = () => {
     <div className="references container">
       <SectionHeading label={r.label} title={r.title} intro={r.intro} />
 
-      <motion.ul className="ref-grid" variants={stagger(0.08)} {...inView(0.15)}>
+      {/* <motion.ul className="ref-grid" variants={stagger(0.08)} {...inView(0.15)}>
         {r.items.map((it, i) => {
           const Icon = ICONS[i];
           return (
@@ -138,7 +138,7 @@ const References = () => {
             </TiltCard>
           );
         })}
-      </motion.ul>
+      </motion.ul> */}
 
       <PartnerWall r={r} />
 

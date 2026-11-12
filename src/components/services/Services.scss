@@ -1,79 +1,111 @@
 @use "../../mixins" as *;
 
 .expertises {
-    // ── Onglets ──
-    .tabs {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        margin-bottom: 40px;
-
-        @media (max-width: 1024px) { grid-template-columns: repeat(2, 1fr); }
+    // ── Barre de repères collante (une entrée par direction) ──
+    .dir-nav {
+        position: sticky;
+        top: calc(var(--nav-h) + 10px);
+        z-index: 20;
+        margin-bottom: clamp(24px, 4vw, 40px);
+        padding: 6px;
+        border-radius: 22px;
+        background: rgba(11, 20, 48, 0.82);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.7);
     }
+    .dir-nav-inner {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 6px;
 
-    .tab {
+        // Tablette et mobile : une seule ligne qui défile horizontalement
+        @media (max-width: 1024px) {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x proximity;
+            scrollbar-width: none;
+            &::-webkit-scrollbar { display: none; }
+        }
+    }
+    .dir-link {
         --accent: var(--brand-blue-light);
         position: relative;
         display: flex;
         align-items: center;
-        gap: 14px;
-        padding: 18px;
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(255, 255, 255, 0.03);
+        gap: 12px;
+        padding: 10px 14px;
+        border-radius: 16px;
         color: rgba(255, 255, 255, 0.75);
-        text-align: left;
-        transition: color 0.3s, border-color 0.3s;
         isolation: isolate;
+        transition: color 0.3s;
 
-        &:hover { color: #fff; border-color: rgba(255, 255, 255, 0.25); }
-        &.active { color: var(--ink); border-color: transparent; }
+        &:hover { color: #fff; }
+        &.active { color: var(--ink); }
 
         &.tab-comm { --accent: var(--brand-orange); }
         &.tab-tech { --accent: #ff6b75; }
         &.tab-training { --accent: #4fd1c5; }
 
-        .tab-bg {
+        .dir-bg {
             position: absolute;
             inset: 0;
             z-index: -1;
             border-radius: inherit;
             background: #fff;
         }
-        .tab-icon {
-            width: 46px;
-            height: 46px;
-            border-radius: 14px;
+        .dir-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
             display: grid;
             place-items: center;
             flex-shrink: 0;
             background: rgba(255, 255, 255, 0.08);
             color: var(--accent);
-            transition: background 0.3s, color 0.3s;
-            svg { width: 22px; height: 22px; }
+            transition: background 0.3s;
+            svg { width: 19px; height: 19px; }
         }
-        &.active .tab-icon { background: var(--ink); }
-        .tab-text { display: flex; flex-direction: column; min-width: 0; }
-        .tab-num { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; opacity: 0.6; }
-        .tab-label { font-family: var(--font-display); font-weight: 700; font-size: 1rem; line-height: 1.25; }
+        &.active .dir-icon { background: var(--ink); }
+        .dir-text { display: flex; flex-direction: column; min-width: 0; }
+        .dir-num { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.1em; opacity: 0.6; line-height: 1.2; }
+        .dir-label { font-family: var(--font-display); font-weight: 700; font-size: 0.92rem; line-height: 1.2; }
 
+        @media (max-width: 1024px) {
+            flex: 0 0 auto;
+            scroll-snap-align: center;
+            white-space: nowrap;
+            padding: 8px 14px 8px 8px;
+        }
         @include small {
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 14px;
-            gap: 10px;
-            .tab-icon { width: 38px; height: 38px; }
-            .tab-label { font-size: 0.9rem; }
+            .dir-icon { width: 32px; height: 32px; border-radius: 10px; }
+            .dir-num { display: none; }
+            .dir-label { font-size: 0.85rem; }
         }
     }
 
-    // ── Panneau ──
+    // ── Les directions, l'une sous l'autre ──
+    .directions {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(28px, 5vw, 56px);
+    }
     .panel {
+        --accent: var(--brand-blue-light);
+        position: relative;
         border-radius: var(--radius-lg);
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(255, 255, 255, 0.08);
+        border-top: 3px solid var(--accent);
         padding: clamp(22px, 4vw, 52px);
-        min-height: 400px;
+        // Lors d'un saut vers la section : laisse la place à la barre de repères
+        // (s'ajoute au décalage global du site, égal à la hauteur de la barre de menu)
+        scroll-margin-top: 112px;
+
+        &.panel-comm { --accent: var(--brand-orange); }
+        &.panel-tech { --accent: #ff6b75; }
+        &.panel-training { --accent: #4fd1c5; }
     }
 
     .panel-inner {

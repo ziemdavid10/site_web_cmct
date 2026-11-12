@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { LuMail, LuPhone, LuMapPin, LuArrowUp, LuArrowUpRight } from "react-icons/lu";
 import { FaLinkedinIn, FaFacebookF } from "react-icons/fa6";
-import { NAV_ITEMS, CONTACT_EMAIL, PHONES, LANDLINE, ADDRESS, SOCIAL, COMPANY, RCCM } from "../../data/site.js";
+import { NAV_ITEMS, CONTACT_EMAIL, ALL_PHONES, ADDRESS, SOCIAL, COMPANY, RCCM } from "../../data/site.js";
 import { useI18n } from "../../i18n/context.js";
 import { SplitWords, Magnetic } from "../ui/ui.jsx";
 import { fadeUp, stagger, inView } from "../ui/motion.js";
@@ -68,7 +68,7 @@ const Footer = () => {
             <h4>{f.contactTitle}</h4>
             <ul>
               <li><a href={`mailto:${CONTACT_EMAIL}`}><LuMail aria-hidden="true" />{CONTACT_EMAIL}</a></li>
-              {[...PHONES, LANDLINE].map((p) => (
+              {ALL_PHONES.map((p) => (
                 <li key={p.href}><a href={p.href}><LuPhone aria-hidden="true" />{p.display}</a></li>
               ))}
               <li><span><LuMapPin aria-hidden="true" />{ADDRESS}</span></li>
